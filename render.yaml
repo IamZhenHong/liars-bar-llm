@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: liars-bar-app
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: HTTP_PROXY
+        value: http://10.48.23.75:3128
+      - key: HTTPS_PROXY
+        value: http://10.48.23.75:3128
