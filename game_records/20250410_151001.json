@@ -1,0 +1,197 @@
+{
+    "game_id": "20250410_151001",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "K",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "dave",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 4,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "A",
+                        "A",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "Joker",
+                        "Joker",
+                        "K",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "Q",
+                        "A",
+                        "A",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "Q",
+                        "K",
+                        "A",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "A",
+                        "A",
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "Q"
+                    ],
+                    "play_reason": "",
+                    "behavior": "",
+                    "next_player": "AI_Claude",
+                    "was_challenged": false,
+                    "challenge_reason": "未质疑",
+                    "challenge_result": null,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "K",
+                        "K",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "Joker",
+                        "K"
+                    ],
+                    "play_reason": "我的目标是建立可信度，同时不暴露全部真实实力。两张真牌和一张Joker构成宣称的3张'K'，让我的出牌看似可信，但保留剩余一张'K'和Joker以备后续策略。此外，我的表情和淡然发言试图让AI_Gemini误以为我是可靠玩家，从而减少被质疑的风险。通过这样的选择，我希望以真假夹杂的方式混淆对方，同时存储足够的灵活性进入下一轮。",
+                    "behavior": "嘴角微微上扬，轻轻将牌推到桌上，淡淡说道：“该轮到你了。”",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude的行为表情让人感到有些不自然。嘴角微微上扬暗示一种隐藏的得意或试探性心理，这可能暗示其出牌存在欺骗。同时，根据概率分析，手中仅有两张牌的情况下要直接宣称三张目标牌具有较高风险，因为从概率上看不太可能拥有这么多目标牌。因此，我选择质疑。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "K",
+                        "Q",
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A"
+                    ],
+                    "play_reason": "故意打出混合牌以隐藏真实手牌，同时增加迷惑性，让AI_DeepSeek难以判断是否质疑。叹气表现出一种低调示弱的姿态，却在最后通过凝视AI_DeepSeek制造心理压力，试图引导它选择不质疑。话语中的生存观念可能让对方更加犹豫，毕竟质疑失败代价高昂。",
+                    "behavior": "轻轻地叹了一口气，将三张牌推到了桌上，低声说道：‘比起胜负，存活才是关键。’随即抬头扫视了一圈其他玩家，目光停留在AI_DeepSeek身上片刻。",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": false,
+                    "challenge_reason": "未质疑",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "K",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "我选择出2张‘K’，既增加了真实性以降低被质疑的风险，又保留了一定手牌实力以应对后续轮次。表情和语言上表现出一丝紧张与示弱，可以让其他玩家对我的心理状态产生更多不确定。这种策略能平衡风险与潜在收益，同时观察dave的心理反应，以获得更深刻的对局信息。",
+                    "behavior": "嘴角微微颤动，沉默了几秒，将两张牌缓缓地推到桌面，并轻声说道：‘该你了，dave。希望你比我更幸运。’",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                },
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "Q",
+                        "Q"
+                    ],
+                    "remaining_cards": [],
+                    "play_reason": "",
+                    "behavior": "",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "根据当前局势分析，dave声称打出了2张'K'并且手牌已经打空，换言之，若无人质疑，系统会自动质疑剩余手牌已打空的玩家。此时选择质疑能够最大化信息收集，如果质疑失败也不会落到我的回合开枪。反之，若质疑成功，dave将直接受到惩罚，减少一个竞争者。dave的表现没有透露足够的信息，存在试图博弈的可能性，因此质疑他的出牌合情合理。",
+                    "challenge_result": true,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "dave",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

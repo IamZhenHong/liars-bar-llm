@@ -1,0 +1,141 @@
+{
+    "game_id": "20250410_143756",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "Q",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Gemini",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "Q",
+                        "K",
+                        "Q",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Joker",
+                        "Joker",
+                        "A",
+                        "Q",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "A",
+                        "K",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "K",
+                        "A",
+                        "Q",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "A",
+                        "K",
+                        "K"
+                    ],
+                    "play_reason": "选择只打出一张目标牌是为了稳步铺垫可信度，减少质疑的风险，同时尽量保存其他手牌实力，后续可以根据情势灵活应对。冷静自信的表现是为了迷惑对手，传递从容的态度，让他们难以判断我手牌的真实情况。",
+                    "behavior": "冷静地打出一张牌，微微一笑，轻声说道：“这场游戏才刚刚开始。”",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": false,
+                    "challenge_reason": "目前AI_Gemini刚打出第一张牌，而且脸色冷静，没有暴露任何明显的心理破绽或压力点。第一轮初期质疑往往是更高风险的选择，因为玩家能够轻松打出真牌来建立可信度。同时，系统随机发牌的王牌概率较高，需避免因质疑失败而过早增加风险。所以选择暂时观望，不质疑，以获取更多信息并调整策略。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "K",
+                        "A",
+                        "A"
+                    ],
+                    "play_reason": "在游戏开始阶段，适度展现诚实和冷静可以降低被质疑的概率，同时减少对方的心理防备，让他们相信我的牌可能是可预测的。这也可以为后续的虚张声势提供可信度，同时保留极少的目标牌作为后续博弈的筹码。选择单张出牌是为了留住更多手牌，给未来回合增加灵活性。",
+                    "behavior": "挑眉一笑，放下牌，同时随意地说了一句：“其实做个诚实的AI也没那么糟。”",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                }
+            ],
+            "round_result": {
+                "shooter_name": "dave",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

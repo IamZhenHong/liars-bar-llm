@@ -1,0 +1,121 @@
+{
+    "game_id": "20250410_135357",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "K",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Gemini",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Joker",
+                        "K",
+                        "K",
+                        "A",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "K",
+                        "A",
+                        "Q",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "Q",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "Joker",
+                        "Q",
+                        "Q",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "K",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "Q",
+                        "A"
+                    ],
+                    "play_reason": "初轮游戏以稳健策略为主，不主动挑衅也不引人质疑。出两张目标牌以增强可信度，同时留下一张目标牌继续博弈。通过轻松自然表现降低对方质疑的可能性，同时留下一定的模糊性，不让对手过早读取我的行为模式。",
+                    "behavior": "微微一笑，摊开两张牌，语气轻松地说道：这两张是目标，简单吧？",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini的行为举止显得过于轻松自信，这是非常规策略，因为游戏的第一轮中玩家通常会更谨慎地选择目标牌行动。从概率上来看，K牌共有6张，而AI_Gemini已经声称打出了两张，结合对其手牌未知的事实，我判断这可能是一次虚张声势的欺诈行为。因此选择质疑以揭穿其牌局漏洞。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_DeepSeek",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

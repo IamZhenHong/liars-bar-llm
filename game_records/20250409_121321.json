@@ -1,0 +1,121 @@
+{
+    "game_id": "20250409_121321",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "K",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Claude",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Joker",
+                        "K",
+                        "A",
+                        "A",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "K",
+                        "K",
+                        "Q",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 2,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "A",
+                        "A",
+                        "Joker",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 2,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "Q",
+                        "Q",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "K",
+                        "K",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "K"
+                    ],
+                    "play_reason": "我的手牌有4张K，是真牌数量最多的一种。在第一轮中，我选择出3张K，目的是以强势姿态表明自己没有虚假的出牌，试图让下家AI_Gemini放松警惕、不进行质疑，同时也展示了一种自信态势。此外，选择此策略可以保留一部分真牌（1张K），为后续轮次的心理博弈提供灵活性。",
+                    "behavior": "微微一笑，语气轻松地说道：'既然目标牌是K，那我一口气出三张，也不用藏着掖着了。各位慢慢考虑吧。'",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude声称打出了3张目标牌'K'，手牌仅剩2张。从概率学上来说，仅从随机分牌中获得全目标牌和2张非目标牌的可能性极低。此外，他的表现过于轻松，很可能是一种心理搅乱策略。考虑到我的手牌没有K，质疑是明智的选择。此外，质疑能够增加博弈信息，有利于后续判断。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Gemini",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

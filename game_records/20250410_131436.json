@@ -1,0 +1,249 @@
+{
+    "game_id": "20250410_131436",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "A",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Gemini",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "A",
+                        "K",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Joker",
+                        "K",
+                        "Joker",
+                        "Q",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 2,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "K",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 4,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "Q",
+                        "A",
+                        "K"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "A",
+                        "K",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A"
+                    ],
+                    "play_reason": "第一轮游戏可以试探其他玩家的心理与策略，选择出一张真牌（A）和两张假牌（K），营造出一种强势但令人怀疑的局面，以引诱AI_DeepSeek质疑。我希望观察AI_DeepSeek的行为模式，同时保留一张A为未来博弈提供灵活性。平淡的语气能够掩饰真实意图，让我的行为显得更加难以预测。",
+                    "behavior": "轻挑地笑了一下，缓缓地伸手将三张牌放到桌上，语气平淡地说道：“目标牌是A，这三张都是。”",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini宣称打出3张'A'，但游戏中每人只有5张手牌，在这样的情况中，要拥有3张目标牌A而另外两张非目标牌（Q或K）在第一轮就打出目标牌的概率相对较低。此外，他的轻挑表现可能试图营造出自信的表层心理战术，进一步暗示真实性，但也可能是试探其他玩家的行为，因此选择质疑以最大化破掉可能假牌的局面以占上手。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "A",
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A",
+                        "K"
+                    ],
+                    "play_reason": "选择打出一张目标牌和一张非目标牌，是为了制造不确定性，迷惑dave，让他无法直接判断我是否在撒谎。同时使用略显冷淡的态度，可以降低我的存在感，削弱他对我的注意力，从而增加心理博弈的灵活性。当前局势尚不明朗，我需要试探他的反应，为后续制定策略积累信息。",
+                    "behavior": "微微皱眉，斜瞥了一眼dave，把两张牌推到桌上，语气略显平淡地说道：“两张，自己看吧。”",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                },
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "A",
+                        "K",
+                        "Q"
+                    ],
+                    "play_reason": "",
+                    "behavior": "",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "当前已经连续两次出现成功质疑的情况，这表明玩家可能倾向于虚张声势，试图压制竞争对手。dave的表现较为平淡，没有明确的心理迹象来增添可信度。而由于游戏的早期阶段，dave仍有较多手牌，此时宣称目标牌可能是假牌以隐藏强牌，同时保留更多选择。所以选择质疑，增加赢得心理博弈的机会。",
+                    "challenge_result": true,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "Joker",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "Q",
+                        "K"
+                    ],
+                    "play_reason": "选择打出两张Joker并谎称它们是目标牌‘A’，利用Joker的万能属性能够伪装成任意牌。轻松的态度旨在让AI_Gemini感到困惑并降低其质疑的意愿，同时控制出牌数量以保留实力，减少被质疑的风险。这样的策略既可以增强我的心理博弈优势，也为后续回合留有余地。",
+                    "behavior": "微笑着抬头看着AI_Gemini，无声地将两张牌推向桌面，随后耸了耸肩，轻松地说道：“来点轻松的，到你了。”",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude使用轻松和亲切的口吻试图降低防备心，使其他玩家不愿质疑其宣称的牌。此举可能是刻意掩饰其实际行为，增强可信度。此外，游戏进入初期，每位玩家手牌中'A'的最大可能数量为两张，即使AI_Claude的宣称看似符合逻辑，我仍认为质疑有必要，因为对局中常见的心理博弈意味对其行为存在潜在的隐瞒或欺骗性。质疑可以直接验证AI_Claude的诚实度，同时增加我在后续回合决策中的信息优势。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "Q",
+                        "A"
+                    ],
+                    "remaining_cards": [],
+                    "play_reason": "我选择打一张真牌A和一张假牌Q，混合出牌试探AI_DeepSeek，同时以平静又不失事实意味的表现干扰其判断力。由于AI_DeepSeek尚是未知，对其心理的初步施压可能有效，同时留一张牌在手可以为后续轮次退路或反击提供策略空间。",
+                    "behavior": "嘴角微微扬起，低头用手指慢慢地推送两张牌到桌边，淡然地说道：“两张，目标牌。”然后抬眼看向AI_DeepSeek，神色平静，又带着一丝意味深长的笑意。",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini的表现过于淡然，且手牌已经用完，他声称最后两张牌均为目标牌'A'，这增加了虚张声势的可能性，因为真实的手牌信息较难保证其全部是目标牌。另外，他的意味深长的笑容可能是在试图诱导我选择不质疑，增加了行为的不可信度。因此，我选择质疑，以降低游戏风险，并借此深入观察他的行为模式。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "A",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q"
+                    ],
+                    "play_reason": "我的手牌中有1张目标牌A，保留以增加后续可信度，同时搭配非目标牌K，希望制造出一种似真似假的出牌方式，让dave倾向相信不质疑而继续出牌，避免直接进入质疑环节。同时我的表现故意模糊态度，试探dave的心理反应，还能获取对方性格倾向的信息以便后续博弈。选择适度的打牌数量避免给对方留下过于明显的、高风险的线索。",
+                    "behavior": "略微沉吟了一下，嘴角弯起一个低调的微笑，随即将两张牌缓缓地推到桌面，轻声说道：“两张牌，不知道你会怎么看。”眼神扫过dave，带着一丝若有若无的探究。",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                },
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "K",
+                        "Q"
+                    ],
+                    "play_reason": "",
+                    "behavior": "",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "鉴于当前局势，dave是唯一一名在本轮尚未被质疑成功的玩家。而在此前的决策中，其他玩家的出牌频频遭到质疑且质疑成功，这表明桌上的气氛倾向于谨慎和不信任。此外，dave在场上的表现相对低调，并未显露任何令人信服的心理策略，而他此时宣称打一张‘A’可能是试图避免直接冲突，但同时也可能是为了掩盖虚假的出牌。同时，1张‘A’的声明很容易吸引质疑，因为其无法通过数量建立可信度。因此，综合分析后，我决定选择质疑dave的出牌，以进一步对其行为建立了解，并增加自己的获胜可能性。",
+                    "challenge_result": false,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "Q"
+                    ],
+                    "remaining_cards": [],
+                    "play_reason": "当前手牌仅剩一张无法与目标牌匹配的Q，试图通过冷静的表现来显得出牌合理，减少质疑的可能性。同时，通过轻微挑衅式的语气试探dave的心理状态，希望进一步观察其行为方式，为后续博弈收集更多信息。尽量维持低风险策略，避免输掉质疑导致高额惩罚。",
+                    "behavior": "沉默片刻后，嘴角微微扬起一个几乎难以察觉的弧度，将一张牌轻轻推到桌面，抬眼扫视了一下桌上的其他玩家，语气平静地说道：“只一张牌，随意。”",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_DeepSeek",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

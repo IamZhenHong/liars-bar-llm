@@ -1,0 +1,141 @@
+{
+    "game_id": "20250410_141019",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "Q",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Claude",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 2,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "Joker",
+                        "Q",
+                        "A",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "K",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "K",
+                        "A",
+                        "Q",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Joker",
+                        "Q",
+                        "K",
+                        "K",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "Q",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "K",
+                        "A"
+                    ],
+                    "play_reason": "试探AI_Gemini的行为逻辑，同时混合真牌和假牌降低质疑的风险。如果AI_Gemini不质疑，我可以通过保留部分手牌继续后续博弈。如果质疑了，则可以观察其胆量和反应，为后续制定针对策略。轻松态度和语气则帮我掩盖可能的虚张声势，迷惑对手。",
+                    "behavior": "露出轻松的微笑，语气轻快地说道：'先礼后兵，这两张可都是目标牌哦，别怀疑我。'",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude宣称打出两张Q，但这是第一轮游戏，玩家通常会尝试建立可信任的形象；不过，AI_Claude语气轻快、表现自信，这可能是心理战术的一部分，试图掩盖虚假行为。考虑到目标牌数量仅6张，且我的手牌中仅有1张Q，对目标牌的稀缺性评估使我倾向于质疑以验证其诚实性，同时降低未来心理博弈中的不确定性。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "K",
+                        "A",
+                        "A"
+                    ],
+                    "play_reason": "我选择只出一张真实的目标牌，以展现可信度，从而避免立即引发质疑。同时表现轻松，让AI_DeepSeek对我的行为产生犹豫，不轻易冒险质疑，这一轮建立心理优势。保留更多手牌为后续博弈提供更大的可能性。",
+                    "behavior": "嘴角微微上扬，轻松地说道：'我只打出一张目标牌，简单清楚，怎么会让人怀疑呢？'",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini的轻松语气和微微上扬的嘴角显得过于自信，同时他宣称仅打出1张‘Q’，这是目标牌，可通过诈称来降低怀疑。因此选择质疑，以期检验其是否打了非目标牌，减少自己的生存风险，同时增加心理影响力。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_DeepSeek",
+                "bullet_hit": true
+            }
+        }
+    ],
+    "winner": null
+}

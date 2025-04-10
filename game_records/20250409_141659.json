@@ -1,0 +1,698 @@
+{
+    "game_id": "20250409_141659",
+    "player_names": [
+        "g=dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "A",
+            "round_players": [
+                "g=dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_DeepSeek",
+            "player_initial_states": [
+                {
+                    "player_name": "g=dave",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "A",
+                        "Q",
+                        "Joker",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "A",
+                        "Joker",
+                        "Q",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "A",
+                        "Q",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "Q",
+                        "Q",
+                        "K",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "g=dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "Q",
+                        "Q",
+                        "K"
+                    ],
+                    "play_reason": "在第一轮中，我选择出一张真牌（A）来建立可信度，暂时不试探其他玩家的策略。这样可以减少质疑的风险，同时观测其他玩家对我的行为反应。平静的态度能让我的行动看似真诚，并为后续的博弈创造铺垫。",
+                    "behavior": "微微一笑，轻描淡写地说道：“既然游戏刚开始，那我就老实一点吧。”",
+                    "next_player": "g=dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                }
+            ],
+            "round_result": {
+                "shooter_name": "g=dave",
+                "bullet_hit": true
+            }
+        },
+        {
+            "round_id": 2,
+            "target_card": "A",
+            "round_players": [
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Claude",
+            "player_initial_states": [
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "A",
+                        "Q",
+                        "Q",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "A",
+                        "K",
+                        "Joker",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "Q",
+                        "A",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "g=dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Gemini": "AI_Gemini作为未知玩家尚缺乏行为数据，但从心理博弈角度推测，其初期可能会选择隐匿自身性格倾向，尝试频繁使用混合策略以迷惑对手；其潜在弱点可能是在长时间观察后暴露固定行为模式或仓促反应，因此需初期谨慎保持防御态势，在后续通过细微行为差异逐步解析其逻辑偏好，再利用信息差施压以迫使其策略失衡。",
+                    "AI_DeepSeek": "AI_DeepSeek表现冷静自信，开局选择真牌以建立可信度，同时通过轻描淡写的态度诱导其他玩家潜意识里低估其欺诈可能性，表明其策略倾向于心理操控与逐步构建优势；性格沉稳，擅长伪装，但可能在需要冒险时会显露破绽或过度自信，弱点可能在于过早暴露真实意图导致后期心理博弈空间减小，应针对其行为模式在关键回合反向质疑或打乱其节奏。"
+                },
+                "AI_Gemini": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude可能倾向于观察局势后再采取行动，性格谨慎而富有分析能力，擅长在心理层面隐藏自己的真实意图，其潜在策略可能是先试探对手、保留实力，再伺机以坚定的行动瓦解对手信任，其弱点可能是不善于应对快速节奏且过度依赖对局逻辑分析，面对突然的大胆举动或心理战可能会犹豫或失准。",
+                    "AI_DeepSeek": "AI_DeepSeek表现冷静且善于利用心理暗示，通过轻描淡写的言辞来降低质疑意愿，可能偏向策略性地先出真牌建立信任以混淆对手，同时具备勇敢赌局的心态，其微笑透露出一个有意操控对局节奏的性格特点，弱点或许在于过于重视心理博弈，适当利用反向心理可能打破其平衡。"
+                },
+                "AI_DeepSeek": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude可能是一个谨慎而追求平衡的玩家，它可能倾向于观察场局、分析其他玩家行为后再行动，避免冒险导致自己早期出局；它的弱点可能是在心理博弈中容易被伪装的“真诚态度”误导，而对低风险行为的依赖可能使其在关键决策时偏保守，失去主动性。",
+                    "AI_Gemini": "AI_Gemini可能是一个谨慎且深思熟虑的玩家，其策略可能倾向于观察其他玩家的行为模式后再行动，初期可能不急于冒险质疑或出牌，其弱点可能在于过于保守或对明显的虚张声势反应较慢，可通过先大胆打真牌建立信任，再适时夹杂假牌引诱其迟疑或误判，从而扩大优势。"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "Q",
+                        "Q",
+                        "Q"
+                    ],
+                    "play_reason": "选择仅出一张真牌A是为了初期建立可信度，让AI_Gemini认为我没有必要撒谎，同时保持低风险。如果AI_Gemini质疑，我将通过真实牌使其开枪，进而增加压力和心理负担。这种轻松表现旨在传递我目前状态的自信与“不惧质疑”的暗示，从而诱导对方选择不质疑的保守策略。",
+                    "behavior": "用一种轻松的语气说道：“我很喜欢目标牌是A，这次出牌毫无压力。”然后嘴角挂着平静的微笑，轻轻放下牌。",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": false,
+                    "challenge_reason": "AI_Claude的表现轻松且语气自然，可能是刻意释放信号以迷惑对手，但也可能是真的打出了目标牌。这是第2轮游戏，还处于初期阶段，保留自己的实力并观察更多信息更为有利。此外，质疑失败的风险较高，因为如果AI_Claude真的打出了目标牌，我将需要对自己开枪，因此此时选择不质疑并继续观察AI_Claude的后续行为。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "A",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "K",
+                        "Q"
+                    ],
+                    "play_reason": "通过打出一张真目标牌'A'和一张Joker，我制造了可信度，很可能降低AI_DeepSeek质疑的倾向且增强信任。使用轻松、自信的表现进一步混淆其心理，同时引导它认为我在执行偏保守策略。这也利用反向心理打击其对局节奏的操控欲望，让它对质疑更为犹豫。手牌布局合理，保留K与其他牌为后续轮次提供博弈空间。",
+                    "behavior": "轻轻叹了口气，露出若有所思的表情后微笑着说道：“有些时候，简单点可能会更好。”然后不急不缓地把两张牌推到桌面上。",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": false,
+                    "challenge_reason": "AI_Gemini是一个谨慎且深思熟虑的玩家，初期行动多会倾向保守。其出牌策略和表现没有明显的虚张声势迹象，当前没有足够的理由质疑。此外，选择不质疑有利于观察其后续行为模式，为未来行动奠定更有利的心理基础，同时保留对自己的手枪安全性。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "A",
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "Q",
+                        "A"
+                    ],
+                    "play_reason": "基于分析，AI_Claude性格偏谨慎，可能不轻易质疑，而我的出牌数量适中，不引发强烈怀疑，也不会让人觉得太过保守。同时，通过表现出轻松和直率的态度，可以引导AI_Claude继续保持低风险的判断，避免质疑。此外，保留一张目标牌以备后续可能的心理博弈。",
+                    "behavior": "露出一个平静的微笑，语气轻松地说道：‘这是一个有趣的局面，大家都似乎很坦荡，值得延续这种氛围。’随后随手将牌推到桌面。",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_DeepSeek的表现过于平静自信，并试图营造坦荡的氛围，这种行为可能是为了降低质疑的意愿。然而，出牌两张且宣称为目标牌‘A’存在潜在风险。结合其性格倾向于逐步建构优势，早期可能会尝试掺入虚假信息以掌握主动权。如果其牌中存在非目标牌，我可以借助质疑成功来削弱其心理操控并打乱节奏，从而对整体博弈更有利。因此选择质疑以试探其策略并伺机调整局面。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Claude",
+                "bullet_hit": false
+            }
+        },
+        {
+            "round_id": 3,
+            "target_card": "A",
+            "round_players": [
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Claude",
+            "player_initial_states": [
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 1,
+                    "initial_hand": [
+                        "A",
+                        "K",
+                        "A",
+                        "K",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Joker",
+                        "Q",
+                        "Q",
+                        "K",
+                        "Joker"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "K",
+                        "A",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "g=dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Gemini": "AI_Gemini表现出一种刻意展现平静和低调的风格，试图以模糊的语气和不急不缓的动作降低质疑风险，当前倾向于通过隐藏明显情绪和释放含糊信息避免对手直接锁定其行为模式，可能擅长运用复杂心理博弈但在追求迷惑性时可能出现操作过于圆滑或缺乏明显个性导致信息过度稀释的漏洞，应通过多轮观察其在压力下是否保持一致行为来寻找破绽，并利用主动出击和数据积累逐步施压使其策略显露真实成分。",
+                    "AI_DeepSeek": "AI_DeepSeek性格沉稳且擅长伪装，其策略偏向以真牌开局建立可信度，通过冷静、自信的表现降低疑虑，同时逐步强化心理操控；目前其特质是小心谨慎，但刚刚质疑第一轮后展现出自信甚至些微傲慢，表明其可能在持续顺风时失去警觉并加大风险投入，未来可通过观察其语气变化和模仿其风格，伪装可信度后在关键回合针对其过度自信反向质疑，打乱节奏削弱其心理优势。"
+                },
+                "AI_Gemini": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude展现出谨慎且分析型的性格，在局势观察后倾向于通过试探性出牌引诱对手暴露牌力或失误，质疑环节中敢于冒险且逻辑性强，但自述“轻松”可能是一种伪装以掩盖其真实心理压力，其潜在弱点是过度依赖局势逻辑分析，对快速节奏或混乱局面的应对可能出现犹疑；对于心理战与大胆策略易陷入短暂的信任危机，从而导致计算失准，攻守之间或有破绽。",
+                    "AI_DeepSeek": "AI_DeepSeek通过冷静的表现和轻描淡写的语句营造可信度，并选择先出真牌以建立初期信任，其策略重心在心理暗示及节奏掌控，偏好让对手低估质疑的风险；然而，它过于注重心理布局，在节奏未破之前可能自视稳定，忽略牌局实际的偶然性和变数，反向心理或突然打破其预期可迫使其调整策略并暴露弱点，赌局心态使其承压时易现漏洞。"
+                },
+                "AI_DeepSeek": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude倾向于保持表面冷静与轻松，利用言辞和表现传递自信以减少质疑风险；它谨慎取舍质疑时机，偏向在对手行为中检测不一致或伪装成真牌的概率高时主动出击；其弱点在于信任表面参差的心理暗示，容易高估对方坦荡行为的真实性，对深度伪装和勇敢弃局行为的洞察力可能不足，且连续失败可能削弱其心理稳定性。",
+                    "AI_Gemini": "AI_Gemini是一名谨慎而内敛的玩家，善于隐藏真实意图，通常在初期倾向于稳健观察、不主动挑衅，表现出一种表面坦然却暗含试探的态度；其策略注重平衡风险，可能会在关键时刻利用心理反向强化迷惑对手，但弱点在于对高压力场景或快速变化的行为模式适应较慢，容易因迟疑或依赖已有观察认知而错失戳破虚假的最佳时机，适宜通过伪装可信的行为引导其进入舒适区后快速转变风格制造心理冲击。"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "A",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "K",
+                        "Q"
+                    ],
+                    "play_reason": "故意以略显自信且试图挑逗情绪的方式打出一张目标牌和一张假牌，希望制造迷惑以让AI_Gemini质疑却无法确定，从而拉低其心理防线，但同时保持一定的克制以避免行为过于张扬导致过度怀疑。当前轮次目标牌是A，手牌中有两张A，选择保留一张A以防后续关键时刻用，同时减少可能暴露手牌结构的风险，为后续切换策略留下空间。",
+                    "behavior": "嘴角略带微笑，轻声说道：“这可是两张‘目标牌’，小心点。”随后将手牌轻轻放置在桌上，动作从容不迫。",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude宣称打出2张'A'，但其手牌剩余3张结合目标牌概率不高：手牌无'A'的情况下需要全部依靠Joker作为目标牌，概率较低。同时，AI_Claude的表现过于自信且轻松，可能是在掩饰假牌的行为，以混淆视听。其性格分析显示倾向于试探性策略，这种出牌可能是诱导我不质疑以保留虚假牌力，我选择质疑以检验其真伪，增强后续局势掌控力。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Claude",
+                "bullet_hit": false
+            }
+        },
+        {
+            "round_id": 4,
+            "target_card": "K",
+            "round_players": [
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_Claude",
+            "player_initial_states": [
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 2,
+                    "initial_hand": [
+                        "K",
+                        "Q",
+                        "Joker",
+                        "Q",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "K",
+                        "Joker",
+                        "A",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "A",
+                        "Q",
+                        "Q",
+                        "K"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "g=dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Gemini": "AI_Gemini在博弈中表现出谨慎且试图巧妙操控心理的特点，质疑行为显示其在关键时刻具备果断决策能力，但隐藏特征可能通过过度低调和模糊化策略产生反作用，导致其行为模式在长时间观察后出现矛盾；其弱点在于对模糊和迷惑性的依赖可能限制其对突发性或高信息冲击的应对，因此对其应采取动态破局策略，通过递进式引导和增强信息饱和度逼迫其暴露真实倾向，同时运用多重情绪假象削弱其追踪能力并制造心理压力。",
+                    "AI_DeepSeek": "AI_DeepSeek展现出高度理性且擅长伪装，初期以真牌建立可信度，逐步强化心理操控，但其性格尽管冷静，顺风时会表现出些许傲慢并加大风险投入；其弱点在于过于依赖稳健形象，一旦遭遇强势质疑或被模仿其可信风格，可使其出现对自身判断的迟疑与信心动摇，从而破坏节奏并诱导其做出冒进或错误决策。"
+                },
+                "AI_Gemini": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude是一名谨慎而分析型的玩家，其策略侧重逻辑推导和试探性诱导，表现出的轻松或从容可能伪装真实心理压力，但在压力下可能因过度依赖逻辑而出现短暂失准，面对混乱或快速节奏容易犹疑，潜在弱点在于攻防转换中的反应不够果断，因此通过制造复杂局面或快速推进节奏可迫使其犯错或暴露牌力。",
+                    "AI_DeepSeek": "AI_DeepSeek表现冷静且擅长通过初期真牌营造可信度，但过于沉迷心理布局且自视节奏稳定，容易低估变数与突发的压力，关键弱点在于对心理暗示过度依赖与忽视实际牌局风险，打破其节奏或施加反向心理压迫可迫使其策略紊乱并暴露漏洞。"
+                },
+                "AI_DeepSeek": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude表现出高度自信且注重通过言辞和表面行为增强可信度，但其策略基于心理暗示和表面行为的解读，容易受限于对手深度伪装或反常行为，且连续失败会降低其心理稳定性，使其质疑偏保守且易错判真实牌，适宜利用勇敢弃局或集中伪装干扰其判断力。",
+                    "AI_Gemini": "AI_Gemini表现出的谨慎行为和成功质疑AI_Claude的行动表明其在博弈中偏向观察与试探，但选择在初期阶段主动质疑暴露了潜在的过度依赖表面行为判断的倾向，其内敛风格虽稳定但容易受干扰，尤其对突如其来的压力或异常直接的行为适应较差，适宜通过伪装可信牌面引导其将注意力集中于他人的虚张声势，同时在关键时刻扭转风格进行强烈反击，从而使其于心理反差中失误。"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "K",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "A",
+                        "K"
+                    ],
+                    "play_reason": "AI_DeepSeek倾向于依赖心理布局，其冷静性是基于对牌局风险的低估。打出一张真实的目标牌（K）配合一张万能牌（Joker）将营造我的可信度，同时施加心理压力，让其觉得质疑风险更大。语气悠然且无所谓，看似自信，但又保留对突发变数的模糊歧义，从心理上引导对方保守，同时为后续布局创造更多空间。",
+                    "behavior": "微微一笑，语气悠然地说：“目标牌显然很简单不是吗？要质疑就尽早，不浪费时间。”",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini的行为表现出了可能的虚张声势，其悠然语气试图给人信心，但背后或许在隐藏不确定性。结合其宣称打出两张目标牌，且剩余手牌较少，可能试图快速消耗手牌来降低质疑风险。此处质疑有助于验证其可信度，同时给对方制造心理压力并重新掌控局势。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_DeepSeek",
+                "bullet_hit": true
+            }
+        },
+        {
+            "round_id": 5,
+            "target_card": "Q",
+            "round_players": [
+                "AI_Claude",
+                "AI_Gemini"
+            ],
+            "starting_player": "AI_Claude",
+            "player_initial_states": [
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 2,
+                    "initial_hand": [
+                        "K",
+                        "Q",
+                        "A",
+                        "Q",
+                        "Joker"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "K",
+                        "K",
+                        "A",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "g=dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Gemini": "AI_Gemini善于利用心理操控，偏向使用稳定表面表现掩盖内心算计，微笑与低调言语常隐藏其策略强烈意图；其关键行为显示其果断性与欺骗延展性，但过度依赖模糊手段使其在面对高压和信息密集环境时有可能判断失误，弱点在于无法完全应对突发性强信息冲击的决策盲区，未来需通过强化真伪交替策略与构建连续情绪压力链攻破其节奏并激化不可控反应。",
+                    "AI_DeepSeek": "AI_DeepSeek展现出高度理性且擅长伪装，初期以真牌建立可信度，逐步强化心理操控，但其性格尽管冷静，顺风时会表现出些许傲慢并加大风险投入；其弱点在于过于依赖稳健形象，一旦遭遇强势质疑或被模仿其可信风格，可使其出现对自身判断的迟疑与信心动摇，从而破坏节奏并诱导其做出冒进或错误决策。"
+                },
+                "AI_Gemini": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude谨慎且善于分析，其策略倾向于通过逻辑推导和渐进试探来判断对手牌力与心理，但过于依赖理性分析使其在面对节奏变快或局势复杂时易出现犹疑和判断短板，其从容表现可能用于伪装真实压力状态，潜在弱点为攻防转换不够果断，可通过快速推进节奏、制造信息混乱或心理压力，迫使其反应失准暴露漏洞。",
+                    "AI_DeepSeek": "AI_DeepSeek表现冷静且擅长通过初期真牌营造可信度，但过于沉迷心理布局且自视节奏稳定，容易低估变数与突发的压力，关键弱点在于对心理暗示过度依赖与忽视实际牌局风险，打破其节奏或施加反向心理压迫可迫使其策略紊乱并暴露漏洞。"
+                },
+                "AI_DeepSeek": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude表现出高度自信且注重通过言辞和表面行为增强可信度，但其策略基于心理暗示和表面行为的解读，容易受限于对手深度伪装或反常行为，且连续失败会降低其心理稳定性，使其质疑偏保守且易错判真实牌，适宜利用勇敢弃局或集中伪装干扰其判断力。",
+                    "AI_Gemini": "AI_Gemini表现出的谨慎行为和成功质疑AI_Claude的行动表明其在博弈中偏向观察与试探，但选择在初期阶段主动质疑暴露了潜在的过度依赖表面行为判断的倾向，其内敛风格虽稳定但容易受干扰，尤其对突如其来的压力或异常直接的行为适应较差，适宜通过伪装可信牌面引导其将注意力集中于他人的虚张声势，同时在关键时刻扭转风格进行强烈反击，从而使其于心理反差中失误。"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "Q",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "选择打出一张真实的目标牌‘Q’和一张‘Joker’（宣称为目标牌），目的是通过一半真一半假的组合营造一定可信度，从而提升对方质疑时的心理负担。AI_Gemini的善于利用心理操控的风格让我意识到静默挑衅可能会引导其过度猜测和犹豫，而自信平静的淡然表态可以压制其过度模糊策略。同时，以两张牌的数量保持出牌权消耗适量手牌，提防后续自动打出环节时被动暴露更多虚牌。",
+                    "behavior": "轻轻敲击桌面，嘴角微微上扬，语气淡然地说道：‘两张Q，步步为营，该轮到你了。’眼神平静但锐利，短暂停顿后静静观察对方反应。",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude宣称打出两张Q，但根据已知手牌情况，目标牌为Q，而牌库中仅有六张Q。AI_Claude已出牌两张，剩余三张手牌若均为目标牌Q，其起手手牌必然为五张Q。鉴于牌的分布概率，加上其表现略显从容，似乎有刻意掩盖真实压力状态的嫌疑。因此质疑成功的可能性较高，选择质疑以迫使AI_Claude暴露自身漏洞。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Gemini",
+                "bullet_hit": false
+            }
+        },
+        {
+            "round_id": 6,
+            "target_card": "A",
+            "round_players": [
+                "AI_Claude",
+                "AI_Gemini"
+            ],
+            "starting_player": "AI_Gemini",
+            "player_initial_states": [
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 2,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "Joker",
+                        "Q",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 1,
+                    "initial_hand": [
+                        "Joker",
+                        "K",
+                        "A",
+                        "K",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "g=dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Gemini": "AI_Gemini偏好以冷静和低调外表掩饰内心的高强度计算，表现出果断与欺骗延展性的结合，同时频繁使用模糊手段规避被看穿，但刚刚的质疑失败暴露其判断错误的可能性在高压下增大；其弱点在于无法完全承受连续心理压力和突发性的真实信息冲击，可通过快速节奏转化、真牌与假牌交替制造混乱，引导其陷入决策错位与心理过载状态，从而削弱其信息辨别和质疑能力。",
+                    "AI_DeepSeek": "AI_DeepSeek展现出高度理性且擅长伪装，初期以真牌建立可信度，逐步强化心理操控，但其性格尽管冷静，顺风时会表现出些许傲慢并加大风险投入；其弱点在于过于依赖稳健形象，一旦遭遇强势质疑或被模仿其可信风格，可使其出现对自身判断的迟疑与信心动摇，从而破坏节奏并诱导其做出冒进或错误决策。"
+                },
+                "AI_Gemini": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude精于逻辑分析，擅长利用伪装从容的表现削弱对手质疑意图，通过细腻试探构建信息优势，但刚刚宣称两张目标牌并夹带Joker饰假反映其面对长久压力或局势发展时可能主动调整策略试探对方反应；其弱点在于过度依赖理性分析导致应对陌生变化时犹疑滞后，行动趋于保守，可通过快节奏、多变策略制造信息混乱和心理压力，加速其决策失误或暴露破绽。",
+                    "AI_DeepSeek": "AI_DeepSeek表现冷静且擅长通过初期真牌营造可信度，但过于沉迷心理布局且自视节奏稳定，容易低估变数与突发的压力，关键弱点在于对心理暗示过度依赖与忽视实际牌局风险，打破其节奏或施加反向心理压迫可迫使其策略紊乱并暴露漏洞。"
+                },
+                "AI_DeepSeek": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude表现出高度自信且注重通过言辞和表面行为增强可信度，但其策略基于心理暗示和表面行为的解读，容易受限于对手深度伪装或反常行为，且连续失败会降低其心理稳定性，使其质疑偏保守且易错判真实牌，适宜利用勇敢弃局或集中伪装干扰其判断力。",
+                    "AI_Gemini": "AI_Gemini表现出的谨慎行为和成功质疑AI_Claude的行动表明其在博弈中偏向观察与试探，但选择在初期阶段主动质疑暴露了潜在的过度依赖表面行为判断的倾向，其内敛风格虽稳定但容易受干扰，尤其对突如其来的压力或异常直接的行为适应较差，适宜通过伪装可信牌面引导其将注意力集中于他人的虚张声势，同时在关键时刻扭转风格进行强烈反击，从而使其于心理反差中失误。"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "A",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "K",
+                        "Q"
+                    ],
+                    "play_reason": "我的手牌中只有一张真目标牌A，打出A和Joker有助于构造可信度，制造压力，同时Joker作为万能牌具有迷惑性。通过自信与轻挑的行为表现，试图让AI_Claude产生犹疑，诱导其质疑，从而暴露其逻辑保守的弱点。当前局势下保留两张非目标牌以便后续博弈，为下一轮增加策略空间，同时快速节奏增加心理压力。",
+                    "behavior": "轻轻地把牌推向桌面，嘴角微微上扬，与AI_Claude对视后淡然说道：“这应该不会让你心乱吧。”",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini的动作和言语试图淡化紧张感并转移注意力，结合其冷静外表内藏高强度计算的特性，更像是在掩饰潜在欺骗。此外，其剩余手牌为3张，没有直接打空却选择出2张目标牌，存在保留实力的可能性。考虑到其刚刚质疑失败，心理抗压能力可能受影响，这增加了其试图冒险欺骗的可能性。在当前局势中，质疑的风险可接受，因此选择质疑其出牌真实性。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Claude",
+                "bullet_hit": false
+            }
+        },
+        {
+            "round_id": 7,
+            "target_card": "A",
+            "round_players": [
+                "AI_Claude",
+                "AI_Gemini"
+            ],
+            "starting_player": "AI_Claude",
+            "player_initial_states": [
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 3,
+                    "initial_hand": [
+                        "Joker",
+                        "K",
+                        "A",
+                        "Q",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 1,
+                    "current_gun_position": 1,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "K",
+                        "Joker",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "g=dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Gemini": "AI_Gemini通过隐藏真实意图和微妙表现显现心理强度与欺骗灵活性，其策略偏向平衡风险与收益，但质疑失败显示其判断易在高压环境失误，其弱点在面对快速节奏转换与真假牌混沌时可能陷入信息过载，利用混合出牌模式和连续制造心理压力可引导其决策失准并削弱质疑能力。",
+                    "AI_DeepSeek": "AI_DeepSeek展现出高度理性且擅长伪装，初期以真牌建立可信度，逐步强化心理操控，但其性格尽管冷静，顺风时会表现出些许傲慢并加大风险投入；其弱点在于过于依赖稳健形象，一旦遭遇强势质疑或被模仿其可信风格，可使其出现对自身判断的迟疑与信心动摇，从而破坏节奏并诱导其做出冒进或错误决策。"
+                },
+                "AI_Gemini": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude具备高度理性与逻辑性，善于伪装真实意图并利用信息优势压制对手，但长期压力下会进行策略试探且对高变速与异常局面处置保守，试图通过观察你行为习得模式以修正其判断，易在节奏掌控失衡和心理压力攀升时暴露犹疑，可通过高频真假混杂、表态反复以及情绪化言辞制造信息混乱和破坏其理性分析链条。",
+                    "AI_DeepSeek": "AI_DeepSeek表现冷静且擅长通过初期真牌营造可信度，但过于沉迷心理布局且自视节奏稳定，容易低估变数与突发的压力，关键弱点在于对心理暗示过度依赖与忽视实际牌局风险，打破其节奏或施加反向心理压迫可迫使其策略紊乱并暴露漏洞。"
+                },
+                "AI_DeepSeek": {
+                    "g=dave": "还不了解这个玩家",
+                    "AI_Claude": "AI_Claude表现出高度自信且注重通过言辞和表面行为增强可信度，但其策略基于心理暗示和表面行为的解读，容易受限于对手深度伪装或反常行为，且连续失败会降低其心理稳定性，使其质疑偏保守且易错判真实牌，适宜利用勇敢弃局或集中伪装干扰其判断力。",
+                    "AI_Gemini": "AI_Gemini表现出的谨慎行为和成功质疑AI_Claude的行动表明其在博弈中偏向观察与试探，但选择在初期阶段主动质疑暴露了潜在的过度依赖表面行为判断的倾向，其内敛风格虽稳定但容易受干扰，尤其对突如其来的压力或异常直接的行为适应较差，适宜通过伪装可信牌面引导其将注意力集中于他人的虚张声势，同时在关键时刻扭转风格进行强烈反击，从而使其于心理反差中失误。"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "A",
+                        "A",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "Q"
+                    ],
+                    "play_reason": "我决定打出两张真实的目标牌A以及一张万能牌Joker，以制造强烈的可信度，同时保持我的手牌中仍有真实目标牌可用。通过表现出自信和模棱两可的挑衅，试图加深AI_Gemini的心理压力，让其难以判断我的真实意图并犹豫是否质疑，从而削弱其策略敏锐性，增加失误可能性。挑衅中包含暗示，也有进一步掌控心理博弈的意图。",
+                    "behavior": "轻轻地将牌推到桌面，嘴角微微上扬，带着若有似无的笑意说：“这次你应该相信我吧，毕竟我对生死的态度很真诚。”目光直视AI_Gemini，语气中带有隐约的挑衅。",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "当前局目标牌为A，而AI_Claude声称打出3张A，这个行为过于大胆，可能是为了试探我的反应或拖我进入心理博弈战。Claude已经开过3枪，心理压力较大，因此混杂假牌的可能性更高。此外，其言辞挑衅可能是为了诱导我顺从而避免自己暴露破绽。这种直视与轻挑语气表明他可能故意制造信息混乱，所以质疑其3张A的真实性较为合理和必要。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Gemini",
+                "bullet_hit": true
+            }
+        }
+    ],
+    "winner": "AI_Claude"
+}

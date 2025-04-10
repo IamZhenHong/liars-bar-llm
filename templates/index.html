@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liar's Bar Game</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    /* Announcement Log CSS */
+    #announcement-log-container {
+      margin-top: 20px;
+    }
+    #announcement-log {
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-height: 200px;
+      min-height: 50px; /* Ensures container is visible even if empty */
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Liar's Bar Game</h1>
+
+    <div id="setup-form">
+      <h2>Game Setup</h2>
+      <form id="start-game-form">
+        <label>Number of human players: <input type="number" id="num-humans" min="1" max="4"></label>
+        <div id="human-names"></div>
+        <button type="submit">Start Game</button>
+      </form>
+    </div>
+
+    <div id="game-interface" style="display:none">
+      <h2 id="status"></h2>
+
+      <div id="play-form" style="display:none">
+        <h3>Your Turn</h3>
+        <p id="hand-display"></p>
+        <input type="text" id="played-cards" placeholder="Enter cards (e.g. K K Joker)">
+        <input type="text" id="reason" placeholder="Why did you play these cards?">
+        <input type="text" id="behavior" placeholder="Describe your behavior (e.g. smug smile)">
+        <button onclick="submitPlay()">Submit Play</button>
+      </div>
+
+      <div id="challenge-form" style="display:none">
+        <h3>Challenge Decision</h3>
+        <p id="challenge-info"></p>
+        <button onclick="submitChallenge(true)">Challenge</button>
+        <button onclick="submitChallenge(false)">Don't Challenge</button>
+        <input type="text" id="challenge-reason" placeholder="Why? (if challenging)">
+      </div>
+
+      <div id="reflect-form" style="display:none">
+        <h3>Reflection Phase</h3>
+        <div id="reflection-entries"></div>
+        <button onclick="submitReflection()">Submit Reflections</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Announcement Log is placed outside the game interface so it's always visible -->
+  <div id="announcement-log-container">
+    <h3>Announcement Log</h3>
+    <div id="announcement-log">
+      <p id="announcement-placeholder">No announcements yet.</p>
+    </div>
+  </div>
+
+  <script>
+    let socket = null;
+    let playerName = "";
+
+    document.getElementById("start-game-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const numHumans = parseInt(document.getElementById("num-humans").value);
+      const nameInputs = document.querySelectorAll(".human-name");
+      const humanNames = Array.from(nameInputs).map(input => input.value.trim()).filter(name => name);
+
+      if (humanNames.length !== numHumans) {
+        alert("Please fill in all human player names.");
+        return;
+      }
+
+      playerName = humanNames[0];
+
+      socket = new WebSocket(`ws://${window.location.host}/ws/${playerName}`);
+      socket.onmessage = handleSocketMessage;
+      socket.onopen = () => console.log("WebSocket connected to server");
+      socket.onerror = (e) => console.error("WebSocket error:", e);
+      socket.onclose = () => console.warn("WebSocket closed");
+
+      const response = await fetch("/start_game", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ human_names: humanNames })
+      });
+
+      if (response.ok) {
+        document.getElementById("setup-form").style.display = "none";
+        document.getElementById("game-interface").style.display = "block";
+        document.getElementById("status").textContent = `Connected as ${playerName}`;
+        const announcement = document.createElement("p");
+        announcement.textContent = "🎮 Game started!";
+        document.getElementById("game-interface").appendChild(announcement);
+      }
+    });
+
+    document.getElementById("num-humans").addEventListener("change", () => {
+      const num = parseInt(document.getElementById("num-humans").value, 10);
+      const container = document.getElementById("human-names");
+      container.innerHTML = "";
+
+      for (let i = 0; i < num; i++) {
+        const wrapper = document.createElement("div");
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = `Human player ${i + 1} name`;
+        input.name = `human${i}`;
+        input.className = "human-name";
+        input.required = true;
+        wrapper.appendChild(input);
+        container.appendChild(wrapper);
+      }
+    });
+
+    function handleSocketMessage(event) {
+      const data = JSON.parse(event.data);
+      console.log("[WS] Received:", data);
+
+      if (data.type === "your_turn") {
+        document.getElementById("game-interface").style.display = "block";
+        document.getElementById("play-form").style.display = "block";
+        document.getElementById("hand-display").textContent = `Your hand: ${data.hand.join(", ")}`;
+        document.getElementById("played-cards").value = "";
+        document.getElementById("reason").value = "";
+        document.getElementById("behavior").value = "";
+      }
+
+      if (data.type === "challenge_request") {
+        document.getElementById("game-interface").style.display = "block";
+        document.getElementById("challenge-form").style.display = "block";
+        document.getElementById("challenge-info").textContent = data.challenging_player_performance + ' ' + data.extra_hint;
+        document.getElementById("challenge-reason").value = "";
+      }
+
+      if (data.type === "reflect") {
+        console.log("💬 Received reflection prompt");
+
+        const container = document.getElementById("reflection-entries");
+        container.innerHTML = "";
+
+        for (const [player, currentOpinion] of Object.entries(data.opinions)) {
+          const div = document.createElement("div");
+          div.innerHTML = `
+            <label>${player}（当前印象：${currentOpinion}）:
+                <input type="text" data-player="${player}" placeholder="更新印象（可选）">
+            </label>
+          `;
+          container.appendChild(div);
+        }
+
+        document.getElementById("game-interface").style.display = "block"; // ensure parent is visible
+        document.getElementById("reflect-form").style.display = "block";
+      }
+
+      if (data.type === "game_over") {
+        alert(data.message);
+        document.getElementById("status").textContent = data.message;
+        document.getElementById("play-form").style.display = "none";
+        document.getElementById("challenge-form").style.display = "none";
+        document.getElementById("reflect-form").style.display = "none";
+      }
+
+      if (data.type === "announcement") {
+        // Get the announcement log container
+        const logContainer = document.getElementById("announcement-log");
+
+        // Remove placeholder if it exists
+        const placeholder = document.getElementById("announcement-placeholder");
+        if (placeholder) {
+          placeholder.remove();
+        }
+
+        // Append the new announcement
+        const newEntry = document.createElement("p");
+        newEntry.textContent = data.message;
+        logContainer.appendChild(newEntry);
+
+        // Delay scrolling to ensure the new entry is rendered
+        setTimeout(() => {
+          logContainer.scrollTop = logContainer.scrollHeight;
+        }, 50);
+      }
+    }
+
+    function submitPlay() {
+      const cards = document.getElementById("played-cards").value.trim().split(" ").filter(card => card);
+      const reason = document.getElementById("reason").value.trim();
+      const behavior = document.getElementById("behavior").value.trim();
+
+      socket.send(JSON.stringify({
+        played_cards: cards,
+        play_reason: reason,
+        behavior: behavior
+      }));
+
+      document.getElementById("play-form").style.display = "none";
+    }
+
+    function submitChallenge(wasChallenged) {
+      const reason = wasChallenged
+        ? document.getElementById("challenge-reason").value.trim()
+        : "不质疑";
+
+      socket.send(JSON.stringify({
+        was_challenged: wasChallenged,
+        challenge_reason: reason
+      }));
+
+      document.getElementById("challenge-form").style.display = "none";
+    }
+
+    function submitReflection() {
+      const inputs = document.querySelectorAll("#reflection-entries input");
+      const updated_opinions = {};
+
+      inputs.forEach(input => {
+        const player = input.getAttribute("data-player");
+        const value = input.value.trim();
+        if (value) updated_opinions[player] = value;
+      });
+
+      socket.send(JSON.stringify({
+        type: "reflection_result",
+        updated_opinions
+      }));
+
+      document.getElementById("reflect-form").style.display = "none";
+    }
+  </script>
+</body>
+</html>

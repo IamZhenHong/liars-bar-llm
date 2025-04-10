@@ -1,0 +1,285 @@
+{
+    "game_id": "20250410_134107",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "K",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_DeepSeek",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "Q",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "Q",
+                        "A",
+                        "K",
+                        "Joker"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "K",
+                        "A",
+                        "Joker",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "Q",
+                        "K",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A",
+                        "Q",
+                        "Q"
+                    ],
+                    "play_reason": "出一张目标牌K可以显得诚恳，同时不暴露太强的牌力，可以为未来回合打假牌留出余地。我的轻松表现旨在让其他玩家降低防备心，营造一种无威胁的氛围，避免第一轮就被针对或质疑。",
+                    "behavior": "微微一笑，轻松地说：‘开始得轻松一些吧，希望大家都顺利。’",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A",
+                        "K",
+                        "Joker"
+                    ],
+                    "play_reason": "当前局势尚未明朗，在第一轮游戏中保持低风险策略以试探其他玩家的心理和行为模式是关键。打出一张‘目标牌’，选择不特别炫耀或让自己成为焦点，同时保留Joker和部分非目标牌以备后续博弈。这种行为可以避免过早引起质疑，也不会显得过于自信或慌张，从而增加可信度，同时观测AI_Gemini的反应和质疑倾向，为后续决策积累信息。",
+                    "behavior": "略微皱眉，低声说道：‘先试探一下，看看大家的底牌。’",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": false,
+                    "challenge_reason": "目前没有足够的信息判断AI_Claude是否在撒谎。AI_Claude表现出试探性的行为，但这可能是真牌也可能是假牌。考虑到我的手牌还有Joker，可以在后续出牌环节中灵活应对。我暂时选择不质疑，以观察更多玩家的行为来获取信息并降低风险。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "A",
+                        "Joker",
+                        "A"
+                    ],
+                    "play_reason": "目标牌是K，我选择打出1张真实的K牌，以此建立初步可信度，并观察AI_DeepSeek的反应。微笑和轻松语气是为了传递一种无害和坦然的感觉，从而降低质疑的可能性。保持低调避免成为焦点，同时为后续的心理博弈打下基础。",
+                    "behavior": "微微一笑，语气轻松地说道：‘看来大家都很谨慎，那我也来试试水。’",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": false,
+                    "challenge_reason": "目前是游戏的初期阶段，每位玩家都刚开始出牌。赌局的心理博弈通常会从真实牌逐步转向假牌，而AI_Gemini的言行语气轻松且未表现出明显不安。继续观察他的出牌行为和策略，以便为后续判断积累信息。避免率先行动质疑以承担开枪风险，同时这些策略也有助于保留实力并降低引起关注的风险。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "Q",
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "我的目标是制造模糊信息，以2张宣称为‘K’的牌来让其他玩家难以判断它们是否是真牌。通过表现出轻松却略带挑衅的态度，我试图让AI_Claude对我的出牌产生犹疑，同时观察他的反应以了解他的性格和策略，同时暂时保存价值较高的单张‘A’作为后续局势变化的备用。",
+                    "behavior": "露出意味深长的微笑，轻声说道：‘有趣的局面啊，不知道大家会怎么选择呢？’",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_DeepSeek现在手牌只剩2张，宣称打出2张目标牌，这意味着接下来的轮次它可能很快被系统质疑并失去主动权。同时，它的表现意味深长，可能是在试图掩盖 bluff 的可能性。出2张牌这个选择完全耗尽了当前牌库中的目标牌比例，因此质疑是一个合理的策略。质疑成功可以让其承受开枪风险，同时减少潜在威胁。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "K",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A"
+                    ],
+                    "play_reason": "鉴于AI_DeepSeek刚刚因诈牌而受到质疑并开枪，当前场上的气氛相对谨慎，但AI_Gemini尚未表现出明显的行为模式。通过打出两张牌（其中一张为真目标牌K，另一张为万能牌Joker），制造一种积极但不完全透明的局面，可以进一步测试AI_Gemini的心理倾向，同时保留部分主动权。这种出牌既不冒进，也不显得完全诚实，具有一定迷惑性，并可能影响后续局势发展。",
+                    "behavior": "轻笑一声，缓缓说道：‘既然AI_DeepSeek夸张地做了一轮表演，不如大家看看我的诚意如何。’",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": false,
+                    "challenge_reason": "AI_Claude目前提供的信息不足，无法确定其出牌真实性。在本轮游戏中，AI_DeepSeek已因试图虚张声势失败而受到惩罚，因此AI_Claude可能选择以诚实策略保持低调，避免成为对手关注的目标。此外，质疑需要承担较高风险，而我的手牌中还有一张强力Joker，可以在未来回合中灵活使用。因此，我选择不质疑，暂时观察后续局势变化。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "Joker",
+                        "A"
+                    ],
+                    "play_reason": "当前手牌没有K，无法打出真牌，但打出一个假牌可以试探AI_DeepSeek的反应，同时不会过于暴露自己的真实牌面。选用谨慎的语气和表现，制造模棱两可的心理动态，避免其他玩家对我产生直接威胁。",
+                    "behavior": "轻叹一声，语气平静地说道：‘真真假假，虚虚实实，游戏才刚开始。’",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": false,
+                    "challenge_reason": "目前对AI_Gemini的行为模式和策略还不了解，其出牌和表现暂时没有明显的矛盾或异常。此外，质疑风险较高，如果失败将导致我被迫开枪，而我的手牌也只有两张，进入下一轮的生存机会至关重要。当前的轮次是第一轮，试探为主，因此选择不质疑，保持低风险策略。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "A"
+                    ],
+                    "play_reason": "我的手牌较弱，仅存一张目标牌，剩下一张无目标牌。如果我打出A被质疑将会陷入险境，因此选择打出Q进行虚张声势，策略上为降低对方对我的质疑可能性。同时表现出一定的诚意，引导其他玩家减少质疑，增加安全性并适度修复形象。",
+                    "behavior": "轻声说道：‘刚才的确出了一些问题，这次希望能让大家安心。’",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_DeepSeek的行为表现微妙，一开始出牌中实际是虚假目标牌，同时剩余手牌仅有1张，可能刻意营造可信环境诱导安全过关。结合局势，其宣称再次打出目标牌‘K’，可信度较低，有较大概率在此轮尝试冒险虚假出牌。为避免放任其成功欺骗，我选择质疑。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Q"
+                    ],
+                    "play_reason": "在这一阶段，我的手牌仅剩两张，无论如何都要避免过度冒险，以防引人质疑。打出1张A作为虚张声势，有可能让AI_Gemini产生怀疑并质疑我的出牌，从而把风险转移到下一轮。同时，这种小心谨慎的表现可以降低对我的威胁感，为后续博弈留出更多可能性。",
+                    "behavior": "微微皱眉，带着一丝疑虑地说道：‘现在场上的情况越来越微妙了，我不得不慎重出牌。’",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude已经连续两次宣称打出'K'牌，这种概率较低，其余玩家手牌中可疑牌逐渐增加。同时AI_Claude表现出谨慎和犹疑，这可能是试图掩饰虚假行为。我选择质疑以测试AI_Claude的可信度，从而获得更多信息。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "A"
+                    ],
+                    "play_reason": "决定打出1张Joker并声称它是目标牌K，主要目的是增加局面的迷惑性，同时尽量避免过早暴露手牌的真实情况。此时场上局势已经有多次成功质疑，AI_DeepSeek短时间内可能倾向于更加谨慎而不质疑。此外，使用Joker可以在其他玩家的心中产生疑虑，使他们后续更加难以判断我的行为，提升我的心理博弈空间。我的表现则通过‘温和淡然’传递信息，避免直接挑衅导致不必要的质疑，争取稳住局面。",
+                    "behavior": "微笑着看向AI_DeepSeek，淡然说道：‘不知道大家对我的真诚如何评价？这张牌会引发新的猜想吗？’",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini的表现过于淡然，这种情况下可能是策略性虚张声势，以避免被质疑。根据目前的出牌情况，场上出过较多真的‘K’，AI_Gemini的手牌中只有3张，很可能已经开始夹杂虚假牌。如果不质疑，可能让对手积累对后续博弈的不利筹码，因此我选择质疑其出牌真实性。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [],
+                    "play_reason": "当前我只剩一张手牌，为最大限度保留可信度，我选择如实打出。如果下一家质疑我且失败，将对他形成威胁；如果他不质疑，我得以顺利过牌并继续观察局势。此外，这种选择和表现旨在引导AI_Claude对我的真实度产生犹疑，同时削弱AI_Gemini的可信性，使双方倾向于互相质疑，不对我形成联合压力。",
+                    "behavior": "微微一笑，语气平静地说道：‘最后一张牌了，每个人都在博弈，很精彩的一局。’",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_DeepSeek宣称打出最后一张‘K’，他的牌已经多次被我质疑成功（之前出过Q、Q和Q），且他之前表现为多次试图欺骗。这种情况下，玩家通常会为了避免被质疑，冒险打出假牌。如果我质疑成功，AI_DeepSeek就会开枪，局势对我更有利。出于谨慎和已有信息的分析，我认为质疑较为合理。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_DeepSeek",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

@@ -1,0 +1,181 @@
+{
+    "game_id": "20250408_172218",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "K",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "dave",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "K",
+                        "Joker",
+                        "A",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "Q",
+                        "Joker",
+                        "A",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "K",
+                        "Q",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 4,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "Q",
+                        "K",
+                        "A",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "Joker",
+                        "A",
+                        "K"
+                    ],
+                    "play_reason": "shuang",
+                    "behavior": "fuck them",
+                    "next_player": "AI_Claude",
+                    "was_challenged": false,
+                    "challenge_reason": "这是游戏的第一轮，每个玩家手牌都充足，我并没有足够的信息来判断dave是否在撒谎。此外，我手中有一张Joker，如果我之后遇到困境，可以用它来救急。所以虽然质疑有可能立即判定dave输，但是我认为更佳策略是保留我的筹码，以便在后续回合中更好地使用。",
+                    "challenge_result": null,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "Q",
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "首轮中，在没有彻底了解对方特性前，我会尽可能降低风险，因此选择打出一张Joker作为保证，尽可能避免被质疑。而表现上，我选择保持低调，以待后续发挥。",
+                    "behavior": "如痴如醉地看着对面",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": false,
+                    "challenge_reason": "虽然AI_Claude打出了与我手中相同的目标牌'K'，但在本轮开始的初始阶段，质疑成功的概率不高，且我还不了解AI_Claude的风格。因此，我选择不质疑，先观察一轮再做决定。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "Q",
+                        "K",
+                        "A"
+                    ],
+                    "play_reason": "我想先保持低调，所以只出一张真牌并且表现的带有挑衅的意味来测试AI_DeepSeek是否会质疑我，同时也留下一些余地来应对后续的牌局。",
+                    "behavior": "故意撅起嘴角，似乎在挑衅",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": false,
+                    "challenge_reason": "考虑到这仅仅是第一轮，大家都还比较保守，尤其当目标牌为'K'时，玩家可能会更加小心。因此，此时选择质疑可能风险较高。而且，我的手牌中包含一张'K'，他打出'K'的可能性较大。最后，AI_Gemini的表现虽然挑衅，但他没有开枪，还不足以说明他是否在欺骗。综合上述因素，我选择不质疑。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "Q",
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "由于初轮时我的手中正好有一张K，且我当前没有被质疑的风险，我选择先出真牌，我倾向于在游戏初期建立起一个诚实的形象。同时，这样做可以避免早期因蓄意欺瞒而被将来回合的质疑发现并处罚。我的表现选择冷冷的盯着dave，这样既可以令他没有质疑我的勇气，又能在他心中留下戒备的印象，为后面的心理战做准备",
+                    "behavior": "用冷若冰霜的眼神盯着dave",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                }
+            ],
+            "round_result": {
+                "shooter_name": "dave",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

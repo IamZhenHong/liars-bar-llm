@@ -1,0 +1,139 @@
+{
+    "game_id": "20250408_170503",
+    "player_names": [
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "K",
+            "round_players": [
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "AI_DeepSeek",
+            "player_initial_states": [
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 4,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "A",
+                        "K",
+                        "A",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "K",
+                        "Q",
+                        "A",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "Q",
+                        "K",
+                        "K",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "AI_Claude": {
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "Q",
+                        "K",
+                        "A"
+                    ],
+                    "play_reason": "作为第一轮游戏的第一位出牌者，我选择保守出局，打出一张真实的目标牌，尽量避免被质疑和不必要的风险。另一方面，通过淡然的表现，尝试营造出我只会打出真牌的印象，以影响他人对我的判断和策略。",
+                    "behavior": "淡然地出了一张牌。",
+                    "next_player": "AI_Claude",
+                    "was_challenged": false,
+                    "challenge_reason": "考虑到这是游戏刚开始，它仅打出一张'K'，这个决策还很保守，且这个玩家的表现也不显得特别紧张，因此选择相信AI_DeepSeek此刻并未使用任何欺骗策略。另外，当前还不了解这个玩家，选择保守一些，以便提供更多观察的机会。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "K",
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "我打出真牌，因为我有足够的目标牌，并对当前的情况比较自信。通过微笑，我希望给其他玩家一个我告诉实话的印象。",
+                    "behavior": "微笑着打出一张牌",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": false,
+                    "challenge_reason": "看起来AI_Claude并没有给出质疑他的逆向心理学信号。再者，现在是游戏早期阶段，质疑的风险尚未达到可以接受的程度，所以选择不质疑。",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "K",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "先保持一种可能性，即我具有目标牌的情况。通过打出两张K，可以营造出一种我具有足够K牌的假象，以此作为威慑。选择稍显沉思的表现，旨在使其他玩家难以判断我出牌的真实动机。",
+                    "behavior": "眯起眼睛，若有所思地打出两张牌。",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Gemini打出的2张'K'在这个轮次的前几次出牌中似乎过于大胆，提高了他打出假牌的可能性。由于是游戏初期，冒险一试也许会有意外的收获。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_DeepSeek",
+                "bullet_hit": true
+            }
+        }
+    ],
+    "winner": null
+}

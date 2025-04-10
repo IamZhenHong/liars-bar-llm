@@ -3,82 +3,92 @@ import json
 import re
 from typing import List, Dict
 from llm_client import LLMClient
-
+from websocket_manager import websocket_manager
+import asyncio
+from human_player_names import human_player_names
 RULE_BASE_PATH = "prompt/rule_base.txt"
 PLAY_CARD_PROMPT_TEMPLATE_PATH = "prompt/play_card_prompt_template.txt"
 CHALLENGE_PROMPT_TEMPLATE_PATH = "prompt/challenge_prompt_template.txt"
 REFLECT_PROMPT_TEMPLATE_PATH = "prompt/reflect_prompt_template.txt"
 
 class Player:
-    def __init__(self, name: str, model_name: str):
-        """初始化玩家
-        
-        Args:
-            name: 玩家名称
-            model_name: 使用的LLM模型名称
-        """
+    def __init__(self, name: str, model_name: str, is_human: bool = False):
+
         self.name = name
         self.hand = []
         self.alive = True
         self.bullet_position = random.randint(0, 5)
         self.current_bullet_position = 0
         self.opinions = {}
-        
-        # LLM相关初始化
+        self.is_human = is_human
         self.llm_client = LLMClient()
         self.model_name = model_name
 
-    def _read_file(self, filepath: str) -> str:
-        """读取文件内容"""
+    async def _read_file(self, filepath: str) -> str:
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 return f.read().strip()
         except Exception as e:
-            print(f"读取文件 {filepath} 失败: {str(e)}")
+            print(f"[ERROR] Failed to read file {filepath}: {str(e)}")
+            await self.send_announcement(f"[ERROR] Failed to read file {filepath}: {str(e)}")
             return ""
+    async def send_announcement(self, message: str) -> None:
+        for name in human_player_names:
+            await websocket_manager.send(name, {
+                "type": "announcement",
+                "message": message
+            })
 
-    def print_status(self) -> None:
-        """打印玩家状态"""
-        print(f"{self.name} - 手牌: {', '.join(self.hand)} - "
-              f"子弹位置: {self.bullet_position} - 当前弹舱位置: {self.current_bullet_position}")
-        
+    # async def send_status(self) -> None:
+    #     for name in human_player_names:
+    #         await websocket_manager.send(name, {
+    #             "type": "status",
+    #             "player": self.name,
+    #             "hand": self.hand,
+    #             "bullet_position": self.bullet_position,
+    #             "current_bullet_position": self.current_bullet_position
+    #         })
+    async def print_status(self) -> None:
+        print(f"[STATUS] {self.name} - 手牌: {', '.join(self.hand)} - 子弹位置: {self.bullet_position} - 当前弹舱位置: {self.current_bullet_position}")
+        await self.send_announcement(f"[STATUS] {self.name} - 手牌: {', '.join(self.hand)} - 子弹位置: {self.bullet_position} - 当前弹舱位置: {self.current_bullet_position}")
+
     def init_opinions(self, other_players: List["Player"]) -> None:
-        """初始化对其他玩家的看法
-        
-        Args:
-            other_players: 其他玩家列表
-        """
         self.opinions = {
             player.name: "还不了解这个玩家"
             for player in other_players
             if player.name != self.name
         }
 
-    def choose_cards_to_play(self,
-                        round_base_info: str,
-                        round_action_info: str,
-                        play_decision_info: str) -> Dict:
-        """
-        玩家选择出牌
-        
-        Args:
-            round_base_info: 轮次基础信息
-            round_action_info: 轮次操作信息
-            play_decision_info: 出牌决策信息
-            
-        Returns:
-            tuple: (结果字典, 推理内容)
-            - 结果字典包含played_cards, behavior和play_reason
-            - 推理内容为LLM的原始推理过程
-        """
-        # 读取规则和模板
-        rules = self._read_file(RULE_BASE_PATH)
-        template = self._read_file(PLAY_CARD_PROMPT_TEMPLATE_PATH)
-        
-        # 准备当前手牌信息
+    async def choose_cards_to_play(self,
+                                   round_base_info: str,
+                                   round_action_info: str,
+                                   play_decision_info: str) -> Dict:
+        print(f"[INFO] {self.name} is choosing cards to play")
+        await self.send_announcement(f"[TURN] {self.name} is choosing cards to play")
+
+        if self.is_human:
+            await websocket_manager.send(self.name, {
+                "type": "your_turn",
+                "player": self.name,
+                "hand": self.hand,
+                "round_info": round_base_info,
+                "action_info": round_action_info,
+                "decision_info": play_decision_info
+            })
+            data = await websocket_manager.wait_for_response(self.name)
+            await self.send_announcement(f"[TURN] {self.name} played cards: {data['played_cards']}")
+            for card in data["played_cards"]:
+                if card in self.hand:
+                    self.hand.remove(card)
+            return {
+                "played_cards": data["played_cards"],
+                "play_reason": data.get("play_reason", ""),
+                "behavior": data.get("behavior", "无")
+            }, "(human input via websocket)"
+
+        rules = await self._read_file(RULE_BASE_PATH)
+        template = await self._read_file(PLAY_CARD_PROMPT_TEMPLATE_PATH)
         current_cards = ", ".join(self.hand)
-        
-        # 填充模板
         prompt = template.format(
             rules=rules,
             self_name=self.name,
@@ -87,72 +97,64 @@ class Player:
             play_decision_info=play_decision_info,
             current_cards=current_cards
         )
-        
-        # 尝试获取有效的JSON响应，最多重试五次
         for attempt in range(5):
-            # 每次都发送相同的原始prompt
-            messages = [
-                {"role": "user", "content": prompt}
-            ]
-            
+            messages = [{"role": "user", "content": prompt}]
             try:
                 content, reasoning_content = self.llm_client.chat(messages, model=self.model_name)
-                
-                # 尝试从内容中提取JSON部分
                 json_match = re.search(r'({[\s\S]*})', content)
                 if json_match:
                     json_str = json_match.group(1)
                     result = json.loads(json_str)
-                    
-                    # 验证JSON格式是否符合要求
                     if all(key in result for key in ["played_cards", "behavior", "play_reason"]):
-                        # 确保played_cards是列表
                         if not isinstance(result["played_cards"], list):
                             result["played_cards"] = [result["played_cards"]]
-                        
-                        # 确保选出的牌是有效的（从手牌中选择1-3张）
                         valid_cards = all(card in self.hand for card in result["played_cards"])
                         valid_count = 1 <= len(result["played_cards"]) <= 3
-                        
                         if valid_cards and valid_count:
-                            # 从手牌中移除已出的牌
+                            await self.send_announcement(f"[TURN] {self.name} played cards: {result['played_cards']}, reason: {result['play_reason']}, behavior: {result['behavior']}")
+                            await asyncio.sleep(1)
                             for card in result["played_cards"]:
                                 self.hand.remove(card)
                             return result, reasoning_content
-                                
             except Exception as e:
-                # 仅记录错误，不修改重试请求
-                print(f"尝试 {attempt+1} 解析失败: {str(e)}")
-        raise RuntimeError(f"玩家 {self.name} 的choose_cards_to_play方法在多次尝试后失败")
+                print(f"[ERROR] Attempt {attempt+1} failed to parse card choice: {str(e)}")
+                await self.send_announcement(f"[ERROR] Attempt {attempt+1} failed to parse card choice: {str(e)}")
+        raise RuntimeError(f"[FAIL] {self.name} failed to choose valid cards to play")
 
-    def decide_challenge(self,
-                        round_base_info: str,
-                        round_action_info: str,
-                        challenge_decision_info: str,
-                        challenging_player_performance: str,
-                        extra_hint: str) -> bool:
-        """
-        玩家决定是否对上一位玩家的出牌进行质疑
-        
-        Args:
+    async def decide_challenge(self,
+                               round_base_info: str,
+                               round_action_info: str,
+                               challenge_decision_info: str,
+                               challenging_player_performance: str,
+                               extra_hint: str) -> bool:
+        print(f"[INFO] {self.name} is deciding whether to challenge")
+        await self.send_announcement(f"[CHALLENGE] {self.name} is deciding whether to challenge")
 
-            round_base_info: 轮次基础信息
-            round_action_info: 轮次操作信息
-            challenge_decision_info: 质疑决策信息
-            challenging_player_performance: 被质疑玩家的表现描述
-            extra_hint: 额外提示信息
-            
-        Returns:
-            tuple: (result, reasoning_content)
-            - result: 包含was_challenged和challenge_reason的字典
-            - reasoning_content: LLM的原始推理过程
-        """
-        # 读取规则和模板
-        rules = self._read_file(RULE_BASE_PATH)
-        template = self._read_file(CHALLENGE_PROMPT_TEMPLATE_PATH)
+        if self.is_human:
+            await websocket_manager.send(self.name, {
+                "type": "challenge_request",
+                "player": self.name,
+                "round_info": round_base_info,
+                "action_info": round_action_info,
+                "challenge_decision_info": challenge_decision_info,
+                "challenging_player_performance": challenging_player_performance,
+                "extra_hint": extra_hint
+            })
+            data = await websocket_manager.wait_for_response(self.name)
+            # if data["was_challenged"]:
+            #     await self.send_announcement(f"[CHALLENGE] {self.name} decided to challenge")
+            #     await asyncio.sleep(1)
+            # else:
+            #     await self.send_announcement(f"[CHALLENGE] {self.name} decided not to challenge")
+            #     await asyncio.sleep(1)
+            return {
+                "was_challenged": data["was_challenged"],
+                "challenge_reason": data["challenge_reason"]
+            }, "(challenge input via websocket)"
+
+        rules = await  self._read_file(RULE_BASE_PATH)
+        template = await self._read_file(CHALLENGE_PROMPT_TEMPLATE_PATH)
         self_hand = f"你现在的手牌是: {', '.join(self.hand)}"
-        
-        # 填充模板
         prompt = template.format(
             rules=rules,
             self_name=self.name,
@@ -163,60 +165,57 @@ class Player:
             challenging_player_performance=challenging_player_performance,
             extra_hint=extra_hint
         )
-        
-        # 尝试获取有效的JSON响应，最多重试五次
         for attempt in range(5):
-            # 每次都发送相同的原始prompt
-            messages = [
-                {"role": "user", "content": prompt}
-            ]
-            
+            messages = [{"role": "user", "content": prompt}]
             try:
                 content, reasoning_content = self.llm_client.chat(messages, model=self.model_name)
-                
-                # 解析JSON响应
                 json_match = re.search(r'({[\s\S]*})', content)
                 if json_match:
                     json_str = json_match.group(1)
                     result = json.loads(json_str)
-                    
-                    # 验证JSON格式是否符合要求
                     if all(key in result for key in ["was_challenged", "challenge_reason"]):
-                        # 确保was_challenged是布尔值
                         if isinstance(result["was_challenged"], bool):
                             return result, reasoning_content
-                
             except Exception as e:
-                # 仅记录错误，不修改重试请求
-                print(f"尝试 {attempt+1} 解析失败: {str(e)}")
-        raise RuntimeError(f"玩家 {self.name} 的decide_challenge方法在多次尝试后失败")
+                print(f"[ERROR] Attempt {attempt+1} failed to parse challenge decision: {str(e)}")
+                await self.send_announcement(f"[ERROR] Attempt {attempt+1} failed to parse challenge decision: {str(e)}")
+        raise RuntimeError(f"[FAIL] {self.name} failed to decide challenge")
 
-    def reflect(self, alive_players: List[str], round_base_info: str, round_action_info: str, round_result: str) -> None:
-        """
-        玩家在轮次结束后对其他存活玩家进行反思，更新对他们的印象
-        
-        Args:
-            alive_players: 还存活的玩家名称列表
-            round_base_info: 轮次基础信息
-            round_action_info: 轮次操作信息
-            round_result: 轮次结果
-        """
-        # 读取反思模板
-        template = self._read_file(REFLECT_PROMPT_TEMPLATE_PATH)
-        
-        # 读取规则
-        rules = self._read_file(RULE_BASE_PATH)
-        
-        # 对每个存活的玩家进行反思和印象更新（排除自己）
+    async def reflect(self, alive_players: List[str], round_base_info: str, round_action_info: str, round_result: str) -> None:
+        print(f"[INFO] {self.name} is reflecting on the game")
+        await self.send_announcement(f"[REFLECT] {self.name} is reflecting")
+        if self.is_human:
+            async def send_reflection_prompt():
+                await websocket_manager.send(self.name, {
+                    "type": "reflect",
+                    "player": self.name,
+                    "alive_players": alive_players,
+                    "round_info": round_base_info,
+                    "action_info": round_action_info,
+                    "round_result": round_result,
+                    "opinions": {
+                        other: self.opinions.get(other, "还不了解这个玩家")
+                        for other in alive_players if other != self.name
+                    }
+                })
+
+                data = await websocket_manager.wait_for_response(self.name)
+
+                for player_name, new_opinion in data.get("updated_opinions", {}).items():
+                    if new_opinion:
+                        self.opinions[player_name] = new_opinion
+                        print(f"[INFO] {self.name} updated opinion on {player_name}: {new_opinion}")
+                        await self.send_announcement(f"[REFLECT] {self.name} updated opinion on {player_name}: {new_opinion}")
+
+            await send_reflection_prompt()
+            return
+
+        template = await self._read_file(REFLECT_PROMPT_TEMPLATE_PATH)
+        rules = await self._read_file(RULE_BASE_PATH)
         for player_name in alive_players:
-            # 跳过对自己的反思
             if player_name == self.name:
                 continue
-            
-            # 获取此前对该玩家的印象
             previous_opinion = self.opinions.get(player_name, "还不了解这个玩家")
-            
-            # 填充模板
             prompt = template.format(
                 rules=rules,
                 self_name=self.name,
@@ -226,30 +225,31 @@ class Player:
                 player=player_name,
                 previous_opinion=previous_opinion
             )
-            
-            # 向LLM请求分析
-            messages = [
-                {"role": "user", "content": prompt}
-            ]
-            
+            messages = [{"role": "user", "content": prompt}]
             try:
                 content, _ = self.llm_client.chat(messages, model=self.model_name)
-                
-                # 更新对该玩家的印象
                 self.opinions[player_name] = content.strip()
-                print(f"{self.name} 更新了对 {player_name} 的印象")
-                
+                print(f"[INFO] {self.name} updated opinion on {player_name}: {self.opinions[player_name]}")
+                await self.send_announcement(f"[REFLECT] {self.name} updated opinion on {player_name}")
             except Exception as e:
-                print(f"反思玩家 {player_name} 时出错: {str(e)}")
+                print(f"[ERROR] Failed to reflect on {player_name}: {str(e)}")
+                await self.send_announcement(f"[ERROR] Reflecting on {player_name} failed: {str(e)}")
 
-    def process_penalty(self) -> bool:
-        """处理惩罚"""
-        print(f"玩家 {self.name} 执行射击惩罚：")
-        self.print_status()
+    async def process_penalty(self) -> bool:
+        print(f"{self.name} fires a shot")
+        await self.send_announcement(f"{self.name} fires a shot")
+        await asyncio.sleep(1.5)
+        await self.print_status()
+        await asyncio.sleep(1.5)
+
         if self.bullet_position == self.current_bullet_position:
-            print(f"{self.name} 中枪死亡！")
+            print(self.name, "was shot and died")
+            await self.send_announcement(f"[PENALTY] {self.name} was shot and died")
             self.alive = False
         else:
-            print(f"{self.name} 幸免于难！")
+            print(self.name, "survived the shot")
+            await self.send_announcement(f"[PENALTY] {self.name} survived the shot")
+
+        await asyncio.sleep(1.5)  # Let moment land in UI
         self.current_bullet_position = (self.current_bullet_position + 1) % 6
         return self.alive

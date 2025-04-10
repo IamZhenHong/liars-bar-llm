@@ -1,0 +1,121 @@
+{
+    "game_id": "20250408_152035",
+    "player_names": [
+        "你",
+        "AI1",
+        "AI2",
+        "AI3"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "A",
+            "round_players": [
+                "你",
+                "AI1",
+                "AI2",
+                "AI3"
+            ],
+            "starting_player": "AI3",
+            "player_initial_states": [
+                {
+                    "player_name": "你",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "K",
+                        "Q",
+                        "A",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI1",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Joker",
+                        "A",
+                        "K",
+                        "A",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI2",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "Q",
+                        "A",
+                        "K",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI3",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "Joker",
+                        "Q",
+                        "Q",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "你": {
+                    "AI1": "还不了解这个玩家",
+                    "AI2": "还不了解这个玩家",
+                    "AI3": "还不了解这个玩家"
+                },
+                "AI1": {
+                    "你": "还不了解这个玩家",
+                    "AI2": "还不了解这个玩家",
+                    "AI3": "还不了解这个玩家"
+                },
+                "AI2": {
+                    "你": "还不了解这个玩家",
+                    "AI1": "还不了解这个玩家",
+                    "AI3": "还不了解这个玩家"
+                },
+                "AI3": {
+                    "你": "还不了解这个玩家",
+                    "AI1": "还不了解这个玩家",
+                    "AI2": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "AI3",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Joker",
+                        "Q",
+                        "Q",
+                        "A"
+                    ],
+                    "play_reason": "选择打一张真实的A，既确保了这一轮的安全，又保持了手中其他牌作为后备。这种稳健的出牌方式可以降低被质疑的风险，同时让对手难以判断我的具体底牌构成，达到心理博弈的效果。",
+                    "behavior": "面露淡定，缓缓将牌推向桌面，同时微微一笑，目光平静且意味深长。",
+                    "next_player": "你",
+                    "was_challenged": true,
+                    "challenge_reason": "kan ta bu shuang",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": "（人类玩家手动输入）"
+                }
+            ],
+            "round_result": {
+                "shooter_name": "你",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

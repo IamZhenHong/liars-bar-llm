@@ -1,0 +1,96 @@
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 2rem;
+    margin: 0;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+  }
+  
+  form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 0.5rem;
+  }
+  
+  input {
+    padding: 0.6rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  button {
+    background: #27ae60;
+    color: white;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  button:hover {
+    background: #2ecc71;
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  li {
+    background: #34495e;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    border: 1px solid #7f8c8d;
+  }
+  
+  .card-emoji {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+  }
+  
+  #announcement-texts p {
+  margin: 0.3em 0;
+  font-size: 0.95em;
+}
+
+/* Updated styles for the announcement log container */
+/* Styles for the announcement log container */
+/* Styles for the announcement log container */
+#announcement-log-container {
+    margin-top: 20px;
+  }
+  
+  /* Updated styles for the announcement log box */
+  #announcement-log {
+    background-color: #333 !important; /* Dark background */
+    color: #fff !important;            /* White text */
+    border: 1px solid #444 !important; /* Border adjusted for dark theme */
+    padding: 10px;
+    max-height: 200px;
+    min-height: 50px; /* Ensures container is visible even when empty */
+    overflow-y: auto;
+  }
+  
