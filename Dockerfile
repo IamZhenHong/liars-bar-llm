@@ -3,6 +3,10 @@ FROM python:3.11-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+# Set proxy environment variables for the build
+ENV http_proxy=http://10.48.23.75:3128
+ENV https_proxy=http://10.48.23.75:3128
+ENV no_proxy=localhost,127.0.0.1,0.0.0.0
 # Set work directory
 WORKDIR /app
 # Install dependencies
