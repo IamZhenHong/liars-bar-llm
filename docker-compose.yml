@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: liars-bar-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: uvicorn game_server:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on: []
+    restart: unless-stopped
+
+# Uncomment if needed later
+#  redis:
+#    image: redis:alpine
+#    container_name: liars-bar-redis
+#    ports:
+#      - "6379:6379"
