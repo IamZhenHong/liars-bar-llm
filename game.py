@@ -303,7 +303,7 @@ class Game:
             self.game_over = True
             return
 
-        if self.all_human_players_eliminated:
+        if self.all_human_players_eliminated():
             print("All human players eliminated!")
             await self.send_announcement("All human players eliminated!")
             self.game_over = True
