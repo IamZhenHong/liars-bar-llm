@@ -300,7 +300,7 @@ class Game:
 
 
         self.current_player_idx = next_idx
-        await self.handle_reflection()
+        # await self.handle_reflection()
         await asyncio.sleep(3)
 
     async def start_game(self) -> None:
