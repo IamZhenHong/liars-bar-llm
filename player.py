@@ -66,6 +66,8 @@ class Player:
         print(f"[INFO] {self.name} is choosing cards to play")
         await self.send_announcement(f"[TURN] {self.name} is choosing cards to play")
 
+        await asyncio.sleep(4)
+
         if self.is_human:
             await websocket_manager.send(self.name, {
                 "type": "your_turn",
@@ -111,8 +113,9 @@ class Player:
                         valid_cards = all(card in self.hand for card in result["played_cards"])
                         valid_count = 1 <= len(result["played_cards"]) <= 3
                         if valid_cards and valid_count:
-                            await self.send_announcement(f"[TURN] {self.name} played cards: {result['played_cards']}, reason: {result['play_reason']}, behavior: {result['behavior']}")
-                            await asyncio.sleep(1)
+                            # await self.send_announcement(f"[TURN] {self.name} played cards: {result['played_cards']}, reason: {result['play_reason']}, behavior: {result['behavior']}")
+                            await self.send_announcement(f"[TURN] {self.name} played {len(result['played_cards'])} cards, behavior: {result['behavior']}")
+                            await asyncio.sleep(2)
                             for card in result["played_cards"]:
                                 self.hand.remove(card)
                             return result, reasoning_content
@@ -184,6 +187,7 @@ class Player:
     async def reflect(self, alive_players: List[str], round_base_info: str, round_action_info: str, round_result: str) -> None:
         print(f"[INFO] {self.name} is reflecting on the game")
         await self.send_announcement(f"[REFLECT] {self.name} is reflecting")
+        await asyncio.sleep(1.5)
         if self.is_human:
             async def send_reflection_prompt():
                 await websocket_manager.send(self.name, {
@@ -206,6 +210,7 @@ class Player:
                         self.opinions[player_name] = new_opinion
                         print(f"[INFO] {self.name} updated opinion on {player_name}: {new_opinion}")
                         await self.send_announcement(f"[REFLECT] {self.name} updated opinion on {player_name}: {new_opinion}")
+                        await asyncio.sleep(1)
 
             await send_reflection_prompt()
             return
@@ -231,9 +236,11 @@ class Player:
                 self.opinions[player_name] = content.strip()
                 print(f"[INFO] {self.name} updated opinion on {player_name}: {self.opinions[player_name]}")
                 await self.send_announcement(f"[REFLECT] {self.name} updated opinion on {player_name}")
+                await asyncio.sleep(1)
             except Exception as e:
                 print(f"[ERROR] Failed to reflect on {player_name}: {str(e)}")
-                await self.send_announcement(f"[ERROR] Reflecting on {player_name} failed: {str(e)}")
+                # await self.send_announcement(f"[ERROR] Reflecting on {player_name} failed: {str(e)}")
+                
 
     async def process_penalty(self) -> bool:
         print(f"{self.name} fires a shot")
@@ -245,10 +252,12 @@ class Player:
         if self.bullet_position == self.current_bullet_position:
             print(self.name, "was shot and died")
             await self.send_announcement(f"[PENALTY] {self.name} was shot and died")
+            asyncio.sleep(1)
             self.alive = False
         else:
             print(self.name, "survived the shot")
             await self.send_announcement(f"[PENALTY] {self.name} survived the shot")
+            await asyncio.sleep(1)
 
         await asyncio.sleep(1.5)  # Let moment land in UI
         self.current_bullet_position = (self.current_bullet_position + 1) % 6

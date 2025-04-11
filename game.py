@@ -5,6 +5,7 @@ from game_record import GameRecord, PlayerInitialState
 from websocket_manager import websocket_router, websocket_manager
 import asyncio
 from human_player_names import human_player_names
+from player import handl
 
 class Game:
     def __init__(self, player_configs: List[Dict[str, str]]) -> None:
@@ -297,7 +298,9 @@ class Game:
             self.game_over = True
             return
 
+
         self.current_player_idx = next_idx
+        await self.handle_reflection()
         await asyncio.sleep(3)
 
     async def start_game(self) -> None:
@@ -309,3 +312,4 @@ class Game:
         self.start_round_record()
         while not self.game_over:
             await self.play_round()
+            
