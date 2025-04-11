@@ -252,7 +252,7 @@ class Player:
         if self.bullet_position == self.current_bullet_position:
             print(self.name, "was shot and died")
             await self.send_announcement(f"[PENALTY] {self.name} was shot and died")
-            asyncio.sleep(1)
+            await asyncio.sleep(1)
             self.alive = False
         else:
             print(self.name, "survived the shot")

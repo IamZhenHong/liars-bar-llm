@@ -181,6 +181,7 @@ class Game:
                 result=not is_valid,
                 challenge_thinking=reasoning
             )
+            await self.send_announcement(f"{next_player.name} challenges {current_player.name}'s hand")
             await asyncio.sleep(1)
             if is_valid:
                 print(f"{next_player.name}'s challenge failed")
@@ -251,6 +252,8 @@ class Game:
     def print_all_player_states(self):
         state_lines = [f"{player.name} ({'Alive' if player.alive else 'Dead'}): {', '.join(player.hand)}" for player in self.players]
         return "\n".join(state_lines)
+    
+
 
     async def play_round(self) -> None:
         current_player = self.players[self.current_player_idx]
@@ -298,9 +301,21 @@ class Game:
             self.game_over = True
             return
 
+        alive_human_player = len(human_player_names)
+        for name in human_player_names:
+            player = self.players["name"]
+            if not player.alive:
+                alive_human_player -= 1
+        if alive_human_player == 0:
+            await self.send_announcement(f"All human players are eliminated! {next_player.name} wins!")
+            self.game_record.finish_game(next_player.name)
+            self.game_over = True
+            return
 
         self.current_player_idx = next_idx
         # await self.handle_reflection()
+
+
         await asyncio.sleep(3)
 
     async def start_game(self) -> None:
