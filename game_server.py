@@ -8,7 +8,9 @@ from websocket_manager import websocket_router, websocket_manager
 from game import Game
 import asyncio
 from human_player_names import human_player_names
-app = FastAPI(openapi_url="/api/openapi.json")
+
+app = FastAPI(openapi_url="/liars/openapi.json")
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(websocket_router)
 templates = Jinja2Templates(directory="templates")
