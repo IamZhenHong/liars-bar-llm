@@ -5,7 +5,7 @@ from game_record import GameRecord, PlayerInitialState
 from websocket_manager import websocket_router, websocket_manager
 import asyncio
 from human_player_names import human_player_names
-from player import handl
+
 
 class Game:
     def __init__(self, player_configs: List[Dict[str, str]]) -> None:
