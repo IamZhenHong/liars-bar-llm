@@ -253,6 +253,8 @@ class Game:
         state_lines = [f"{player.name} ({'Alive' if player.alive else 'Dead'}): {', '.join(player.hand)}" for player in self.players]
         return "\n".join(state_lines)
     
+    def all_human_players_eliminated(self) -> bool:
+        return not any(player.is_human and player.alive for player in self.players)
 
 
     async def play_round(self) -> None:
@@ -301,15 +303,9 @@ class Game:
             self.game_over = True
             return
 
-        alive_human_player = len(human_player_names)
-        for name in human_player_names:
-            player = self.players["name"]
-            if not player.alive:
-                alive_human_player -= 1
-        print(f"Alive human players: {alive_human_player}")
-        if alive_human_player == 0:
-            await self.send_announcement(f"All human players are eliminated! {next_player.name} wins!")
-            self.game_record.finish_game(next_player.name)
+        if self.all_human_players_eliminated:
+            print("All human players eliminated!")
+            await self.send_announcement("All human players eliminated!")
             self.game_over = True
             return
 
