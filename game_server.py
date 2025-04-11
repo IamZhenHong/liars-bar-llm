@@ -42,7 +42,7 @@ async def start_game(data: dict = Body(...)):
     for name in human_players:
         all_players.append({"name": name, "model": "human", "is_human": True})
 
-    ai_names = ["AI_Claude", "AI_Gemini", "AI_DeepSeek"]
+    ai_names = ["AI_Player1", "AI_Player2", "AI_Player3"]
     for name in ai_names:
         if len(all_players) >= 4:
             break
