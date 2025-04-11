@@ -1,0 +1,181 @@
+{
+    "game_id": "20250411_061057",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "A",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "dave",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "A",
+                        "A",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 2,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "Joker",
+                        "Joker",
+                        "Q",
+                        "K"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "K",
+                        "Q",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "K",
+                        "A",
+                        "Q"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "A",
+                        "A",
+                        "A"
+                    ],
+                    "play_reason": "",
+                    "behavior": "",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "由于这是游戏的第一轮，我对dave的行为和策略尚无了解，他可能选择试探其他玩家反应。第一张牌声明为目标牌A，有一定概率是假牌，以混淆和测试其他玩家是否会质疑。在当前阶段，质疑有助于建立策略洞察，了解对手的行为模式。注意到目标牌在手牌中的分布有限（6张），dave的宣称存在更高虚假可能性，因此选择质疑以增加掌控局势的机会。",
+                    "challenge_result": true,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "Joker",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "Q",
+                        "K"
+                    ],
+                    "play_reason": "此举是为了在初期建立迷惑性。将两张万能牌打出但声称它们是目标牌‘A’，这能增加对手对我的不确定性，同时避免直接打出真牌暴露手牌结构。微笑加上轻松的语气可以缓解对手的警惕，诱导他们不质疑，并观察AI_Gemini如何反应，从而获得心理和策略上的信息。",
+                    "behavior": "微微一笑，语气轻松地说：'这个回合有点容易啊，看大家怎么选择吧~'",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": false,
+                    "challenge_reason": "未质疑",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "K",
+                        "Q",
+                        "K"
+                    ],
+                    "play_reason": "我的策略是首先建立可信度，以减少被质疑的可能性，同时让下家对我的行为信任，为之后可能的欺骗打下基础。打出目标牌‘A’，展现稳定心态和可靠性，并通过语气和表态营造冷静、掌控局势的形象。",
+                    "behavior": "面带从容的微笑，轻轻把牌推向桌面，语气沉稳地说：'继续吧，游戏才刚刚开始。'",
+                    "next_player": "AI_DeepSeek",
+                    "was_challenged": false,
+                    "challenge_reason": "未质疑",
+                    "challenge_result": null,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "played_cards": [
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "K",
+                        "A",
+                        "Q"
+                    ],
+                    "play_reason": "在第一轮游戏中，我选择打出1张真实的目标牌'A'，以建立初步可信度，同时让自己对局势保持主动。微笑和随意的言语不仅可以缓解可能的质疑压力，还能对dave产生心理影响，使其更加犹豫是否质疑。这一策略旨在伪装我的真实意图，同时为下一轮可能打假牌保留资本。",
+                    "behavior": "轻笑一声，将牌推向桌面，语气随意地说道：'有些人刚开始就大费周章，不知道是不是故弄玄虚。你怎么看呢，dave？'",
+                    "next_player": "dave",
+                    "was_challenged": true,
+                    "challenge_reason": "",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": "(challenge input via websocket)"
+                }
+            ],
+            "round_result": {
+                "shooter_name": "dave",
+                "bullet_hit": false
+            }
+        }
+    ],
+    "winner": null
+}

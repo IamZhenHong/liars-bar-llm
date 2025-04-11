@@ -1,0 +1,141 @@
+{
+    "game_id": "20250411_062900",
+    "player_names": [
+        "dave",
+        "AI_Claude",
+        "AI_Gemini",
+        "AI_DeepSeek"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "Q",
+            "round_players": [
+                "dave",
+                "AI_Claude",
+                "AI_Gemini",
+                "AI_DeepSeek"
+            ],
+            "starting_player": "dave",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "Q",
+                        "Joker",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "bullet_position": 3,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "A",
+                        "K",
+                        "Joker",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Gemini",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "Q",
+                        "A",
+                        "A",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_DeepSeek",
+                    "bullet_position": 5,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "Q",
+                        "K",
+                        "Q",
+                        "K"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Claude": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_Gemini": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_DeepSeek": "还不了解这个玩家"
+                },
+                "AI_DeepSeek": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Claude": "还不了解这个玩家",
+                    "AI_Gemini": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "K",
+                        "Q",
+                        "K",
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Joker"
+                    ],
+                    "play_reason": "",
+                    "behavior": "",
+                    "next_player": "AI_Claude",
+                    "was_challenged": true,
+                    "challenge_reason": "在20张扑克牌中仅有6张Q，而玩家dave声称打出了4张Q。这是一个异常高的比例，考虑到手牌只有5张且刚开始游戏，这种夸张的宣言可能是在试图迷惑其他玩家。因此，从概率上看，他的言辞可疑，质疑有较高成功率。",
+                    "challenge_result": true,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Claude",
+                    "played_cards": [
+                        "Q",
+                        "Joker"
+                    ],
+                    "remaining_cards": [
+                        "A",
+                        "A",
+                        "K"
+                    ],
+                    "play_reason": "为了避免太过明显的欺骗，我选择了一张真牌'Q'与一张万能牌'Joker'，使之看起来较为可信，同时不会完全暴露我的真实手牌结构。自信的语气可以让AI_Gemini怀疑是否质疑我的出牌，从而给我更多策略空间。如果AI_Gemini选择质疑，中奖的概率偏低，但如果放弃质疑，我就能顺利推进当前轮次，保留剩余的强牌以备后续轮次使用。",
+                    "behavior": "微微一笑，带着些许自信，语气轻松地说：“这应该是俩‘Q’，你随意。”",
+                    "next_player": "AI_Gemini",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Claude宣称打出2张'Q'，语气轻松且带自信，试图表现为可信。但当前局目标牌是'Q'，发牌随机而仅有6张'Q'，此时AI_Claude仅剩下3张手牌却声称打出2张'Q'，这种概率较低，尤其考虑到我们的手牌只有1张'Q'。综合语气表现和概率推理，我认为AI_Claude可能存在欺诈行为，选择质疑。",
+                    "challenge_result": false,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Gemini",
+                "bullet_hit": true
+            }
+        }
+    ],
+    "winner": null
+}

@@ -1,0 +1,161 @@
+{
+    "game_id": "20250411_063724",
+    "player_names": [
+        "dave",
+        "AI_Player1",
+        "AI_Player2",
+        "AI_Player3"
+    ],
+    "rounds": [
+        {
+            "round_id": 1,
+            "target_card": "A",
+            "round_players": [
+                "dave",
+                "AI_Player1",
+                "AI_Player2",
+                "AI_Player3"
+            ],
+            "starting_player": "dave",
+            "player_initial_states": [
+                {
+                    "player_name": "dave",
+                    "bullet_position": 1,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "K",
+                        "A",
+                        "Joker",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Player1",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "A",
+                        "Q",
+                        "K",
+                        "Q",
+                        "Q"
+                    ]
+                },
+                {
+                    "player_name": "AI_Player2",
+                    "bullet_position": 0,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "K",
+                        "Joker",
+                        "K",
+                        "A"
+                    ]
+                },
+                {
+                    "player_name": "AI_Player3",
+                    "bullet_position": 2,
+                    "current_gun_position": 0,
+                    "initial_hand": [
+                        "Q",
+                        "A",
+                        "K",
+                        "Q",
+                        "A"
+                    ]
+                }
+            ],
+            "player_opinions": {
+                "dave": {
+                    "AI_Player1": "还不了解这个玩家",
+                    "AI_Player2": "还不了解这个玩家",
+                    "AI_Player3": "还不了解这个玩家"
+                },
+                "AI_Player1": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Player2": "还不了解这个玩家",
+                    "AI_Player3": "还不了解这个玩家"
+                },
+                "AI_Player2": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Player1": "还不了解这个玩家",
+                    "AI_Player3": "还不了解这个玩家"
+                },
+                "AI_Player3": {
+                    "dave": "还不了解这个玩家",
+                    "AI_Player1": "还不了解这个玩家",
+                    "AI_Player2": "还不了解这个玩家"
+                }
+            },
+            "play_history": [
+                {
+                    "player_name": "dave",
+                    "played_cards": [
+                        "K",
+                        "A",
+                        "K",
+                        "A"
+                    ],
+                    "remaining_cards": [
+                        "Joker"
+                    ],
+                    "play_reason": "",
+                    "behavior": "scared",
+                    "next_player": "AI_Player1",
+                    "was_challenged": true,
+                    "challenge_reason": "Dave宣称打出4张'A'，而游戏中只有6张'A'，此时所有玩家手牌被随机分配。考虑到Dave剩余手牌只有1张，而我的手牌包含1张'A'，如果他打出其中4张作为真牌的概率非常低。此外，他的表现为'scared'，可能在尝试使用假牌进行虚张声势。基于数学概率和心理分析，质疑更符合策略。",
+                    "challenge_result": true,
+                    "play_thinking": "(human input via websocket)",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Player1",
+                    "played_cards": [
+                        "A",
+                        "Q",
+                        "Q"
+                    ],
+                    "remaining_cards": [
+                        "K",
+                        "Q"
+                    ],
+                    "play_reason": "我决定混合真假牌出手，既含有目标牌A，也包含非目标牌Q，以增加质疑难度并模糊我的行为模式。这样可以给AI_Player2制造心理压力，同时试探其性格特征，为接下来的博弈收集更多信息。此外，通过自信且略带挑衅的表现，可以引导对方质疑，从而尽早让对方陷入风险局面。",
+                    "behavior": "冷笑一声，缓缓将三张牌放到桌上，“来吧，决定一下，这游戏可不是只靠运气。”",
+                    "next_player": "AI_Player2",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Player1的出牌显得过于自信，而目前对其行为模式还不了解。与此同时，其牌面剩余2张，而我的当前手牌仅有一张目标牌(A)、一张万能牌(Joker)，估算相较于目标牌的有限数量，其宣称出的3张A有可能有假。挑战能够测试AI_Player1的真实性，同时通过质疑可能删除竞争者，降低未来威胁，符合生存策略。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                },
+                {
+                    "player_name": "AI_Player2",
+                    "played_cards": [
+                        "A",
+                        "K"
+                    ],
+                    "remaining_cards": [
+                        "Q",
+                        "Joker",
+                        "K"
+                    ],
+                    "play_reason": "以当前轮的目标牌A为核心，我选择使用真实目标牌'A'和一张假牌'K'的组合，试图迷惑AI_Player3以打消其质疑的可能性。轻松的态度能让AI_Player3产生我仍深藏实力的错觉，同时通过引发其冒险心理，增加其选择不质疑的可能性，以延续我的存活。",
+                    "behavior": "露出轻松微笑，但保持目光警觉，说道：'我想玩得更长久一点，AI_Player3，你喜欢冒险吗？'",
+                    "next_player": "AI_Player3",
+                    "was_challenged": true,
+                    "challenge_reason": "AI_Player2的行为模式值得注意。首先，他保持轻松但警觉的微笑，似乎在暗示自己有信心。其次，我们对他的风格并不了解，但在心理博弈中，初期表现出轻松可能是为了误导玩家。在当前的局势下，由于AI_Player2仅宣布打出2张目标牌且剩余3张手牌，这种比例可能包含欺骗的成分。此外，他主动以言语挑衅我的风险偏好，这可能是试图降低我的质疑意愿，因此我选择质疑他，以验证他是否真的打出了目标牌。",
+                    "challenge_result": true,
+                    "play_thinking": "",
+                    "challenge_thinking": ""
+                }
+            ],
+            "round_result": {
+                "shooter_name": "AI_Player2",
+                "bullet_hit": true
+            }
+        }
+    ],
+    "winner": null
+}
