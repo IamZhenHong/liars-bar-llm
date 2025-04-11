@@ -17,11 +17,10 @@ services:
       - PYTHONUNBUFFERED=1
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prototype.rule=Host(`prototype.ai-labs.vip`) && PathPrefix(`/liars`)"
+      - "traefik.http.routers.prototype.rule=Host(`prototype.ai-labs.vip`)"
       - "traefik.http.routers.prototype.entrypoints=websecure"
       - "traefik.http.routers.prototype.service=prototype-svc"
       - "traefik.http.routers.prototype.tls.certresolver=myresolver"
       - "traefik.http.services.prototype-svc.loadbalancer.server.port=8000"
-      - "traefik.http.routers.prototype.middlewares=strip-liars-prefix@docker,office-whitelist@file"
-      - "traefik.http.middlewares.strip-liars-prefix.stripPrefix.prefixes=/liars"
+      - "traefik.http.routers.prototype.middlewares=office-whitelist@file"
     restart: unless-stopped
