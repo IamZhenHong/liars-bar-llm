@@ -214,19 +214,19 @@
         }, 50);
       }
 
-      if (data.type === "game_state") {
-        const stateLog = document.getElementById("game-state-log");
+        if (data.type === "game_state") {
+          const stateLog = document.getElementById("game-state-log");
 
-        // Clear previous content
-        stateLog.innerHTML = "";
+          // Clear previous content
+          stateLog.innerHTML = "";
 
-        // Create new entry
-        const stateEntry = document.createElement("p");
-        stateEntry.textContent = data.state_message;
+          // Create new entry
+          const stateEntry = document.createElement("pre"); // Use <pre> to preserve line breaks
+          stateEntry.textContent = data.message; // Use 'message', not 'state_message'
 
-        // Add new state message
-        stateLog.appendChild(stateEntry);
-      }
+          // Add new state message
+          stateLog.appendChild(stateEntry);
+        }
 
     }
 
