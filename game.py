@@ -263,8 +263,27 @@ class Game:
             self.current_player_idx = self.find_next_player_with_cards(self.current_player_idx)
             return
 
+
         if self.check_other_players_no_cards(current_player):
             await self.handle_system_challenge(current_player)
+            if not current_player.alive:
+                print("Last player with cards is eliminated!")
+                await self.send_announcement("Last player with cards is eliminated!")
+                self.game_record.record_shooting(
+                    shooter_name="无",
+                    bullet_hit=False
+                )
+                await self.send_announcement("Round ends")
+                await self.reset_round(record_shooter=False)
+                return
+
+            if not current_player.hand:
+                print("Last player with cards has no cards left!")
+                await self.send_announcement("Last player with cards has no cards left!")
+                self.game_over = True
+                await self.send_announcement(f"{current_player.name} wins!")
+
+
             return
 
         print(f"Current player: {current_player.name}")
@@ -292,22 +311,23 @@ class Game:
                     challenge_thinking=""
                 )
                 await asyncio.sleep(1.5)
-                
-        if not current_player.hand:
-            human_player = next((p for p in self.players if p.is_human), None)
-            if human_player:
-                await websocket_manager.send(human_player.name, {
-                    "type": "game_over",
-                    "message": f"{current_player.name} has no cards left! {current_player.name} wins!"
-                })
-            self.game_over = True
-            return
 
-        if self.all_human_players_eliminated():
-            print("All human players eliminated!")
-            await self.send_announcement("All human players eliminated!")
-            self.game_over = True
-            return
+                
+        # if not current_player.hand:
+        #     human_player = next((p for p in self.players if p.is_human), None)
+        #     if human_player:
+        #         await websocket_manager.send(human_player.name, {
+        #             "type": "game_over",
+        #             "message": f"{current_player.name} has no cards left! {current_player.name} wins!"
+        #         })
+        #     self.game_over = True
+        #     return
+
+        # if self.all_human_players_eliminated():
+        #     print("All human players eliminated!")
+        #     await self.send_announcement("All human players eliminated!")
+        #     self.game_over = True
+        #     return
 
         self.current_player_idx = next_idx
         # await self.handle_reflection()
