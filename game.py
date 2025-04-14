@@ -262,6 +262,9 @@ class Game:
 
     async def play_round(self) -> None:
 
+        await self.announce_current_game_state()
+            
+
         
         current_player = self.players[self.current_player_idx]
         if not current_player.alive or not current_player.hand:
@@ -341,12 +344,11 @@ class Game:
         await asyncio.sleep(3)
 
     async def announce_current_game_state(self) -> None:
-        print("Current game state:")
-        await websocket_manager.send("game_state", {
-            "type": "game_state",
-            "message": self.print_all_player_states()
-        })
-        await asyncio.sleep(1)
+        for name in human_player_names:
+            await websocket_manager.send(name, {
+                "type": "game_state",
+                "message": self.print_all_player_states()
+            })
         await asyncio.sleep(1.5)
 
     async def start_game(self) -> None:
@@ -358,5 +360,3 @@ class Game:
         self.start_round_record()
         while not self.game_over:
             await self.play_round()
-            await self.announce_current_game_state()
-            
