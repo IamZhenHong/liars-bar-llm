@@ -262,7 +262,9 @@ class Game:
 
     async def play_round(self) -> None:
 
+        print("Sending game state to all players")
         await self.announce_current_game_state()
+        print("Sent game state to all players")
             
 
         
