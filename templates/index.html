@@ -215,16 +215,19 @@
       }
 
       if (data.type === "game_state") {
-        // Update the game state log; each new message replaces the old one.
         const stateLog = document.getElementById("game-state-log");
-        stateLog.innerHTML = ""; // clear previous state
-        const placeholder = document.getElementById("game-state-placeholder");
-        if (placeholder) placeholder.remove();
 
+        // Clear previous content
+        stateLog.innerHTML = "";
+
+        // Create new entry
         const stateEntry = document.createElement("p");
         stateEntry.textContent = data.state_message;
+
+        // Add new state message
         stateLog.appendChild(stateEntry);
       }
+
     }
 
     function submitPlay() {
