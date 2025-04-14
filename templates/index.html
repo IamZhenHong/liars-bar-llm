@@ -18,6 +18,16 @@
       overflow-y: auto;
       background: #f9f9f9;
     }
+    /* Game State Log CSS */
+    #game-state-container {
+      margin-top: 20px;
+    }
+    #game-state-log {
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 40px;
+      background: #eef;
+    }
   </style>
 </head>
 <body>
@@ -61,11 +71,19 @@
     </div>
   </div>
 
-  <!-- Announcement Log is placed outside the game interface so it's always visible -->
+  <!-- Announcement Log -->
   <div id="announcement-log-container">
     <h3>Announcement Log</h3>
     <div id="announcement-log">
       <p id="announcement-placeholder">No announcements yet.</p>
+    </div>
+  </div>
+
+  <!-- Game State Log -->
+  <div id="game-state-container">
+    <h3>Game State</h3>
+    <div id="game-state-log">
+      <p id="game-state-placeholder">No game state available yet.</p>
     </div>
   </div>
 
@@ -88,8 +106,6 @@
       playerName = humanNames[0];
       const protocol = window.location.protocol === "https:" ? "wss" : "ws";
       socket = new WebSocket(`${protocol}://${window.location.host}/ws/${playerName}`);
-
-    //   socket = new WebSocket(`ws://${window.location.host}/ws/${playerName}`);
       socket.onmessage = handleSocketMessage;
       socket.onopen = () => console.log("WebSocket connected to server");
       socket.onerror = (e) => console.error("WebSocket error:", e);
@@ -196,6 +212,18 @@
         setTimeout(() => {
           logContainer.scrollTop = logContainer.scrollHeight;
         }, 50);
+      }
+
+      if (data.type === "game_state") {
+        // Update the game state log; each new message replaces the old one.
+        const stateLog = document.getElementById("game-state-log");
+        stateLog.innerHTML = ""; // clear previous state
+        const placeholder = document.getElementById("game-state-placeholder");
+        if (placeholder) placeholder.remove();
+
+        const stateEntry = document.createElement("p");
+        stateEntry.textContent = data.state_message;
+        stateLog.appendChild(stateEntry);
       }
     }
 

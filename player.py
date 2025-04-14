@@ -181,7 +181,7 @@ class Player:
                             return result, reasoning_content
             except Exception as e:
                 print(f"[ERROR] Attempt {attempt+1} failed to parse challenge decision: {str(e)}")
-                await self.send_announcement(f"[ERROR] Attempt {attempt+1} failed to parse challenge decision: {str(e)}")
+                # await self.send_announcement(f"[ERROR] Attempt {attempt+1} failed to parse challenge decision: {str(e)}")
         raise RuntimeError(f"[FAIL] {self.name} failed to decide challenge")
 
     async def reflect(self, alive_players: List[str], round_base_info: str, round_action_info: str, round_result: str) -> None:

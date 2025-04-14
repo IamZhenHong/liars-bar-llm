@@ -202,6 +202,9 @@ class Game:
     async def handle_system_challenge(self, current_player: Player) -> None:
         print(f"System challenges {current_player.name}'s hand")
         await self.send_announcement(f"System challenges {current_player.name}'s hand")
+        await asyncio.sleep(1)
+        await self.send_announcement(f"{current_player.name} left with {len(current_player.hand)} cards")
+        await asyncio.sleep(1)
         all_cards = current_player.hand.copy()
         current_player.hand.clear()
         self.game_record.record_play(
@@ -258,6 +261,8 @@ class Game:
 
 
     async def play_round(self) -> None:
+
+        
         current_player = self.players[self.current_player_idx]
         if not current_player.alive or not current_player.hand:
             self.current_player_idx = self.find_next_player_with_cards(self.current_player_idx)
@@ -335,6 +340,15 @@ class Game:
 
         await asyncio.sleep(3)
 
+    async def announce_current_game_state(self) -> None:
+        print("Current game state:")
+        await websocket_manager.send("game_state", {
+            "type": "game_state",
+            "message": self.print_all_player_states()
+        })
+        await asyncio.sleep(1)
+        await asyncio.sleep(1.5)
+
     async def start_game(self) -> None:
         print("Game loop begins")
         await self.send_announcement("Game loop begins")
@@ -344,4 +358,5 @@ class Game:
         self.start_round_record()
         while not self.game_over:
             await self.play_round()
+            await self.announce_current_game_state()
             
