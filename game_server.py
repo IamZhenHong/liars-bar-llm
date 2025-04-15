@@ -55,8 +55,8 @@ async def start_game(data: dict = Body(...)):
             if name in websocket_manager.pending_responses:
                 break
             await asyncio.sleep(0.1)
-        else:
-            raise RuntimeError(f"❌ Player '{name}' did not connect to WebSocket in time")
+        # else:
+        #     raise RuntimeError(f"❌ Player '{name}' did not connect to WebSocket in time")
     await current_game.start_game()
     return {"status": "started", "players": [p["name"] for p in all_players]}
 

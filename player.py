@@ -69,15 +69,20 @@ class Player:
         await asyncio.sleep(4)
 
         if self.is_human:
-            await websocket_manager.send(self.name, {
-                "type": "your_turn",
-                "player": self.name,
-                "hand": self.hand,
-                "round_info": round_base_info,
-                "action_info": round_action_info,
-                "decision_info": play_decision_info
-            })
-            data = await websocket_manager.wait_for_response(self.name)
+            for name in human_player_names:
+                if name in websocket_manager.pending_responses:
+                    await websocket_manager.send(name, {
+                        "type": "your_turn",
+                        "player": self.name,
+                        "hand": self.hand,
+                        "round_info": round_base_info,
+                        "action_info": round_action_info,
+                        "decision_info": play_decision_info
+                    })
+                    temp_name = name
+
+            
+            data = await websocket_manager.wait_for_response(temp_name)     
             await self.send_announcement(f"[TURN] {self.name} played cards: {data['played_cards']}")
             for card in data["played_cards"]:
                 if card in self.hand:
@@ -134,16 +139,21 @@ class Player:
         await self.send_announcement(f"[CHALLENGE] {self.name} is deciding whether to challenge")
 
         if self.is_human:
-            await websocket_manager.send(self.name, {
-                "type": "challenge_request",
-                "player": self.name,
-                "round_info": round_base_info,
-                "action_info": round_action_info,
-                "challenge_decision_info": challenge_decision_info,
-                "challenging_player_performance": challenging_player_performance,
-                "extra_hint": extra_hint
-            })
-            data = await websocket_manager.wait_for_response(self.name)
+            # self.name
+            for name in human_player_names:
+                if name in websocket_manager.pending_responses:
+                    await websocket_manager.send(name, {
+                        "type": "challenge_request",
+                        "player": self.name,
+                        "round_info": round_base_info,
+                        "action_info": round_action_info,
+                        "challenge_decision_info": challenge_decision_info,
+                        "challenging_player_performance": challenging_player_performance,
+                        "extra_hint": extra_hint
+                    })
+                    temp_name = name
+
+            data = await websocket_manager.wait_for_response(temp_name)
             # if data["was_challenged"]:
             #     await self.send_announcement(f"[CHALLENGE] {self.name} decided to challenge")
             #     await asyncio.sleep(1)
