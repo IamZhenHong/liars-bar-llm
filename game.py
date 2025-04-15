@@ -10,7 +10,7 @@ from human_player_names import human_player_names
 class Game:
     def __init__(self, player_configs: List[Dict[str, str]]) -> None:
         self.players = [
-            Player(config["name"], config["model"], config.get("is_human", False))
+            Player(config["name"], config["model"], config.get("is_human", False), config.get("personality", ""))
             for config in player_configs
         ]
 

@@ -12,9 +12,10 @@ CHALLENGE_PROMPT_TEMPLATE_PATH = "prompt/challenge_prompt_template.txt"
 REFLECT_PROMPT_TEMPLATE_PATH = "prompt/reflect_prompt_template.txt"
 
 class Player:
-    def __init__(self, name: str, model_name: str, is_human: bool = False):
+    def __init__(self, name: str, model_name: str, is_human: bool = False, personality: str = ""):
 
         self.name = name
+        self.personality = personality
         self.hand = []
         self.alive = True
         self.bullet_position = random.randint(0, 5)
@@ -105,6 +106,7 @@ class Player:
             current_cards=current_cards
         )
         for attempt in range(5):
+            prompt += f"This is your personality: {self.personality}"
             messages = [{"role": "user", "content": prompt}]
             try:
                 content, reasoning_content = self.llm_client.chat(messages, model=self.model_name)
@@ -179,6 +181,7 @@ class Player:
             extra_hint=extra_hint
         )
         for attempt in range(5):
+            prompt += f"This is your personality: {self.personality}"
             messages = [{"role": "user", "content": prompt}]
             try:
                 content, reasoning_content = self.llm_client.chat(messages, model=self.model_name)
