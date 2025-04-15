@@ -33,6 +33,8 @@ async def get_index(request: Request):
 async def start_game(data: dict = Body(...)):
     global current_game
 
+    print("Received start_game request with data:", data)
+
     human_players = data.get("human_names", [])
     human_player_names.clear()
     human_player_names.extend(human_players)
