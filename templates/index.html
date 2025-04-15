@@ -43,6 +43,7 @@
       <form id="start-game-form">
         <label>Number of human players: <input type="number" id="num-humans" min="1" max="4"></label>
         <div id="human-names"></div>
+        <div id="ai-personalities"></div>
         <button type="submit">Start Game</button>
       </form>
     </div>
@@ -95,13 +96,41 @@
     let socket = null;
     let playerName = "";
 
+    document.getElementById("num-humans").addEventListener("change", () => {
+      const num = parseInt(document.getElementById("num-humans").value, 10);
+      const humanContainer = document.getElementById("human-names");
+      const aiContainer = document.getElementById("ai-personalities");
+
+      humanContainer.innerHTML = "<h3>Human Player Names</h3>";
+      aiContainer.innerHTML = "<h3>AI Personalities</h3>";
+
+      for (let i = 0; i < num; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = `Human player ${i + 1} name`;
+        input.className = "human-name";
+        input.required = true;
+        humanContainer.appendChild(input);
+      }
+
+      const remainingAI = 4 - num;
+      for (let i = 0; i < remainingAI; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = `AI player ${i + 1} personality`;
+        input.className = "ai-personality";
+        aiContainer.appendChild(input);
+      }
+    });
+
     document.getElementById("start-game-form").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const numHumans = parseInt(document.getElementById("num-humans").value);
       const nameInputs = document.querySelectorAll(".human-name");
+      const personalityInputs = document.querySelectorAll(".ai-personality");
       const humanNames = Array.from(nameInputs).map(input => input.value.trim()).filter(name => name);
-
+      const aiPersonalities = Array.from(personalityInputs).map(input => input.value.trim());
       if (humanNames.length !== numHumans) {
         alert("Please fill in all human player names.");
         return;
@@ -118,7 +147,7 @@
       const response = await fetch("/start_game", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ human_names: humanNames })
+        body: JSON.stringify({ human_names: humanNames, ai_personalities: aiPersonalities})
       });
 
       if (response.ok) {
