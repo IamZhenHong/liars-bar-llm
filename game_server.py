@@ -36,26 +36,35 @@ async def start_game(data: dict = Body(...)):
     print("Received start_game request with data:", data)
 
     human_players = data.get("human_names", [])
-    ai_names = data.get("ai_names", [])  # expects a list of AI player names
+    ai_players = data.get("ai_players", [])  # now expecting list of dicts
+
     human_player_names.clear()
     human_player_names.extend(human_players)
     all_players = []
 
     print("Starting game with human players:", human_players)
     for name in human_players:
-        all_players.append({"name": name, "model": "human", "is_human": True})
+        all_players.append({
+            "name": name,
+            "model": "human",
+            "is_human": True
+        })
 
-    print("Adding AI players:", ai_names)
-    for name in ai_names:
+    for ai in ai_players:
         if len(all_players) >= 4:
             break
-        all_players.append({"name": name, "model": "o3-mini", "is_human": False})
+        all_players.append({
+            "name": ai["name"],
+            "model": "o3-mini",  # could later use personality to choose model
+            "is_human": False,
+            "personality": ai.get("personality", "")
+        })
 
     current_game = Game(all_players)
     print("Game initialized with players:", all_players)
 
     for name in human_players:
-        for _ in range(50):  # wait up to 5 seconds per user
+        for _ in range(50):  # wait up to 5 seconds
             if name in websocket_manager.pending_responses:
                 break
             await asyncio.sleep(0.1)
