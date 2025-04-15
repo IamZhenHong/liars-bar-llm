@@ -36,15 +36,16 @@ async def start_game(data: dict = Body(...)):
     print("Received start_game request with data:", data)
 
     human_players = data.get("human_names", [])
+    ai_names = data.get("ai_names", [])  # expects a list of AI player names
     human_player_names.clear()
     human_player_names.extend(human_players)
     all_players = []
 
-    print("Starting game with players!!!!!!!:", human_players)
+    print("Starting game with human players:", human_players)
     for name in human_players:
         all_players.append({"name": name, "model": "human", "is_human": True})
 
-    ai_names = ["AI_Player1", "AI_Player2", "AI_Player3"]
+    print("Adding AI players:", ai_names)
     for name in ai_names:
         if len(all_players) >= 4:
             break
@@ -52,13 +53,13 @@ async def start_game(data: dict = Body(...)):
 
     current_game = Game(all_players)
     print("Game initialized with players:", all_players)
+
     for name in human_players:
         for _ in range(50):  # wait up to 5 seconds per user
             if name in websocket_manager.pending_responses:
                 break
             await asyncio.sleep(0.1)
-        # else:
-        #     raise RuntimeError(f"❌ Player '{name}' did not connect to WebSocket in time")
+
     await current_game.start_game()
     return {"status": "started", "players": [p["name"] for p in all_players]}
 
