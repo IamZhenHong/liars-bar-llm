@@ -43,7 +43,7 @@
       <form id="start-game-form">
         <label>Number of human players: <input type="number" id="num-humans" min="1" max="4"></label>
         <div id="human-names"></div>
-        <div id="ai-personalities"></div>
+        <div id="ai-personalities"><h3>AI Players</h3></div>
         <button type="submit">Start Game</button>
       </form>
     </div>
@@ -97,44 +97,57 @@
     let playerName = "";
 
     document.getElementById("num-humans").addEventListener("change", () => {
-      const num = parseInt(document.getElementById("num-humans").value, 10);
-      const humanContainer = document.getElementById("human-names");
-      const aiContainer = document.getElementById("ai-personalities");
+  const num = parseInt(document.getElementById("num-humans").value, 10);
+  const humanContainer = document.getElementById("human-names");
+  const aiContainer = document.getElementById("ai-personalities");
 
-      humanContainer.innerHTML = "<h3>Human Player Names</h3>";
-      aiContainer.innerHTML = "<h3>AI Personalities</h3>";
+  humanContainer.innerHTML = "<h3>Human Player Names</h3>";
+  aiContainer.innerHTML = "<h3>AI Players</h3>";
 
-      for (let i = 0; i < num; i++) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = `Human player ${i + 1} name`;
-        input.className = "human-name";
-        input.required = true;
-        humanContainer.appendChild(input);
-      }
+  for (let i = 0; i < num; i++) {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = `Human player ${i + 1} name`;
+    input.className = "human-name";
+    input.required = true;
+    humanContainer.appendChild(input);
+  }
 
-      const remainingAI = 4 - num;
-      for (let i = 0; i < remainingAI; i++) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = `AI player ${i + 1} personality`;
-        input.className = "ai-personality";
-        aiContainer.appendChild(input);
-      }
-    });
+  const remainingAI = 4 - num;
+  for (let i = 0; i < remainingAI; i++) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "ai-player-block";
+
+    const nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.placeholder = `AI player ${i + 1} name`;
+    nameInput.className = "ai-name";
+    nameInput.required = true;
+
+    const personalityInput = document.createElement("input");
+    personalityInput.type = "text";
+    personalityInput.placeholder = `AI player ${i + 1} personality`;
+    personalityInput.className = "ai-personality";
+
+    wrapper.appendChild(nameInput);
+    wrapper.appendChild(personalityInput);
+    aiContainer.appendChild(wrapper);
+  }
+});
+
 
     document.getElementById("start-game-form").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const numHumans = parseInt(document.getElementById("num-humans").value);
       const nameInputs = document.querySelectorAll(".human-name");
-      const personalityInputs = document.querySelectorAll(".ai-personality");
+      const aiNameInputs = document.querySelectorAll(".ai-name");
+      const aiPersonalityInputs = document.querySelectorAll(".ai-personality");
       const humanNames = Array.from(nameInputs).map(input => input.value.trim()).filter(name => name);
-      const aiPersonalities = Array.from(personalityInputs).map(input => input.value.trim());
-      if (humanNames.length !== numHumans) {
-        alert("Please fill in all human player names.");
-        return;
-      }
+      const aiPlayers = Array.from(aiNameInputs).map((input, i) => ({
+  name: input.value.trim(),
+  personality: aiPersonalityInputs[i]?.value.trim() || ""
+}));
 
       playerName = humanNames[0];
       const protocol = window.location.protocol === "https:" ? "wss" : "ws";
@@ -147,7 +160,7 @@
       const response = await fetch("/start_game", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ human_names: humanNames, ai_personalities: aiPersonalities})
+        body: JSON.stringify({ human_names: humanNames, ai_players: aiPlayers })
       });
 
       if (response.ok) {
