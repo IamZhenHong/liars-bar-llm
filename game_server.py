@@ -45,37 +45,22 @@ async def start_game(data: dict = Body(...)):
     print("Starting Ludo game with human players:", human_players)
     colors = ["red", "blue", "green", "yellow"]  # Ludo has 4 standard colors
 
-    for i, name in enumerate(human_players):
+     for i, name in enumerate(human_players):
         all_players.append({
             "name": name,
             "is_human": True,
-            "color": colors[i % len(colors)]
+            "color": colors[i]
         })
-    
 
-    print("Human players added:", all_players)
-    
-    for ai in ai_players:
-        if len(all_players) >= 4:
-            break
+    # then AIs, exactly as many as the user picked
+    for j, ai in enumerate(ai_players, start=len(human_players)):
         all_players.append({
             "name": ai["name"],
-            "model": "o3-mini",
             "is_human": False,
+            "model": ai.get("model", "o3-mini"),
             "personality": ai.get("personality", ""),
-            "color": colors[len(all_players) % len(colors)]
+            "color": colors[j]   # j runs  number-of-humans … number-of-humans+ai-1
         })
-
-
-    current_game = LudoGame(all_players)  # changed class name
-    print("Game initialized with players:", all_players)
-
-    for name in human_players:
-        for _ in range(10):
-            if name in websocket_manager.pending_responses:
-                break
-            await asyncio.sleep(0.1)
-
     await current_game.start_game()  # no change
     return {"status": "started", "players": [p["name"] for p in all_players]}
 
