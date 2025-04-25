@@ -61,6 +61,16 @@ async def start_game(data: dict = Body(...)):
             "personality": ai.get("personality", ""),
             "color": colors[j]   # j runs  number-of-humans … number-of-humans+ai-1
         })
+
+    current_game = LudoGame(all_players)  # changed class name
+    print("Game initialized with players:", all_players)
+
+    for name in human_players:
+        for _ in range(10):
+            if name in websocket_manager.pending_responses:
+                break
+            await asyncio.sleep(0.1)
+
     await current_game.start_game()  # no change
     return {"status": "started", "players": [p["name"] for p in all_players]}
 
