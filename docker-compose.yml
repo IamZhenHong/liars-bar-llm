@@ -17,10 +17,10 @@ services:
       - PYTHONUNBUFFERED=1
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prototype.rule=Host(`ludo.prototype.ai-labs.vip`)"
-      - "traefik.http.routers.prototype.entrypoints=websecure"
-      - "traefik.http.routers.prototype.service=ludo-prototype-svc"
-      - "traefik.http.routers.prototype.tls.certresolver=myresolver"
-      - "traefik.http.services.prototype-svc.loadbalancer.server.port=8000"
-      - "traefik.http.routers.prototype.middlewares=office-whitelist@file,prototype-basic-auth@file"
+      - "traefik.http.routers.ludo.rule=Host(`ludo.prototype.ai-labs.vip`)"
+      - "traefik.http.routers.ludo.entrypoints=websecure"
+      - "traefik.http.routers.ludo.tls.certresolver=myresolver"
+      - "traefik.http.routers.ludo.service=ludo-prototype-svc"
+      - "traefik.http.services.ludo-prototype-svc.loadbalancer.server.port=8000"
+      - "traefik.http.routers.ludo.middlewares=office-whitelist@file,prototype-basic-auth@file"
     restart: unless-stopped
