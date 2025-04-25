@@ -45,7 +45,7 @@ async def start_game(data: dict = Body(...)):
     print("Starting Ludo game with human players:", human_players)
     colors = ["red", "blue", "green", "yellow"]  # Ludo has 4 standard colors
 
-     for i, name in enumerate(human_players):
+    for i, name in enumerate(human_players):
         all_players.append({
             "name": name,
             "is_human": True,
