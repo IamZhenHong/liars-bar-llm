@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Body
 from websocket_manager import websocket_router, websocket_manager
-from game import Game
+from game import LudoGame  # updated to import LudoGame
 import asyncio
 from human_player_names import human_player_names
 
@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-current_game: Game = None
+current_game: LudoGame = None  # Update type annotation
 
 @app.get("/", response_class=HTMLResponse)
 async def get_index(request: Request):
@@ -36,47 +36,52 @@ async def start_game(data: dict = Body(...)):
     print("Received start_game request with data:", data)
 
     human_players = data.get("human_names", [])
-    ai_players = data.get("ai_players", [])  # now expecting list of dicts
+    ai_players = data.get("ai_players", [])
 
     human_player_names.clear()
     human_player_names.extend(human_players)
     all_players = []
 
-    print("Starting game with human players:", human_players)
-    for name in human_players:
+    print("Starting Ludo game with human players:", human_players)
+    colors = ["red", "blue", "green", "yellow"]  # Ludo has 4 standard colors
+
+    for i, name in enumerate(human_players):
         all_players.append({
             "name": name,
-            "model": "human",
-            "is_human": True
+            "is_human": True,
+            "color": colors[i % len(colors)]
         })
+    
 
+    print("Human players added:", all_players)
+    
     for ai in ai_players:
         if len(all_players) >= 4:
             break
         all_players.append({
             "name": ai["name"],
-            "model": "o3-mini",  # could later use personality to choose model
+            "model": "o3-mini",
             "is_human": False,
-            "personality": ai.get("personality", "")
+            "personality": ai.get("personality", ""),
+            "color": colors[len(all_players) % len(colors)]
         })
 
-    current_game = Game(all_players)
+
+    current_game = LudoGame(all_players)  # changed class name
     print("Game initialized with players:", all_players)
 
     for name in human_players:
-        for _ in range(50):  # wait up to 5 seconds
+        for _ in range(10):
             if name in websocket_manager.pending_responses:
                 break
             await asyncio.sleep(0.1)
 
-    await current_game.start_game()
+    await current_game.start_game()  # no change
     return {"status": "started", "players": [p["name"] for p in all_players]}
 
 @app.on_event("startup")
 async def startup_event():
-    print("✅ Server ready at http://localhost:8000")
-
-    # Example: game_server.py
+    print("✅ Ludo Server ready at http://localhost:8000")
 
 if __name__ == "__main__":
     import uvicorn

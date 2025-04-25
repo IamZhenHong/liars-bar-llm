@@ -32,6 +32,41 @@
       white-space: pre-wrap;   /* Preserve line breaks in <pre> */
     }
 
+    #ludo-board {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  width: 450px;      /* or whatever fixed pixel size you like */
+  height: 450px;
+  gap: 2px;
+  border: 2px solid #333;
+}
+.cell {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.token {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  border-radius: 50%;
+}
+
+  .red { background-color: red; }
+  .blue { background-color: blue; }
+  .green { background-color: green; }
+  .yellow { background-color: gold; }
+
+  .red-home    { background: #f8d7da; }
+.blue-home   { background: #d1ecf1; }
+.green-home  { background: #d4edda; }
+.yellow-home { background: #fff3cd; }
+.safe        { box-shadow: inset 0 0 0 2px #333; }
+
+
   </style>
 </head>
 <body>
@@ -51,29 +86,31 @@
     <div id="game-interface" style="display:none">
       <h2 id="status"></h2>
 
-      <div id="play-form" style="display:none">
-        <h3>Your Turn</h3>
-        <p id="hand-display"></p>
-        <input type="text" id="played-cards" placeholder="Enter cards (e.g. K K Joker)">
-        <input type="text" id="reason" placeholder="Why did you play these cards?">
-        <input type="text" id="behavior" placeholder="Describe your behavior (e.g. smug smile)">
-        <button onclick="submitPlay()">Submit Play</button>
-      </div>
 
-      <div id="challenge-form" style="display:none">
-        <h3>Challenge Decision</h3>
-        <p id="challenge-info"></p>
-        <button onclick="submitChallenge(true)">Challenge</button>
-        <button onclick="submitChallenge(false)">Don't Challenge</button>
-        <input type="text" id="challenge-reason" placeholder="Why? (if challenging)">
-      </div>
 
-      <div id="reflect-form" style="display:none">
-        <h3>Reflection Phase</h3>
-        <div id="reflection-entries"></div>
-        <button onclick="submitReflection()">Submit Reflections</button>
+    <div id="roll-dice-form" style="display:none">
+      <h3>Your Turn — Roll the Dice 🎲</h3>
+      <button onclick="submitRollDice()">Roll</button>
+    </div>
+    
+    <div id="token-select-form" style="display:none">
+      <h3>Choose a Token to Move</h3>
+      <div id="token-options"></div>
+      <button onclick="submitTokenMove()">Move Token</button>
+    </div>
+    
+
+    <div id="ludo-board-container">
+      <h3>Ludo Board</h3>
+      <div id="ludo-board"></div>
+
+        <!-- Board squares will be generated dynamically -->
       </div>
     </div>
+    
+    
+
+
   </div>
 
   <!-- Announcement Log -->
@@ -95,6 +132,8 @@
   <script>
     let socket = null;
     let playerName = "";
+
+    
 
     document.getElementById("num-humans").addEventListener("change", () => {
   const num = parseInt(document.getElementById("num-humans").value, 10);
@@ -191,45 +230,113 @@
       }
     });
 
+
+
+    function isStarSquare(idx) {
+    return false;
+  }
+
+  const gridSize = 15;
+
+  const safeOffsets = new Set([0, 7, 14, 21, 28, 35, 42, 49]);
+
+  function rowColToIndex(r, c){ return r*gridSize + c; }
+
+    function rowColToIndex(r, c) {
+      return r * gridSize + c;
+    }
+
+    // Build the 52‐step outer loop once
+    function getOuterLoop() {
+      const cells = [];
+      // Bottom row, left→right
+      for (let col = 0; col < gridSize; col++) {
+        cells.push(rowColToIndex(gridSize - 1, col));
+      }
+      // Right column, bottom-1→top
+      for (let row = gridSize - 2; row >= 0; row--) {
+        cells.push(rowColToIndex(row, gridSize - 1));
+      }
+      // Top row, right-1→left
+      for (let col = gridSize - 2; col >= 0; col--) {
+        cells.push(rowColToIndex(0, col));
+      }
+      // Left column, top+1→bottom-1
+      for (let row = 1; row < gridSize - 1; row++) {
+        cells.push(rowColToIndex(row, 0));
+      }
+      return cells.slice(0, 52);
+    }
+
+    const basePath = getOuterLoop();
+
+    const safeCells = new Set(
+  [...safeOffsets].map(offset => basePath[offset])
+);
+
+    function rotatePath(path, offset) {
+  return path.slice(offset).concat(path.slice(0, offset));
+}
+
+const pathMapping = {
+  yellow: rotatePath(basePath,  0),  // (14,0) bottom-left → yellow-home
+  green:  rotatePath(basePath, 14),  // (14,14) bottom-right → green-home
+  blue:   rotatePath(basePath, 28),  // (0,14) top-right    → blue-home
+  red:    rotatePath(basePath, 42),  // (0,0)  top-left     → red-home
+};
+
+function updateBoard(players) {
+    document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
+
+    players.forEach(player => {
+      const map = pathMapping[player.color];
+      player.tokens.forEach(pos => {
+        if (pos != null && map[pos] != null) {
+          const cell = document.querySelectorAll(".cell")[ map[pos] ];
+          const dot  = document.createElement("div");
+          dot.className = `token ${player.color}`;
+          cell.appendChild(dot);
+        }
+      });
+    });
+  }
+
+      function generateLudoGrid() {
+      const board = document.getElementById("ludo-board");
+      board.innerHTML = "";
+
+      for (let row = 0; row < gridSize; row++) {
+        for (let col = 0; col < gridSize; col++) {
+          const idx = row * gridSize + col;
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+
+          // colour the home quadrants…
+          if (row < 6 && col < 6)       cell.classList.add("red-home");
+          else if (row < 6 && col > 8)  cell.classList.add("blue-home");
+          else if (row > 8 && col < 6)  cell.classList.add("yellow-home");
+          else if (row > 8 && col > 8)  cell.classList.add("green-home");
+
+          // now highlight safe spots
+          if (safeCells.has(idx))       cell.classList.add("safe");
+
+          board.appendChild(cell);
+        }
+      }
+    }
+
+
+    generateLudoGrid();
+
     function handleSocketMessage(event) {
       const data = JSON.parse(event.data);
       console.log("[WS] Received:", data);
 
       if (data.type === "your_turn") {
-        document.getElementById("game-interface").style.display = "block";
-        document.getElementById("play-form").style.display = "block";
-        document.getElementById("hand-display").textContent = `Your hand: ${data.hand.join(", ")}`;
-        document.getElementById("played-cards").value = "";
-        document.getElementById("reason").value = "";
-        document.getElementById("behavior").value = "";
+        console.log(`[WS] ${data.player}'s turn — rolled: ${data.roll}`);
+        showTokenSelection(data.tokens, data.movableIndexes);
       }
 
-      if (data.type === "challenge_request") {
-        document.getElementById("game-interface").style.display = "block";
-        document.getElementById("challenge-form").style.display = "block";
-        document.getElementById("challenge-info").textContent = data.challenging_player_performance + ' ' + data.extra_hint;
-        document.getElementById("challenge-reason").value = "";
-      }
-
-      if (data.type === "reflect") {
-        console.log("💬 Received reflection prompt");
-
-        const container = document.getElementById("reflection-entries");
-        container.innerHTML = "";
-
-        for (const [player, currentOpinion] of Object.entries(data.opinions)) {
-          const div = document.createElement("div");
-          div.innerHTML = `
-            <label>${player}（当前印象：${currentOpinion}）:
-                <input type="text" data-player="${player}" placeholder="更新印象（可选）">
-            </label>
-          `;
-          container.appendChild(div);
-        }
-
-        document.getElementById("game-interface").style.display = "block"; // ensure parent is visible
-        document.getElementById("reflect-form").style.display = "block";
-      }
 
       if (data.type === "game_over") {
         alert(data.message);
@@ -273,53 +380,85 @@
           // Add new state message
           stateLog.appendChild(stateEntry);
         }
+        
+
+        if (data.type === "roll_dice") {
+          console.log(`[WS] ${data.player}'s turn to roll dice`);
+          document.getElementById("game-interface").style.display = "block";
+          document.getElementById("roll-dice-form").style.display = "block";
+        }
+        if (data.type === "board_update") {
+          updateBoard(data.players);
+        }
+
+
 
     }
 
-    function submitPlay() {
-      const cards = document.getElementById("played-cards").value.trim().split(" ").filter(card => card);
-      const reason = document.getElementById("reason").value.trim();
-      const behavior = document.getElementById("behavior").value.trim();
+    function updateBoard(players) {
+  // clear all
+  document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
 
+  players.forEach(player => {
+    const map = pathMapping[player.color];
+    player.tokens.forEach(pos => {
+      if (pos != null) {
+        const cellIndex = map[pos];
+        const cell = document.querySelectorAll(".cell")[cellIndex];
+        const dot  = document.createElement("div");
+        dot.className = `token ${player.color}`;
+        cell.appendChild(dot);
+      }
+    });
+  });
+}
+
+
+    function submitRollDice() {
       socket.send(JSON.stringify({
-        played_cards: cards,
-        play_reason: reason,
-        behavior: behavior
+        type: "roll_dice_result",
+        result: "rolled"  // you can later modify to include actual number if needed
       }));
 
-      document.getElementById("play-form").style.display = "none";
+      document.getElementById("roll-dice-form").style.display = "none";
     }
 
-    function submitChallenge(wasChallenged) {
-      const reason = wasChallenged
-        ? document.getElementById("challenge-reason").value.trim()
-        : "不质疑";
+    function showTokenSelection(tokens, movableIndexes = []) {
+      const container = document.getElementById("token-options");
+      container.innerHTML = "";
 
-      socket.send(JSON.stringify({
-        was_challenged: wasChallenged,
-        challenge_reason: reason
-      }));
-
-      document.getElementById("challenge-form").style.display = "none";
-    }
-
-    function submitReflection() {
-      const inputs = document.querySelectorAll("#reflection-entries input");
-      const updated_opinions = {};
-
-      inputs.forEach(input => {
-        const player = input.getAttribute("data-player");
-        const value = input.value.trim();
-        if (value) updated_opinions[player] = value;
+      movableIndexes.forEach(index => {
+        const pos = tokens[index];
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "token";
+        radio.value = index;
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(` Token ${index + 1} — Position: ${pos === null ? "🏠 Base" : pos}`));
+        container.appendChild(label);
+        container.appendChild(document.createElement("br"));
       });
 
-      socket.send(JSON.stringify({
-        type: "reflection_result",
-        updated_opinions
-      }));
-
-      document.getElementById("reflect-form").style.display = "none";
+      document.getElementById("token-select-form").style.display = "block";
     }
+
+
+  function submitTokenMove() {
+    const selected = document.querySelector('input[name="token"]:checked');
+    if (!selected) {
+      alert("Please select a token to move.");
+      return;
+    }
+
+    socket.send(JSON.stringify({
+      type: "token_move",
+      token_index: parseInt(selected.value)
+    }));
+
+    document.getElementById("token-select-form").style.display = "none";
+  }
+
   </script>
 </body>
 </html>
