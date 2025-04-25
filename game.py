@@ -55,47 +55,77 @@ class LudoGame:
         return (self.current_player_idx + 1) % len(self.players)
 
     async def play_turn(self, player: Player):
-        # Announce start of turn
+        # 0) Announce start of this player's turn
         await self.send_announcement(f"{player.name}'s turn! 🎲")
         await asyncio.sleep(1)
 
-        # Keep going as long as they roll a 6
+        # 1) Loop for extra rolls on a 6
         while True:
-            # 1) Roll
+            # ─── Roll the dice ──────────────────────────────────────────────────────────
             roll = await player.roll_dice()
             await asyncio.sleep(1)
             await self.send_announcement(f"{player.name} rolled a {roll} 🎲")
 
-            # 2) Find movable tokens
+            # ─── Figure out which tokens can move ───────────────────────────────────────
             movable = player.get_movable_tokens(roll)
             if not movable:
                 await asyncio.sleep(1)
                 await self.send_announcement(f"{player.name} has no valid moves")
                 break
 
-            # 3) Choose a token (human vs AI)
+            # ─── Choose a token ────────────────────────────────────────────────────────
             if player.is_human:
-                # … your existing WebSocket logic …
+                # find an active WebSocket connection
+                temp_name = (
+                    player.name
+                    if player.name in websocket_manager.active_connections
+                    else next(
+                        (nm for nm in human_player_names
+                        if nm in websocket_manager.active_connections),
+                        None
+                    )
+                )
+                if not temp_name:
+                    raise RuntimeError(
+                        "❌ No active WebSocket connection available for human players"
+                    )
+
+                # prompt the client to choose
+                await websocket_manager.send(temp_name, {
+                    "type": "your_turn",
+                    "roll": roll,
+                    "tokens": [t.position for t in player.tokens],
+                    "movableIndexes": movable
+                })
+
+                # wait for their selection
                 data = await websocket_manager.wait_for_response(temp_name)
                 chosen_index = data.get("token_index")
             else:
+                # AI picks the first movable
                 await self.send_announcement(f"{player.name} is thinking…")
                 await asyncio.sleep(1)
                 chosen_index = movable[0]
 
-            # 4) Move it
+            # ─── Move the token ────────────────────────────────────────────────────────
             player.move_token(chosen_index, roll)
-
-            # 5) Capture on non-safe ring spots
             new_pos = player.tokens[chosen_index].position
-            if new_pos is not None and new_pos < self.ring_len and new_pos not in self.safe_offsets:
+
+            # ─── Capture logic ─────────────────────────────────────────────────────────
+            if (
+                new_pos is not None
+                and new_pos < self.ring_len
+                and new_pos not in self.safe_offsets
+            ):
                 moved_abs = (self.start_offsets[player.color] + new_pos) % self.ring_len
                 for opponent in self.players:
                     if opponent is player:
                         continue
                     for idx, tok in enumerate(opponent.tokens):
                         if tok.position is not None and tok.position < self.ring_len:
-                            opp_abs = (self.start_offsets[opponent.color] + tok.position) % self.ring_len
+                            opp_abs = (
+                                self.start_offsets[opponent.color] + tok.position
+                            ) % self.ring_len
                             if opp_abs == moved_abs:
                                 tok.position = None
                                 tok.is_home  = False
@@ -103,26 +133,29 @@ class LudoGame:
                                     f"{player.name} captured {opponent.name}'s token #{idx+1}!"
                                 )
 
-            # 6) Broadcast board and announce
+            # ─── Broadcast & announce move ────────────────────────────────────────────
             await self.broadcast_board_update()
             await self.send_announcement(
                 f"{player.name} moved token {chosen_index} to {new_pos}"
             )
 
-            # 7) Win check
+            # ─── Check for win ─────────────────────────────────────────────────────────
             if player.check_win():
                 await self.send_announcement(f"{player.name} wins the game! 🎉")
                 self.game_over = True
-                return  # stop immediately if someone won
+                return  # stop everything immediately
 
-            # 8) Extra roll on a 6
+            # ─── Extra turn on 6? ──────────────────────────────────────────────────────
             if roll == 6:
                 await asyncio.sleep(1)
-                await self.send_announcement(f"{player.name} rolled a 6 and gets another turn!")
-                continue  # loop again with the same player
-            break  # no extra roll, exit loop
+                await self.send_announcement(
+                    f"{player.name} rolled a 6 and gets another turn!"
+                )
+                continue  # go back to top of while → roll again
 
-    # end of play_turn
+            # no extra turn, end this player's play
+            break
+
 
     async def start_game(self):
         await self.send_announcement("Ludo Game Started!")
