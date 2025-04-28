@@ -320,7 +320,7 @@ class Game:
                     result=None,
                     challenge_thinking=""
                 )
-                await asyncio.sleep(1.5)
+                await asyncio.sleep(1)
 
                 
         # if not current_player.hand:
@@ -351,12 +351,12 @@ class Game:
                 "type": "game_state",
                 "message": self.print_all_player_states()
             })
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(1)
 
     async def start_game(self) -> None:
         print("Game loop begins")
         await self.send_announcement("Game loop begins")
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(0.5)
         self.deal_cards()
         self.choose_target_card()
         self.start_round_record()
