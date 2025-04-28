@@ -101,12 +101,12 @@ class Game:
         if not still_alive:
             print(f"{player.name} is eliminated!")
             await self.send_announcement(f"{player.name} is eliminated!")
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(1)
 
     async def reset_round(self, record_shooter: bool) -> None:
         print("Resetting round")
         await self.send_announcement("Resetting round")
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(1)
         alive_players = await self.handle_reflection()
         self.deal_cards()
         self.choose_target_card()
@@ -123,7 +123,7 @@ class Game:
         self.start_round_record()
         print(f"New round starts with {self.players[self.current_player_idx].name}")
         await self.send_announcement(f"New round starts with {self.players[self.current_player_idx].name}")
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(1)
 
     async def check_victory(self) -> bool:
         alive_players = [p for p in self.players if p.alive]
@@ -223,7 +223,7 @@ class Game:
             result=not is_valid,
             challenge_thinking=""
         )
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(1)
         if is_valid:
             print(f"{current_player.name}'s hand is valid")
             await self.send_announcement(f"{current_player.name}'s hand is valid")
@@ -343,7 +343,7 @@ class Game:
         # await self.handle_reflection()
 
 
-        await asyncio.sleep(3)
+        await asyncio.sleep(2)
 
     async def announce_current_game_state(self) -> None:
         for name in human_player_names:

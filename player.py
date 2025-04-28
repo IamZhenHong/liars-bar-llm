@@ -122,7 +122,7 @@ class Player:
                         if valid_cards and valid_count:
                             # await self.send_announcement(f"[TURN] {self.name} played cards: {result['played_cards']}, reason: {result['play_reason']}, behavior: {result['behavior']}")
                             await self.send_announcement(f"[TURN] {self.name} played {len(result['played_cards'])} cards, behavior: {result['behavior']}")
-                            await asyncio.sleep(2)
+                            await asyncio.sleep(1.5)
                             for card in result["played_cards"]:
                                 self.hand.remove(card)
                             return result, reasoning_content
@@ -258,9 +258,9 @@ class Player:
     async def process_penalty(self) -> bool:
         print(f"{self.name} fires a shot")
         await self.send_announcement(f"{self.name} fires a shot")
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(1)
         await self.print_status()
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(1)
 
         if self.bullet_position == self.current_bullet_position:
             print(self.name, "was shot and died")
