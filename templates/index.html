@@ -136,46 +136,60 @@
 });
 
 
-    document.getElementById("start-game-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
+document
+  .getElementById("start-game-form")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const startBtn = e.target.querySelector('button[type="submit"]');
-      startBtn.disabled = true;
-      startBtn.style.display = 'none'; // uncomment if you’d rather hide it entirely
+    const startBtn = e.target.querySelector('button[type="submit"]');
+    startBtn.disabled = true;
 
-      const numHumans = parseInt(document.getElementById("num-humans").value);
-      const nameInputs = document.querySelectorAll(".human-name");
-      const aiNameInputs = document.querySelectorAll(".ai-name");
-      const aiPersonalityInputs = document.querySelectorAll(".ai-personality");
-      const humanNames = Array.from(nameInputs).map(input => input.value.trim()).filter(name => name);
-      const aiPlayers = Array.from(aiNameInputs).map((input, i) => ({
-  name: input.value.trim(),
-  personality: aiPersonalityInputs[i]?.value.trim() || ""
-}));
+    const nameInputs = document.querySelectorAll(".human-name");
+    const aiNameInputs = document.querySelectorAll(".ai-name");
+    const aiPersonalityInputs = document.querySelectorAll(".ai-personality");
+    const humanNames = Array.from(nameInputs)
+                            .map(i => i.value.trim())
+                            .filter(Boolean);
+    const aiPlayers = Array.from(aiNameInputs).map((input, i) => ({
+      name: input.value.trim(),
+      personality: aiPersonalityInputs[i]?.value.trim() || ""
+    }));
 
-      playerName = humanNames[0];
-      const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-      socket = new WebSocket(`${protocol}://${window.location.host}/ws/${playerName}`);
-      socket.onmessage = handleSocketMessage;
-      socket.onopen = () => console.log("WebSocket connected to server");
-      socket.onerror = (e) => console.error("WebSocket error:", e);
-      socket.onclose = () => console.warn("WebSocket closed");
-
-      const response = await fetch("/start_game", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ human_names: humanNames, ai_players: aiPlayers })
-      });
-
-      if (response.ok) {
-        document.getElementById("setup-form").style.display = "none";
-        document.getElementById("game-interface").style.display = "block";
-        document.getElementById("status").textContent = `Connected as ${playerName}`;
-        const announcement = document.createElement("p");
-        announcement.textContent = "🎮 Game started!";
-        document.getElementById("game-interface").appendChild(announcement);
-      }
+    // 1) Kick off the game and get back a game_id
+    const startResp = await fetch("/start_game", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        human_names: humanNames,
+        ai_players:  aiPlayers
+      })
     });
+
+    if (!startResp.ok) {
+      console.error("Failed to start game", await startResp.text());
+      return;
+    }
+
+    const { game_id } = await startResp.json();
+    console.log("▶️ Game started with ID:", game_id);
+
+    // 2) Now open the WS **including** that game_id
+    const playerName = humanNames[0] || "Observer";
+    const protocol   = window.location.protocol === "https:" ? "wss" : "ws";
+    socket = new WebSocket(
+      `${protocol}://${window.location.host}/ws/${game_id}/${playerName}`
+    );
+
+    socket.onmessage = handleSocketMessage;
+    socket.onopen    = () => console.log("WebSocket connected");
+    socket.onerror   = (e) => console.error("WebSocket error:", e);
+    socket.onclose   = () => console.warn("WebSocket closed");
+
+    // 3) Switch UI
+    document.getElementById("setup-form").style.display      = "none";
+    document.getElementById("game-interface").style.display = "block";
+    document.getElementById("status").textContent           = `Connected as ${playerName}`;
+  });
 
     document.getElementById("num-humans").addEventListener("change", () => {
       const num = parseInt(document.getElementById("num-humans").value, 10);

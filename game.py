@@ -8,9 +8,10 @@ from human_player_names import human_player_names
 
 
 class Game:
-    def __init__(self, player_configs: List[Dict[str, str]]) -> None:
+    def __init__(self, player_configs: List[Dict[str, str]], game_id: str):
+        self.game_id = game_id
         self.players = [
-            Player(config["name"], config["model"], config.get("is_human", False), config.get("personality", ""))
+            Player(config["name"], config["model"], config.get("is_human", False), config.get("personality", ""), game_id)
             for config in player_configs
         ]
 
@@ -29,7 +30,7 @@ class Game:
 
     async def send_announcement(self, message: str):
         for name in human_player_names:
-            await websocket_manager.send(name, {
+            await websocket_manager.send(self.game_id,name, {
                 "type": "announcement",
                 "message": message
             })

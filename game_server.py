@@ -29,48 +29,58 @@ current_game: Game = None
 async def get_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+from uuid import uuid4
+import asyncio
+
+# at module scope
+games: dict[str, Game] = {}
+
 @app.post("/start_game")
 async def start_game(data: dict = Body(...)):
-    global current_game
-
-    print("Received start_game request with data:", data)
+    # 1) get or create game_id
+    game_id = data.get("game_id") or str(uuid4())
 
     human_players = data.get("human_names", [])
-    ai_players = data.get("ai_players", [])  # now expecting list of dicts
+    ai_players    = data.get("ai_players", [])  # list of {"name":..., "personality":...}
 
-    human_player_names.clear()
-    human_player_names.extend(human_players)
+    # 2) build the player list
     all_players = []
-
-    print("Starting game with human players:", human_players)
     for name in human_players:
-        all_players.append({
-            "name": name,
-            "model": "human",
-            "is_human": True
-        })
-
+        all_players.append({"name": name, "model": "human",   "is_human": True})
     for ai in ai_players:
-        if len(all_players) >= 4:
-            break
+        if len(all_players) >= 4: break
         all_players.append({
-            "name": ai["name"],
-            "model": "o3-mini",  # could later use personality to choose model
-            "is_human": False,
+            "name":        ai["name"],
+            "model":       "o3-mini",
+            "is_human":    False,
             "personality": ai.get("personality", "")
         })
 
-    current_game = Game(all_players)
-    print("Game initialized with players:", all_players)
+    # 3) create & store the game
+    game = Game(all_players, game_id)
+    games[game_id] = game
+    print(f"🔸 Initialized game {game_id} with players:", all_players)
 
+    # 4) wait for each human to connect under this game_id
     for name in human_players:
-        for _ in range(10):  # wait up to 5 seconds
-            if name in websocket_manager.pending_responses:
+        # poll the nested pending_responses[game_id][name]
+        for _ in range(50):  # up to 5s
+            if (
+                game_id in websocket_manager.pending_responses and
+                name    in websocket_manager.pending_responses[game_id]
+            ):
                 break
             await asyncio.sleep(0.1)
 
-    await current_game.start_game()
-    return {"status": "started", "players": [p["name"] for p in all_players]}
+    # 5) actually start the game loop
+    await game.start_game()
+
+    # 6) return the game_id so clients can open /ws/{game_id}/{player_name}
+    return {
+        "status":  "started",
+        "game_id": game_id,
+        "players": [p["name"] for p in all_players]
+    }
 
 @app.on_event("startup")
 async def startup_event():

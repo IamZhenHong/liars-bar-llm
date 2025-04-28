@@ -12,8 +12,8 @@ CHALLENGE_PROMPT_TEMPLATE_PATH = "prompt/challenge_prompt_template.txt"
 REFLECT_PROMPT_TEMPLATE_PATH = "prompt/reflect_prompt_template.txt"
 
 class Player:
-    def __init__(self, name: str, model_name: str, is_human: bool = False, personality: str = ""):
-
+    def __init__(self, name: str, model_name: str, is_human: bool = False, personality: str = "", game_id: str = ""):
+        self.game_id = game_id
         self.name = name
         self.personality = personality
         self.hand = []
@@ -35,7 +35,7 @@ class Player:
             return ""
     async def send_announcement(self, message: str) -> None:
         for name in human_player_names:
-            await websocket_manager.send(name, {
+            await websocket_manager.send(self.game_id, name, {
                 "type": "announcement",
                 "message": message
             })
