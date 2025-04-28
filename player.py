@@ -83,7 +83,7 @@ class Player:
                     temp_name = name
 
             
-            data = await websocket_manager.wait_for_response(temp_name)     
+            data = await websocket_manager.wait_for_response(self.game_id, temp_name)   
             await self.send_announcement(f"[TURN] {self.name} played cards: {data['played_cards']}")
             for card in data["played_cards"]:
                 if card in self.hand:
@@ -155,7 +155,7 @@ class Player:
                     })
                     temp_name = name
 
-            data = await websocket_manager.wait_for_response(temp_name)
+            data = await websocket_manager.wait_for_response(self.game_id,temp_name)
             # if data["was_challenged"]:
             #     await self.send_announcement(f"[CHALLENGE] {self.name} decided to challenge")
             #     await asyncio.sleep(1)
@@ -216,7 +216,7 @@ class Player:
                     }
                 })
 
-                data = await websocket_manager.wait_for_response(self.name)
+                data = await websocket_manager.wait_for_response(self.game_id,self.name)
 
                 for player_name, new_opinion in data.get("updated_opinions", {}).items():
                     if new_opinion:
