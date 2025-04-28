@@ -352,6 +352,8 @@ const pathMapping = {
 //     });
 //   }
   function updateBoard(players) {
+
+  console.log("[WS] Updating board with players:", players);
   // clear all
   document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
 
@@ -474,6 +476,7 @@ const pathMapping = {
           document.getElementById("roll-dice-form").style.display = "block";
         }
         if (data.type === "board_update") {
+          console.log(`[WS] Board updated`);
           updateBoard(data.players);
         }
 
