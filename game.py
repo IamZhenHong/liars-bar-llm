@@ -2,7 +2,7 @@ import random
 from typing import List, Optional, Dict
 from player import Player
 from game_record import GameRecord, PlayerInitialState
-from websocket_manager import websocket_router, websocket_manager
+
 import asyncio
 from human_player_names import human_player_names
 
@@ -29,6 +29,7 @@ class Game:
         self.round_count = 0
 
     async def send_announcement(self, message: str):
+        from websocket_manager import websocket_manager
         for name in human_player_names:
             await websocket_manager.send(self.game_id,name, {
                 "type": "announcement",
@@ -127,6 +128,7 @@ class Game:
         await asyncio.sleep(1)
 
     async def check_victory(self) -> bool:
+        from websocket_manager import websocket_manager
         alive_players = [p for p in self.players if p.alive]
         if len(alive_players) == 1:
             winner = alive_players[0]
@@ -347,6 +349,7 @@ class Game:
         await asyncio.sleep(2)
 
     async def announce_current_game_state(self) -> None:
+        from websocket_manager import websocket_manager
         for name in human_player_names:
             await websocket_manager.send(name, {
                 "type": "game_state",
