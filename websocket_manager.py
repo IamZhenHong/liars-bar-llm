@@ -53,17 +53,6 @@ async def websocket_endpoint(
     player_name: str
 ):
     await websocket_manager.connect(game_id, player_name, websocket)
-
-    # after connecting, check if we now have *all* the players online
-    game = games.get(game_id)
-    if game:
-        conns = websocket_manager.active_connections.get(game_id, {})
-        # players in game.players are dicts with a "name" key
-        expected = {p["name"] for p in game.players}
-        if expected.issubset(conns.keys()):
-            # everyone’s here → start the game loop in the background
-            asyncio.create_task(game.start_game())
-
     try:
         while True:
             data = await websocket.receive_json()
