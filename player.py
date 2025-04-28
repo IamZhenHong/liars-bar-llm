@@ -66,12 +66,11 @@ class Player:
                                    play_decision_info: str) -> Dict:
         print(f"[INFO] {self.name} is choosing cards to play")
         await self.send_announcement(f"[TURN] {self.name} is choosing cards to play")
-
+        from websocket_manager import websocket_manager
         await asyncio.sleep(2)
 
         if self.is_human:
             for name in human_player_names:
-                from websocket_manager import websocket_manager
                 if name in websocket_manager.pending_responses:
                     await websocket_manager.send(name, {
                         "type": "your_turn",
