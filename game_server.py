@@ -32,21 +32,21 @@ async def get_index(request: Request):
 from uuid import uuid4
 import asyncio
 
-# at module scope
+
+# module‐level dict
 games: dict[str, Game] = {}
 
 @app.post("/start_game")
 async def start_game(data: dict = Body(...)):
-    # 1) get or create game_id
+    # 1) Get or create the game_id
     game_id = data.get("game_id") or str(uuid4())
 
+    # 2) Build all_players as before…
     human_players = data.get("human_names", [])
-    ai_players    = data.get("ai_players", [])  # list of {"name":..., "personality":...}
-
-    # 2) build the player list
+    ai_players    = data.get("ai_players", [])
     all_players = []
     for name in human_players:
-        all_players.append({"name": name, "model": "human",   "is_human": True})
+        all_players.append({"name": name, "model": "human", "is_human": True})
     for ai in ai_players:
         if len(all_players) >= 4: break
         all_players.append({
@@ -56,28 +56,14 @@ async def start_game(data: dict = Body(...)):
             "personality": ai.get("personality", "")
         })
 
-    # 3) create & store the game
+    # 3) Create & store the game—but do *not* start it yet
     game = Game(all_players, game_id)
     games[game_id] = game
-    print(f"🔸 Initialized game {game_id} with players:", all_players)
+    print(f"🔸 Game {game_id} initialized with players:", all_players)
 
-    # 4) wait for each human to connect under this game_id
-    for name in human_players:
-        # poll the nested pending_responses[game_id][name]
-        for _ in range(10):  # up to 5s
-            if (
-                game_id in websocket_manager.pending_responses and
-                name    in websocket_manager.pending_responses[game_id]
-            ):
-                break
-            await asyncio.sleep(0.1)
-
-    # 5) actually start the game loop
-    await game.start_game()
-
-    # 6) return the game_id so clients can open /ws/{game_id}/{player_name}
+    # 4) Return immediately
     return {
-        "status":  "started",
+        "status":  "created",
         "game_id": game_id,
         "players": [p["name"] for p in all_players]
     }
