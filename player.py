@@ -150,7 +150,7 @@ class Player:
             # self.name
             for name in human_player_names:
                 if name in websocket_manager.active_connections[self.game_id]:
-                    await websocket_manager.send(name, {
+                    await websocket_manager.send(self.game_id,name, {
                         "type": "challenge_request",
                         "player": self.name,
                         "round_info": round_base_info,
