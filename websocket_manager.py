@@ -26,10 +26,14 @@ class WebSocketManager:
         print(f"🔌 WS disconnected: game={game_id} player={player_name}")
 
     async def send(self, game_id: str, player_name: str, data: dict):
-        ws = self.active_connections.get(game_id, {}).get(player_name)
-        print(f"🔌 WS send: game={game_id} player={player_name} data={data}")
-        if ws:
-            await ws.send_json(data)
+        conns = self.active_connections.get(game_id, {})
+        print(f"[WS-SEND] game={game_id!r} has connections: {list(conns.keys())}")
+        if player_name in conns:
+            print(f"[WS-SEND] sending to {player_name!r}: {data}")
+            await conns[player_name].send_json(data)
+        else:
+            print(f"[WS-SEND] ❌ no connection entry for player {player_name!r}")
+
 
     async def wait_for_response(self, game_id: str, player_name: str) -> dict:
         queue = self.pending_responses.get(game_id, {}).get(player_name)
