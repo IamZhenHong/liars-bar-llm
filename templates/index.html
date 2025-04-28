@@ -178,6 +178,11 @@
     document.getElementById("start-game-form").addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      const startBtn = e.target.querySelector('button[type="submit"]');
+      startBtn.disabled = true;
+      // startBtn.style.display = 'none'; // uncomment if you’d rather hide it entirely
+
+
       const numHumans = parseInt(document.getElementById("num-humans").value);
       const nameInputs = document.querySelectorAll(".human-name");
       const aiNameInputs = document.querySelectorAll(".ai-name");
