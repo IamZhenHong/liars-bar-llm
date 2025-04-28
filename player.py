@@ -68,11 +68,12 @@ class Player:
         await self.send_announcement(f"[TURN] {self.name} is choosing cards to play")
         from websocket_manager import websocket_manager
         await asyncio.sleep(2)
+        temp_name = self.name
 
         if self.is_human:
             for name in human_player_names:
                 if name in websocket_manager.pending_responses:
-                    await websocket_manager.send(name, {
+                    await websocket_manager.send(self.game_id,name, {
                         "type": "your_turn",
                         "player": self.name,
                         "hand": self.hand,
