@@ -64,7 +64,7 @@ async def start_game(data: dict = Body(...)):
     print("Game initialized with players:", all_players)
 
     for name in human_players:
-        for _ in range(50):  # wait up to 5 seconds
+        for _ in range(10):  # wait up to 5 seconds
             if name in websocket_manager.pending_responses:
                 break
             await asyncio.sleep(0.1)
