@@ -351,6 +351,41 @@ function updateBoard(players) {
       });
     });
   }
+//   function updateBoard(players) {
+//   // clear all
+//   document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
+
+//   players.forEach(player => {
+//     const map = pathMapping[player.color];
+//     player.tokens.forEach(pos => {
+//       if (pos != null) {
+//         const cellIndex = map[pos];
+//         const cell = document.querySelectorAll(".cell")[cellIndex];
+//         const dot  = document.createElement("div");
+//         dot.className = `token ${player.color}`;
+//         cell.appendChild(dot);
+//       }
+//     });
+//   });
+// }
+
+//   function updateBoard(players) {
+//   // clear all
+//   document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
+
+//   players.forEach(player => {
+//     const map = pathMapping[player.color];
+//     player.tokens.forEach(pos => {
+//       if (pos != null) {
+//         const cellIndex = map[pos];
+//         const cell = document.querySelectorAll(".cell")[cellIndex];
+//         const dot  = document.createElement("div");
+//         dot.className = `token ${player.color}`;
+//         cell.appendChild(dot);
+//       }
+//     });
+//   });
+// }
 
       function generateLudoGrid() {
       const board = document.getElementById("ludo-board");
@@ -446,23 +481,6 @@ function updateBoard(players) {
 
     }
 
-    function updateBoard(players) {
-  // clear all
-  document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
-
-  players.forEach(player => {
-    const map = pathMapping[player.color];
-    player.tokens.forEach(pos => {
-      if (pos != null) {
-        const cellIndex = map[pos];
-        const cell = document.querySelectorAll(".cell")[cellIndex];
-        const dot  = document.createElement("div");
-        dot.className = `token ${player.color}`;
-        cell.appendChild(dot);
-      }
-    });
-  });
-}
 
 
     function submitRollDice() {
