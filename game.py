@@ -358,6 +358,8 @@ class Game:
         await asyncio.sleep(1)
 
     async def start_game(self) -> None:
+        from websocket_manager import websocket_manager
+        print("Active connections:", websocket_manager.active_connections)
         print("Connected to game server", self.game_id) 
         print("Waiting for players to connect...")
         print("Game loop begins")
