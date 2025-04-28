@@ -231,15 +231,17 @@ document
     } else {
       // no humans: skip player socket entirely
       console.log("No human players: skipping player socket");
-      payload.observer_name = observerName;
-    }
 
-    // always connect an observer if you want to see game updates
+         // always connect an observer if you want to see game update
     observerSocket = new WebSocket(`${protocol}://${location.host}/ws/${observerName}`);
     observerSocket.onmessage = handleSocketMessage;
     observerSocket.onopen    = () => console.log("Observer WS connected");
     observerSocket.onerror   = e  => console.error(e);
     observerSocket.onclose   = () => console.warn("Observer WS closed");
+
+      payload.observer_name = observerName;
+    }
+
 
     // now start the game on the backend
     const resp = await fetch("/start_game", {
