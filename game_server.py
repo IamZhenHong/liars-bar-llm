@@ -37,6 +37,7 @@ async def start_game(data: dict = Body(...)):
 
     human_players = data.get("human_names", [])
     ai_players = data.get("ai_players", [])
+    observer_name = data.get("observer_name", None)
 
     human_player_names.clear()
     human_player_names.extend(human_players)
@@ -62,7 +63,7 @@ async def start_game(data: dict = Body(...)):
             "color": colors[j]   # j runs  number-of-humans … number-of-humans+ai-1
         })
 
-    current_game = LudoGame(all_players)  # changed class name
+    current_game = LudoGame(all_players, observer_name)  # changed class name
     print("Game initialized with players:", all_players)
 
     for name in human_players:

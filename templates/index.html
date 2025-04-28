@@ -151,6 +151,7 @@
   <script>
      let socket = null;
     let playerName = "";
+    let observerName = "Observer";
     const totalInput     = document.getElementById("total-players");
     const numInput       = document.getElementById("num-humans");
     const humanContainer = document.getElementById("human-names");
@@ -189,32 +190,68 @@
     updatePlayerInputs();
 
 
-    document.getElementById("start-game-form").addEventListener("submit", async e => {
-      e.preventDefault();
-      const startBtn = e.target.querySelector('button[type="submit"]');
-      startBtn.disabled = true;
-      startBtn.style.display = 'none';
-      const humanInputs = document.querySelectorAll(".human-name");
-      const aiNameInputs = document.querySelectorAll(".ai-name");
-      const aiPersInputs = document.querySelectorAll(".ai-personality");
-      const humanNames = Array.from(humanInputs).map(i=>i.value.trim()).filter(n=>n);
-      const aiPlayers = Array.from(aiNameInputs).map((i,idx)=>( { name: i.value.trim(), personality: aiPersInputs[idx]?.value.trim()||"" } ));
-      playerName = humanNames[0] || aiPlayers[0]?.name;
-      const protocol = location.protocol === "https:" ? "wss" : "ws";
+document
+  .getElementById("start-game-form")
+  .addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const startBtn = e.target.querySelector('button[type="submit"]');
+    startBtn.disabled = true;
+    startBtn.style.display = 'none';
+
+    const humanInputs  = document.querySelectorAll(".human-name");
+    const aiNameInputs = document.querySelectorAll(".ai-name");
+    const aiPersInputs = document.querySelectorAll(".ai-personality");
+
+    const humanNames = Array.from(humanInputs)
+                            .map(i => i.value.trim())
+                            .filter(n => n);
+    const aiPlayers  = Array.from(aiNameInputs).map((i, idx) => ({
+      name:        i.value.trim(),
+      personality: aiPersInputs[idx]?.value.trim() || ""
+    }));
+
+    const protocol = location.protocol === "https:" ? "wss" : "ws";
+
+    if (humanNames.length > 0) {
+      // at least one human: connect as that player
+      const playerName = humanNames[0];
       socket = new WebSocket(`${protocol}://${location.host}/ws/${playerName}`);
       socket.onmessage = handleSocketMessage;
-      socket.onopen = () => console.log("WebSocket connected");
-      socket.onerror = e => console.error(e);
-      socket.onclose = () => console.warn("WebSocket closed");
-      const resp = await fetch("/start_game", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({ human_names: humanNames, ai_players: aiPlayers }) });
-      if (resp.ok) {
-        document.getElementById("setup-form").style.display = "none";
-        document.getElementById("game-interface").style.display = "block";
-        document.getElementById("status").textContent = `Connected as ${playerName}`;
-        const ann = document.createElement("p"); ann.textContent = "🎮 Game started!";
-        document.getElementById("announcement-log").appendChild(ann);
-      }
+      socket.onopen    = () => console.log("Player WS connected");
+      socket.onerror   = e  => console.error(e);
+      socket.onclose   = () => console.warn("Player WS closed");
+    } else {
+      // no humans: skip player socket entirely
+      console.log("No human players: skipping player socket");
+    }
+
+    // always connect an observer if you want to see game updates
+    observerSocket = new WebSocket(`${protocol}://${location.host}/ws/${observerName}`);
+    observerSocket.onmessage = handleSocketMessage;
+    observerSocket.onopen    = () => console.log("Observer WS connected");
+    observerSocket.onerror   = e  => console.error(e);
+    observerSocket.onclose   = () => console.warn("Observer WS closed");
+
+    // now start the game on the backend
+    const resp = await fetch("/start_game", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ human_names: humanNames, ai_players: aiPlayers, observer_name: observerName })
     });
+
+    if (resp.ok) {
+      document.getElementById("setup-form").style.display      = "none";
+      document.getElementById("game-interface").style.display = "block";
+      document.getElementById("status").textContent           = 
+        humanNames.length > 0
+          ? `Connected as ${humanNames[0]}`
+          : `Observing game`;
+      const ann = document.createElement("p");
+      ann.textContent = "🎮 Game started!";
+      document.getElementById("announcement-log").appendChild(ann);
+    }
+  });
 
     document.getElementById("num-humans").addEventListener("change", () => {
       const num = parseInt(document.getElementById("num-humans").value, 10);

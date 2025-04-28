@@ -12,11 +12,12 @@ from websocket_manager import websocket_manager
 from human_player_names import human_player_names
 
 class LudoGame:
-    def __init__(self, player_configs: List[Dict[str, str]]):
+    def __init__(self, player_configs: List[Dict[str, str]], observer_name: str = None):    
         self.players = [
             Player(config["name"], config["color"], config.get("is_human", False))
             for config in player_configs
         ]
+        self.observer_name = observer_name
         self.current_player_idx = random.randint(0, len(self.players) - 1)
         self.game_over = False
         self.ring_len     = 52
@@ -31,6 +32,12 @@ class LudoGame:
     async def send_announcement(self, message: str):
         for name in human_player_names:
             await websocket_manager.send(name, {
+                "type": "announcement",
+                "message": message
+            })
+        # Send to observer if exists
+        if self.observer_name and self.observer_name in websocket_manager.active_connections:
+            await websocket_manager.send(self.observer_name, {
                 "type": "announcement",
                 "message": message
             })
@@ -50,6 +57,13 @@ class LudoGame:
                     "type": "board_update",
                     "players": player_data
                 })
+
+        # Send to observer if exists
+        if self.observer_name and self.observer_name in websocket_manager.active_connections:
+            await websocket_manager.send(self.observer_name, {
+                "type": "board_update",
+                "players": player_data
+            })
 
     def next_player_idx(self) -> int:
         return (self.current_player_idx + 1) % len(self.players)
