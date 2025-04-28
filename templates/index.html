@@ -336,38 +336,38 @@ const pathMapping = {
   red:    rotatePath(basePath, 42),  // (0,0)  top-left     → red-home
 };
 
-function updateBoard(players) {
-    document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
+// function updateBoard(players) {
+//     document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
 
-    players.forEach(player => {
-      const map = pathMapping[player.color];
-      player.tokens.forEach(pos => {
-        if (pos != null && map[pos] != null) {
-          const cell = document.querySelectorAll(".cell")[ map[pos] ];
-          const dot  = document.createElement("div");
-          dot.className = `token ${player.color}`;
-          cell.appendChild(dot);
-        }
-      });
-    });
-  }
-//   function updateBoard(players) {
-//   // clear all
-//   document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
-
-//   players.forEach(player => {
-//     const map = pathMapping[player.color];
-//     player.tokens.forEach(pos => {
-//       if (pos != null) {
-//         const cellIndex = map[pos];
-//         const cell = document.querySelectorAll(".cell")[cellIndex];
-//         const dot  = document.createElement("div");
-//         dot.className = `token ${player.color}`;
-//         cell.appendChild(dot);
-//       }
+//     players.forEach(player => {
+//       const map = pathMapping[player.color];
+//       player.tokens.forEach(pos => {
+//         if (pos != null && map[pos] != null) {
+//           const cell = document.querySelectorAll(".cell")[ map[pos] ];
+//           const dot  = document.createElement("div");
+//           dot.className = `token ${player.color}`;
+//           cell.appendChild(dot);
+//         }
+//       });
 //     });
-//   });
-// }
+//   }
+  function updateBoard(players) {
+  // clear all
+  document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
+
+  players.forEach(player => {
+    const map = pathMapping[player.color];
+    player.tokens.forEach(pos => {
+      if (pos != null) {
+        const cellIndex = map[pos];
+        const cell = document.querySelectorAll(".cell")[cellIndex];
+        const dot  = document.createElement("div");
+        dot.className = `token ${player.color}`;
+        cell.appendChild(dot);
+      }
+    });
+  });
+}
 
 //   function updateBoard(players) {
 //   // clear all
