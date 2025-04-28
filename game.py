@@ -160,7 +160,7 @@ class LudoGame:
     async def start_game(self):
         await self.send_announcement("Ludo Game Started!")
         await asyncio.sleep(1)
-
+        await self.broadcast_board_update()
         while not self.game_over:
             current_player = self.players[self.current_player_idx]
             await self.play_turn(current_player)
