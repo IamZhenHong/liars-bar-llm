@@ -72,7 +72,7 @@ class Player:
 
         if self.is_human:
             for name in human_player_names:
-                if name in websocket_manager.pending_responses:
+                if name in websocket_manager.active_connections[self.game_id]:
                     await websocket_manager.send(self.game_id,name, {
                         "type": "your_turn",
                         "player": self.name,
