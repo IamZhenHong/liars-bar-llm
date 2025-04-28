@@ -44,7 +44,9 @@ async def start_game(data: dict = Body(...)):
     ai_players    = data.get("ai_players", [])
     all_players: list[dict] = []
 
-    human_player_names = [name for name in human_players if name not in human_player_names]
+    # build a new list without shadowing
+    new_human_players = [n for n in human_players if n not in human_player_names]
+    human_player_names += new_human_players
 
     for name in human_players:
         all_players.append({
