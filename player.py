@@ -18,7 +18,7 @@ class Token:
 
 
 class Player:
-    def __init__(self, name: str,color: str, is_human: bool = False, model_name: str = "human", personality: str = ""):
+    def __init__(self, name: str,color: str, is_human: bool = False, model_name: str = "human", personality: str = "", observer_name: str = None):
 
         self.name = name
         self.personality = personality
@@ -32,6 +32,7 @@ class Player:
         self.is_human = is_human
         self.llm_client = LLMClient()
         self.model_name = model_name
+        self.observer_name = observer_name
 
     async def _read_file(self, filepath: str) -> str:
         try:
@@ -85,8 +86,9 @@ class Player:
         # Fallback to the first connected human player
         temp_name = next((name for name in human_player_names if name in websocket_manager.active_connections), None)
 
-        if not temp_name:
-            raise RuntimeError("❌ No active human WebSocket connection found")
+        if not temp_name and self.observer_name:
+            temp_name = self.observer_name
+
 
         if self.is_human:
             await websocket_manager.send(temp_name, {

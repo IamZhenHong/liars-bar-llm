@@ -14,7 +14,7 @@ from human_player_names import human_player_names
 class LudoGame:
     def __init__(self, player_configs: List[Dict[str, str]], observer_name: str = None):    
         self.players = [
-            Player(config["name"], config["color"], config.get("is_human", False))
+            Player(config["name"], config["color"], config.get("is_human", False), config.get("observer_name", None))
             for config in player_configs
         ]
         self.observer_name = observer_name
