@@ -1,5 +1,6 @@
 import asyncio
 from fastapi import WebSocket, APIRouter, WebSocketDisconnect
+from game_server import games
 
 class WebSocketManager:
     def __init__(self):
@@ -46,7 +47,7 @@ websocket_manager = WebSocketManager()
 # new router
 websocket_router = APIRouter()
 
-@router.websocket("/ws/{game_id}/{player_name}")
+@websocket_router.websocket("/ws/{game_id}/{player_name}")
 async def websocket_endpoint(
     websocket: WebSocket,
     game_id: str,
