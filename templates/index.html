@@ -233,11 +233,11 @@ document
       console.log("No human players: skipping player socket");
 
          // always connect an observer if you want to see game update
-    observerSocket = new WebSocket(`${protocol}://${location.host}/ws/${observerName}`);
-    observerSocket.onmessage = handleSocketMessage;
-    observerSocket.onopen    = () => console.log("Observer WS connected");
-    observerSocket.onerror   = e  => console.error(e);
-    observerSocket.onclose   = () => console.warn("Observer WS closed");
+    socket = new WebSocket(`${protocol}://${location.host}/ws/${observerName}`);
+    socket.onmessage = handleSocketMessage;
+    socket.onopen    = () => console.log("Observer WS connected");
+    socket.onerror   = e  => console.error(e);
+    socket.onclose   = () => console.warn("Observer WS closed");
 
       payload.observer_name = observerName;
     }

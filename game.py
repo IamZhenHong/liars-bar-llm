@@ -60,6 +60,7 @@ class LudoGame:
 
         # Send to observer if exists
         if self.observer_name and self.observer_name in websocket_manager.active_connections:
+            print(f"Sending board update to observer: {self.observer_name}")
             await websocket_manager.send(self.observer_name, {
                 "type": "board_update",
                 "players": player_data
