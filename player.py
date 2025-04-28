@@ -70,7 +70,7 @@ class Player:
             token.position = 0  # Starting square
         elif token.position is not None:
             token.position += roll
-            if token.position == 57:
+            if token.position == 56:
                 token.is_home = True
             
                 
