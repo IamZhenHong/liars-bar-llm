@@ -358,8 +358,8 @@ class Game:
         await asyncio.sleep(1)
 
     async def start_game(self) -> None:
+        print("Connected to game server", self.game_id) 
         print("Waiting for players to connect...")
-        await asyncio.sleep(10)
         print("Game loop begins")
         await self.send_announcement("Game loop begins")
         await asyncio.sleep(0.5)
