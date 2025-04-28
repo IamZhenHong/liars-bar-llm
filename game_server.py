@@ -4,9 +4,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Body
-from websocket_manager import websocket_router, websocket_manager
+from websocket_manager import websocket_router
 from game import Game
 import asyncio
+from game_state import games
 from human_player_names import human_player_names
 
 app = FastAPI()
@@ -32,8 +33,6 @@ async def get_index(request: Request):
 from uuid import uuid4
 import asyncio
 
-# at module scope
-games: dict[str, Game] = {}
 
 @app.post("/start_game")
 async def start_game(data: dict = Body(...)):
