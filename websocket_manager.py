@@ -46,16 +46,33 @@ websocket_manager = WebSocketManager()
 # new router
 websocket_router = APIRouter()
 
-@websocket_router.websocket("/ws/{game_id}/{player_name}")
+@router.websocket("/ws/{game_id}/{player_name}")
 async def websocket_endpoint(
     websocket: WebSocket,
     game_id: str,
     player_name: str
 ):
+    # 1) accept & register this socket
     await websocket_manager.connect(game_id, player_name, websocket)
+
+    # 2) fetch the Game instance
+    game = games.get(game_id)
+    if game is None:
+        # invalid game_id: close immediately
+        await websocket.close(code=1000)
+        return
+
+    # 3) on the very first WS connect, kick off the game loop
+    if not getattr(game, "started", False):
+        game.started = True
+        # run in background so we can keep handling WS messages
+        asyncio.create_task(game.start_game())
+
     try:
+        # 4) forward all incoming messages to your manager
         while True:
             data = await websocket.receive_json()
             await websocket_manager.receive_response(game_id, player_name, data)
+
     except WebSocketDisconnect:
         websocket_manager.disconnect(game_id, player_name)

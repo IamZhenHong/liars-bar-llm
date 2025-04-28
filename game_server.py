@@ -37,18 +37,24 @@ games: dict[str, Game] = {}
 
 @app.post("/start_game")
 async def start_game(data: dict = Body(...)):
-    # 1) get or create game_id
+    # 1) get or create a unique game_id
     game_id = data.get("game_id") or str(uuid4())
 
-    human_players = data.get("human_names", [])
-    ai_players    = data.get("ai_players", [])  # list of {"name":..., "personality":...}
-
     # 2) build the player list
-    all_players = []
+    human_players = data.get("human_names", [])
+    ai_players    = data.get("ai_players", [])
+    all_players: list[dict] = []
+
     for name in human_players:
-        all_players.append({"name": name, "model": "human",   "is_human": True})
+        all_players.append({
+            "name":     name,
+            "model":    "human",
+            "is_human": True
+        })
+
     for ai in ai_players:
-        if len(all_players) >= 4: break
+        if len(all_players) >= 4:
+            break
         all_players.append({
             "name":        ai["name"],
             "model":       "o3-mini",
@@ -56,28 +62,15 @@ async def start_game(data: dict = Body(...)):
             "personality": ai.get("personality", "")
         })
 
-    # 3) create & store the game
+    # 3) create & store the Game instance under this game_id
     game = Game(all_players, game_id)
     games[game_id] = game
-    print(f"🔸 Initialized game {game_id} with players:", all_players)
 
-    # 4) wait for each human to connect under this game_id
-    for name in human_players:
-        # poll the nested pending_responses[game_id][name]
-        for _ in range(10):  # up to 5s
-            if (
-                game_id in websocket_manager.pending_responses and
-                name    in websocket_manager.pending_responses[game_id]
-            ):
-                break
-            await asyncio.sleep(0.1)
+    print(f"🔸 Game {game_id} created with players:", [p["name"] for p in all_players])
 
-    # 5) actually start the game loop
-    await game.start_game()
-
-    # 6) return the game_id so clients can open /ws/{game_id}/{player_name}
+    # 4) return immediately so client can open the WS
     return {
-        "status":  "started",
+        "status":  "created",
         "game_id": game_id,
         "players": [p["name"] for p in all_players]
     }
