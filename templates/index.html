@@ -189,8 +189,7 @@
     numInput.addEventListener("change", updatePlayerInputs);
     updatePlayerInputs();
 
-
-document
+    document
   .getElementById("start-game-form")
   .addEventListener("submit", async e => {
     e.preventDefault();
@@ -213,6 +212,12 @@ document
 
     const protocol = location.protocol === "https:" ? "wss" : "ws";
 
+    // build the payload we'll send to the backend
+    const payload = {
+      human_names: humanNames,
+      ai_players:  aiPlayers
+    };
+
     if (humanNames.length > 0) {
       // at least one human: connect as that player
       const playerName = humanNames[0];
@@ -222,28 +227,30 @@ document
       socket.onerror   = e  => console.error(e);
       socket.onclose   = () => console.warn("Player WS closed");
     } else {
-      // no humans: skip player socket entirely
-      console.log("No human players: skipping player socket");
-    }
+      // no humans: connect as observer *and* include observer_name in payload
+      console.log("No human players: connecting as observer");
+      const observerSocket = new WebSocket(
+        `${protocol}://${location.host}/ws/${observerName}`
+      );
+      observerSocket.onmessage = handleSocketMessage;
+      observerSocket.onopen    = () => console.log("Observer WS connected");
+      observerSocket.onerror   = e  => console.error(e);
+      observerSocket.onclose   = () => console.warn("Observer WS closed");
 
-    // always connect an observer if you want to see game updates
-    observerSocket = new WebSocket(`${protocol}://${location.host}/ws/${observerName}`);
-    observerSocket.onmessage = handleSocketMessage;
-    observerSocket.onopen    = () => console.log("Observer WS connected");
-    observerSocket.onerror   = e  => console.error(e);
-    observerSocket.onclose   = () => console.warn("Observer WS closed");
+      payload.observer_name = observerName;
+    }
 
     // now start the game on the backend
     const resp = await fetch("/start_game", {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ human_names: humanNames, ai_players: aiPlayers, observer_name: observerName })
+      body:    JSON.stringify(payload)
     });
 
     if (resp.ok) {
       document.getElementById("setup-form").style.display      = "none";
       document.getElementById("game-interface").style.display = "block";
-      document.getElementById("status").textContent           = 
+      document.getElementById("status").textContent           =
         humanNames.length > 0
           ? `Connected as ${humanNames[0]}`
           : `Observing game`;
