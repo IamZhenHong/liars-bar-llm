@@ -351,7 +351,7 @@ class Game:
     async def announce_current_game_state(self) -> None:
         from websocket_manager import websocket_manager
         for name in human_player_names:
-            await websocket_manager.send(name, {
+            await websocket_manager.send(self.game_id,name, {
                 "type": "game_state",
                 "message": self.print_all_player_states()
             })

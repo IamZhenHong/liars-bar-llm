@@ -27,6 +27,7 @@ class WebSocketManager:
 
     async def send(self, game_id: str, player_name: str, data: dict):
         ws = self.active_connections.get(game_id, {}).get(player_name)
+        print(f"🔌 WS send: game={game_id} player={player_name} data={data}")
         if ws:
             await ws.send_json(data)
 
