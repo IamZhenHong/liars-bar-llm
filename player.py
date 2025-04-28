@@ -144,11 +144,12 @@ class Player:
         print(f"[INFO] {self.name} is deciding whether to challenge")
         from websocket_manager import websocket_manager
         await self.send_announcement(f"[CHALLENGE] {self.name} is deciding whether to challenge")
+        temp_name = self.name
 
         if self.is_human:
             # self.name
             for name in human_player_names:
-                if name in websocket_manager.pending_responses:
+                if name in websocket_manager.active_connections[self.game_id]:
                     await websocket_manager.send(name, {
                         "type": "challenge_request",
                         "player": self.name,
