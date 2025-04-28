@@ -1,6 +1,6 @@
 import asyncio
 from fastapi import WebSocket, APIRouter, WebSocketDisconnect
-from game_server import games
+
 class WebSocketManager:
     def __init__(self):
         # now nested by game_id → player_name
