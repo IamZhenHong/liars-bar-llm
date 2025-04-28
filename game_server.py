@@ -64,7 +64,7 @@ async def start_game(data: dict = Body(...)):
     # 4) wait for each human to connect under this game_id
     for name in human_players:
         # poll the nested pending_responses[game_id][name]
-        for _ in range(50):  # up to 5s
+        for _ in range(10):  # up to 5s
             if (
                 game_id in websocket_manager.pending_responses and
                 name    in websocket_manager.pending_responses[game_id]
