@@ -76,7 +76,26 @@
     <div id="setup-form">
       <h2>Game Setup</h2>
       <form id="start-game-form">
-        <label>Number of human players: <input type="number" id="num-humans" min="1" max="4"></label>
+        <label>Total players (2–4):
+          <input
+            type="number"
+            id="total-players"
+            min="2"
+            max="4"
+            value="4"
+            required
+          >
+        </label>
+        <label>Number of human players:
+          <input
+            type="number"
+            id="num-humans"
+            min="1"
+            max="4"
+            value="1"
+            required
+          >
+        </label>
         <div id="human-names"></div>
         <div id="ai-personalities"><h3>AI Players</h3></div>
         <button type="submit">Start Game</button>
@@ -135,85 +154,98 @@
 
     
 
-    document.getElementById("num-humans").addEventListener("change", () => {
-  const num = parseInt(document.getElementById("num-humans").value, 10);
-  const humanContainer = document.getElementById("human-names");
-  const aiContainer = document.getElementById("ai-personalities");
+        // Dynamic player input handling
+        const totalInput     = document.getElementById("total-players");
+    const numInput       = document.getElementById("num-humans");
+    const humanContainer = document.getElementById("human-names");
+    const aiContainer    = document.getElementById("ai-personalities");
 
-  humanContainer.innerHTML = "<h3>Human Player Names</h3>";
-  aiContainer.innerHTML = "<h3>AI Players</h3>";
+    function updatePlayerInputs() {
+      // clamp values
+      let total = parseInt(totalInput.value, 10) || 2;
+      total = Math.min(Math.max(total, 2), 4);
+      totalInput.value = total;
 
-  for (let i = 0; i < num; i++) {
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = `Human player ${i + 1} name`;
-    input.className = "human-name";
-    input.required = true;
-    humanContainer.appendChild(input);
-  }
+      let humans = parseInt(numInput.value, 10) || 1;
+      humans = Math.min(Math.max(humans, 1), total);
+      numInput.value = humans;
 
-  const remainingAI = 4 - num;
-  for (let i = 0; i < remainingAI; i++) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "ai-player-block";
+      // rebuild inputs
+      humanContainer.innerHTML = "<h3>Human Player Names</h3>";
+      aiContainer.innerHTML    = "<h3>AI Players</h3>";
 
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.placeholder = `AI player ${i + 1} name`;
-    nameInput.className = "ai-name";
-    nameInput.required = true;
+      for (let i = 0; i < humans; i++) {
+        const inp = document.createElement("input");
+        inp.type        = "text";
+        inp.placeholder = `Human player ${i+1} name`;
+        inp.className   = "human-name";
+        inp.required    = true;
+        humanContainer.appendChild(inp);
+      }
 
-    const personalityInput = document.createElement("input");
-    personalityInput.type = "text";
-    personalityInput.placeholder = `AI player ${i + 1} personality`;
-    personalityInput.className = "ai-personality";
+      const aiCount = total - humans;
+      for (let i = 0; i < aiCount; i++) {
+        const block = document.createElement("div");
+        block.className = "ai-player-block";
 
-    wrapper.appendChild(nameInput);
-    wrapper.appendChild(personalityInput);
-    aiContainer.appendChild(wrapper);
-  }
-});
+        const nameInput = document.createElement("input");
+        nameInput.type        = "text";
+        nameInput.placeholder = `AI player ${i+1} name`;
+        nameInput.className   = "ai-name";
+        nameInput.required    = true;
+
+        const persInput = document.createElement("input");
+        persInput.type        = "text";
+        persInput.placeholder = `AI player ${i+1} personality`;
+        persInput.className   = "ai-personality";
+
+        block.appendChild(nameInput);
+        block.appendChild(persInput);
+        aiContainer.appendChild(block);
+      }
+    }
+
+    totalInput.addEventListener("change", updatePlayerInputs);
+    numInput.addEventListener("change", updatePlayerInputs);
+    updatePlayerInputs();
 
 
-    document.getElementById("start-game-form").addEventListener("submit", async (e) => {
+document.getElementById("start-game-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const startBtn = e.target.querySelector('button[type="submit"]');
       startBtn.disabled = true;
-      startBtn.style.display = 'none'; // uncomment if you’d rather hide it entirely
+      startBtn.style.display = 'none';
 
-
-      const numHumans = parseInt(document.getElementById("num-humans").value);
-      const nameInputs = document.querySelectorAll(".human-name");
-      const aiNameInputs = document.querySelectorAll(".ai-name");
-      const aiPersonalityInputs = document.querySelectorAll(".ai-personality");
-      const humanNames = Array.from(nameInputs).map(input => input.value.trim()).filter(name => name);
-      const aiPlayers = Array.from(aiNameInputs).map((input, i) => ({
-  name: input.value.trim(),
-  personality: aiPersonalityInputs[i]?.value.trim() || ""
-}));
+      // gather names
+      const nameInputs           = document.querySelectorAll(".human-name");
+      const aiNameInputs         = document.querySelectorAll(".ai-name");
+      const aiPersonalityInputs  = document.querySelectorAll(".ai-personality");
+      const humanNames           = Array.from(nameInputs).map(i=>i.value.trim()).filter(n=>n);
+      const aiPlayers            = Array.from(aiNameInputs).map((i,idx)=>({
+        name: i.value.trim(),
+        personality: aiPersonalityInputs[idx]?.value.trim()||""
+      }));
 
       playerName = humanNames[0];
-      const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-      socket = new WebSocket(`${protocol}://${window.location.host}/ws/${playerName}`);
+      const protocol = location.protocol === "https:" ? "wss" : "ws";
+      socket = new WebSocket(`${protocol}://${location.host}/ws/${playerName}`);
       socket.onmessage = handleSocketMessage;
-      socket.onopen = () => console.log("WebSocket connected to server");
-      socket.onerror = (e) => console.error("WebSocket error:", e);
-      socket.onclose = () => console.warn("WebSocket closed");
+      socket.onopen    = ()=>console.log("WebSocket connected");
+      socket.onerror   = e=>console.error(e);
+      socket.onclose   = ()=>console.warn("WebSocket closed");
 
-      const response = await fetch("/start_game", {
+      const resp = await fetch("/start_game", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type":"application/json"},
         body: JSON.stringify({ human_names: humanNames, ai_players: aiPlayers })
       });
-
-      if (response.ok) {
-        document.getElementById("setup-form").style.display = "none";
+      if (resp.ok) {
+        document.getElementById("setup-form").style.display      = "none";
         document.getElementById("game-interface").style.display = "block";
-        document.getElementById("status").textContent = `Connected as ${playerName}`;
-        const announcement = document.createElement("p");
-        announcement.textContent = "🎮 Game started!";
-        document.getElementById("game-interface").appendChild(announcement);
+        document.getElementById("status").textContent           = `Connected as ${playerName}`;
+        const ann = document.createElement("p");
+        ann.textContent = "🎮 Game started!";
+        document.getElementById("announcement-log").appendChild(ann);
       }
     });
 
