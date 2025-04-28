@@ -57,8 +57,11 @@ class Player:
                 continue
             if token.position is None and roll == 6:
                 movable.append(i)  # Can enter board
-            elif token.position is not None and token.position + roll <= 57:
+            elif token.position is not None and token.position + roll <= 56:
                 movable.append(i)  # Can move forward
+            elif token.position is not None and token.position + roll == 56:
+                movable.append(i)
+        
         return movable
 
     def move_token(self, token_index: int, roll: int):
@@ -69,6 +72,7 @@ class Player:
             token.position += roll
             if token.position == 57:
                 token.is_home = True
+            
                 
     def init_opinions(self, other_players: List["Player"]) -> None:
         self.opinions = {
