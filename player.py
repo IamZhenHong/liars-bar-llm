@@ -34,6 +34,7 @@ class Player:
             return ""
     async def send_announcement(self, message: str) -> None:
         from websocket_manager import websocket_manager
+        print("Human player names: ", human_player_names)
 
         for name in human_player_names:
             print("Sending announcement to ", self.game_id, name)

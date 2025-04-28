@@ -31,6 +31,7 @@ class Game:
     async def send_announcement(self, message: str):
         from websocket_manager import websocket_manager
         for name in human_player_names:
+            
             await websocket_manager.send(self.game_id,name, {
                 "type": "announcement",
                 "message": message
