@@ -3,7 +3,6 @@ import json
 import re
 from typing import List, Dict
 from llm_client import LLMClient
-from websocket_manager import websocket_manager
 import asyncio
 from human_player_names import human_player_names
 RULE_BASE_PATH = "prompt/rule_base.txt"
@@ -34,6 +33,7 @@ class Player:
             await self.send_announcement(f"[ERROR] Failed to read file {filepath}: {str(e)}")
             return ""
     async def send_announcement(self, message: str) -> None:
+        from websocket_manager import websocket_manager
         for name in human_player_names:
             await websocket_manager.send(self.game_id, name, {
                 "type": "announcement",
@@ -71,6 +71,7 @@ class Player:
 
         if self.is_human:
             for name in human_player_names:
+                from websocket_manager import websocket_manager
                 if name in websocket_manager.pending_responses:
                     await websocket_manager.send(name, {
                         "type": "your_turn",
@@ -138,6 +139,7 @@ class Player:
                                challenging_player_performance: str,
                                extra_hint: str) -> bool:
         print(f"[INFO] {self.name} is deciding whether to challenge")
+        from websocket_manager import websocket_manager
         await self.send_announcement(f"[CHALLENGE] {self.name} is deciding whether to challenge")
 
         if self.is_human:
@@ -198,6 +200,7 @@ class Player:
         raise RuntimeError(f"[FAIL] {self.name} failed to decide challenge")
 
     async def reflect(self, alive_players: List[str], round_base_info: str, round_action_info: str, round_result: str) -> None:
+        from websocket_manager import websocket_manager
         print(f"[INFO] {self.name} is reflecting on the game")
         await self.send_announcement(f"[REFLECT] {self.name} is reflecting")
         await asyncio.sleep(1.5)
