@@ -213,6 +213,13 @@ document
 
     const protocol = location.protocol === "https:" ? "wss" : "ws";
 
+    let payload = {
+      type: "start_game",
+      human_names: humanNames,
+      ai_players:  aiPlayers,
+      observer_name: null
+    };
+
     if (humanNames.length > 0) {
       // at least one human: connect as that player
       const playerName = humanNames[0];
@@ -224,6 +231,7 @@ document
     } else {
       // no humans: skip player socket entirely
       console.log("No human players: skipping player socket");
+      payload.observer_name = observerName;
     }
 
     // always connect an observer if you want to see game updates
@@ -237,7 +245,7 @@ document
     const resp = await fetch("/start_game", {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ human_names: humanNames, ai_players: aiPlayers, observer_name: observerName })
+      body:    JSON.stringify(payload)
     });
 
     if (resp.ok) {
