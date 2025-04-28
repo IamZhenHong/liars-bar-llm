@@ -3,70 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Liar's Bar Game</title>
+  <title>Ludo Game</title>
   <link rel="stylesheet" href="/static/style.css">
   <style>
     /* Announcement Log CSS */
-    #announcement-log-container {
-      margin-top: 20px;
-    }
+    #announcement-log-container { margin-top: 20px; }
     #announcement-log {
       border: 1px solid #ccc;
       padding: 10px;
       max-height: 200px;
-      min-height: 50px; /* Ensures container is visible even if empty */
+      min-height: 50px;
       overflow-y: auto;
       background: #f9f9f9;
     }
     /* Game State Log CSS */
-    #game-state-container {
-      margin-top: 20px;
-    }
+    #game-state-container { margin-top: 20px; }
     #game-state-log {
       border: 1px solid #ccc;
       padding: 10px;
       min-height: 40px;
-      background: #222;        /* Dark background */
-      color: #f0f0f0;          /* Light text */
-      font-family: monospace;  /* Better for logs */
-      white-space: pre-wrap;   /* Preserve line breaks in <pre> */
+      background: #222;
+      color: #f0f0f0;
+      font-family: monospace;
+      white-space: pre-wrap;
     }
 
     #ludo-board {
-  display: grid;
-  grid-template-columns: repeat(15, 1fr);
-  grid-template-rows: repeat(15, 1fr);
-  width: 450px;      /* or whatever fixed pixel size you like */
-  height: 450px;
-  gap: 2px;
-  border: 2px solid #333;
-}
-.cell {
-  position: relative;
-  background-color: #fff;
-  border: 1px solid #ccc;
-}
-.token {
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  top: 10%;
-  left: 10%;
-  border-radius: 50%;
-}
+      display: grid;
+      grid-template-columns: repeat(15, 1fr);
+      grid-template-rows: repeat(15, 1fr);
+      width: 450px;
+      height: 450px;
+      gap: 2px;
+      border: 2px solid #333;
+      margin-bottom: 20px;
+    }
+    .cell {
+      position: relative;
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+    .token {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      top: 10%;
+      left: 10%;
+      border-radius: 50%;
+    }
 
-  .red { background-color: red; }
-  .blue { background-color: blue; }
-  .green { background-color: green; }
-  .yellow { background-color: gold; }
+    .red    { background-color: red; }
+    .blue   { background-color: blue; }
+    .green  { background-color: green; }
+    .yellow { background-color: gold; }
 
-  .red-home    { background: #f8d7da; }
-.blue-home   { background: #d1ecf1; }
-.green-home  { background: #d4edda; }
-.yellow-home { background: #fff3cd; }
-.safe        { box-shadow: inset 0 0 0 2px #333; }
-
-
+    .red-home    { background: #f8d7da; }
+    .blue-home   { background: #d1ecf1; }
+    .green-home  { background: #d4edda; }
+    .yellow-home { background: #fff3cd; }
+    .safe        { box-shadow: inset 0 0 0 2px #333; }
   </style>
 </head>
 <body>
@@ -77,24 +72,10 @@
       <h2>Game Setup</h2>
       <form id="start-game-form">
         <label>Total players (2–4):
-          <input
-            type="number"
-            id="total-players"
-            min="2"
-            max="4"
-            value="4"
-            required
-          >
+          <input type="number" id="total-players" min="2" max="4" value="4" required>
         </label>
         <label>Number of human players:
-          <input
-            type="number"
-            id="num-humans"
-            min="0"
-            max="4"
-            value="1"
-            required
-          >
+          <input type="number" id="num-humans" min="0" max="4" value="1" required>
         </label>
         <div id="human-names"></div>
         <div id="ai-personalities"><h3>AI Players</h3></div>
@@ -105,34 +86,24 @@
     <div id="game-interface" style="display:none">
       <h2 id="status"></h2>
 
+      <div id="roll-dice-form" style="display:none">
+        <h3>Your Turn — Roll the Dice 🎲</h3>
+        <button onclick="submitRollDice()">Roll</button>
+      </div>
 
+      <div id="token-select-form" style="display:none">
+        <h3>Choose a Token to Move</h3>
+        <div id="token-options"></div>
+        <button onclick="submitTokenMove()">Move Token</button>
+      </div>
 
-    <div id="roll-dice-form" style="display:none">
-      <h3>Your Turn — Roll the Dice 🎲</h3>
-      <button onclick="submitRollDice()">Roll</button>
-    </div>
-    
-    <div id="token-select-form" style="display:none">
-      <h3>Choose a Token to Move</h3>
-      <div id="token-options"></div>
-      <button onclick="submitTokenMove()">Move Token</button>
-    </div>
-    
-
-    <div id="ludo-board-container">
-      <h3>Ludo Board</h3>
-      <div id="ludo-board"></div>
-
-        <!-- Board squares will be generated dynamically -->
+      <div id="ludo-board-container">
+        <h3>Ludo Board</h3>
+        <div id="ludo-board"></div>
       </div>
     </div>
-    
-    
-
-
   </div>
 
-  <!-- Announcement Log -->
   <div id="announcement-log-container">
     <h3>Announcement Log</h3>
     <div id="announcement-log">
@@ -140,7 +111,6 @@
     </div>
   </div>
 
-  <!-- Game State Log -->
   <div id="game-state-container">
     <h3>Game State</h3>
     <div id="game-state-log">
@@ -149,389 +119,242 @@
   </div>
 
   <script>
-     let socket = null;
-    let playerName = "";
-    let observerName = "Observer";
+    let socket = null;
+    const observerName = "Observer";
+
+    // DOM refs
     const totalInput     = document.getElementById("total-players");
     const numInput       = document.getElementById("num-humans");
     const humanContainer = document.getElementById("human-names");
     const aiContainer    = document.getElementById("ai-personalities");
-    function updatePlayerInputs() {
-      let total = parseInt(totalInput.value, 10) || 2;
-      total = Math.min(Math.max(total, 2), 4);
-      totalInput.value = total;
-      let humans = parseInt(numInput.value, 10) || 0;
-      humans = Math.min(Math.max(humans, 0), total);
-      numInput.value = humans;
-      humanContainer.innerHTML = "<h3>Human Player Names</h3>";
-      aiContainer.innerHTML    = "<h3>AI Players</h3>";
-      for (let i = 0; i < humans; i++) {
-        const inp = document.createElement("input");
-        inp.type = "text"; inp.placeholder = `Human player ${i+1} name`;
-        inp.className = "human-name";
-        humanContainer.appendChild(inp);
-      }
-      const aiCount = total - humans;
-      for (let i = 0; i < aiCount; i++) {
-        const block = document.createElement("div"); block.className = "ai-player-block";
-        const nameInput = document.createElement("input");
-        nameInput.type = "text"; nameInput.placeholder = `AI player ${i+1} name`;
-        nameInput.className = "ai-name";
-        const persInput = document.createElement("input");
-        persInput.type = "text"; persInput.placeholder = `AI player ${i+1} personality`;
-        persInput.className = "ai-personality";
-        block.appendChild(nameInput);
-        block.appendChild(persInput);
-        aiContainer.appendChild(block);
-      }
-    }
-    totalInput.addEventListener("change", updatePlayerInputs);
-    numInput.addEventListener("change", updatePlayerInputs);
-    updatePlayerInputs();
 
+    // Grid constants
+    const gridSize = 15;
+    function rowColToIndex(r, c){ return r * gridSize + c; }
 
-document
-  .getElementById("start-game-form")
-  .addEventListener("submit", async e => {
-    e.preventDefault();
-
-    const startBtn = e.target.querySelector('button[type="submit"]');
-    startBtn.disabled = true;
-    startBtn.style.display = 'none';
-
-    const humanInputs  = document.querySelectorAll(".human-name");
-    const aiNameInputs = document.querySelectorAll(".ai-name");
-    const aiPersInputs = document.querySelectorAll(".ai-personality");
-
-    const humanNames = Array.from(humanInputs)
-                            .map(i => i.value.trim())
-                            .filter(n => n);
-    const aiPlayers  = Array.from(aiNameInputs).map((i, idx) => ({
-      name:        i.value.trim(),
-      personality: aiPersInputs[idx]?.value.trim() || ""
-    }));
-
-    const protocol = location.protocol === "https:" ? "wss" : "ws";
-
-    let payload = {
-      type: "start_game",
-      human_names: humanNames,
-      ai_players:  aiPlayers,
-      observer_name: null
-    };
-
-    if (humanNames.length > 0) {
-      // at least one human: connect as that player
-      const playerName = humanNames[0];
-      socket = new WebSocket(`${protocol}://${location.host}/ws/${playerName}`);
-      socket.onmessage = handleSocketMessage;
-      socket.onopen    = () => console.log("Player WS connected");
-      socket.onerror   = e  => console.error(e);
-      socket.onclose   = () => console.warn("Player WS closed");
-    } else {
-      // no humans: skip player socket entirely
-      console.log("No human players: skipping player socket");
-
-         // always connect an observer if you want to see game update
-    socket = new WebSocket(`${protocol}://${location.host}/ws/${observerName}`);
-    socket.onmessage = handleSocketMessage;
-    socket.onopen    = () => console.log("Observer WS connected");
-    socket.onerror   = e  => console.error(e);
-    socket.onclose   = () => console.warn("Observer WS closed");
-
-      payload.observer_name = observerName;
-    }
-
-
-    // now start the game on the backend
-    const resp = await fetch("/start_game", {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify(payload)
-    });
-
-    if (resp.ok) {
-      document.getElementById("setup-form").style.display      = "none";
-      document.getElementById("game-interface").style.display = "block";
-      document.getElementById("status").textContent           = 
-        humanNames.length > 0
-          ? `Connected as ${humanNames[0]}`
-          : `Observing game`;
-      const ann = document.createElement("p");
-      ann.textContent = "🎮 Game started!";
-      document.getElementById("announcement-log").appendChild(ann);
-    }
-  });
-
-    document.getElementById("num-humans").addEventListener("change", () => {
-      const num = parseInt(document.getElementById("num-humans").value, 10);
-      const container = document.getElementById("human-names");
-      container.innerHTML = "";
-
-      for (let i = 0; i < num; i++) {
-        const wrapper = document.createElement("div");
-        const input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = `Human player ${i + 1} name`;
-        input.name = `human${i}`;
-        input.className = "human-name";
-        input.required = true;
-        wrapper.appendChild(input);
-        container.appendChild(wrapper);
-      }
-    });
-
-
-
-    function isStarSquare(idx) {
-    return false;
-  }
-
-  const gridSize = 15;
-
-  const safeOffsets = new Set([0, 7, 14, 21, 28, 35, 42, 49]);
-
-  function rowColToIndex(r, c){ return r*gridSize + c; }
-
-    function rowColToIndex(r, c) {
-      return r * gridSize + c;
-    }
-
-    // Build the 52‐step outer loop once
+    // Build the 52‐step path
     function getOuterLoop() {
       const cells = [];
-      // Bottom row, left→right
-      for (let col = 0; col < gridSize; col++) {
-        cells.push(rowColToIndex(gridSize - 1, col));
-      }
-      // Right column, bottom-1→top
-      for (let row = gridSize - 2; row >= 0; row--) {
-        cells.push(rowColToIndex(row, gridSize - 1));
-      }
-      // Top row, right-1→left
-      for (let col = gridSize - 2; col >= 0; col--) {
-        cells.push(rowColToIndex(0, col));
-      }
-      // Left column, top+1→bottom-1
-      for (let row = 1; row < gridSize - 1; row++) {
-        cells.push(rowColToIndex(row, 0));
-      }
-      return cells.slice(0, 52);
+      for (let col = 0; col < gridSize; col++) cells.push(rowColToIndex(gridSize-1,col));
+      for (let row = gridSize-2; row >= 0; row--)  cells.push(rowColToIndex(row,gridSize-1));
+      for (let col = gridSize-2; col >= 0; col--)  cells.push(rowColToIndex(0,col));
+      for (let row = 1; row < gridSize-1; row++)  cells.push(rowColToIndex(row,0));
+      return cells.slice(0,52);
     }
-
-    const basePath = getOuterLoop();
-
-    const safeCells = new Set(
-  [...safeOffsets].map(offset => basePath[offset])
-);
-
+    const basePath   = getOuterLoop();
+    const safeCells  = new Set([0,7,14,21,28,35,42,49].map(i => basePath[i]));
     function rotatePath(path, offset) {
-  return path.slice(offset).concat(path.slice(0, offset));
-}
-
-const pathMapping = {
-  yellow: rotatePath(basePath,  0),  // (14,0) bottom-left → yellow-home
-  green:  rotatePath(basePath, 14),  // (14,14) bottom-right → green-home
-  blue:   rotatePath(basePath, 28),  // (0,14) top-right    → blue-home
-  red:    rotatePath(basePath, 42),  // (0,0)  top-left     → red-home
-};
-
-// function updateBoard(players) {
-//     document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
-
-//     players.forEach(player => {
-//       const map = pathMapping[player.color];
-//       player.tokens.forEach(pos => {
-//         if (pos != null && map[pos] != null) {
-//           const cell = document.querySelectorAll(".cell")[ map[pos] ];
-//           const dot  = document.createElement("div");
-//           dot.className = `token ${player.color}`;
-//           cell.appendChild(dot);
-//         }
-//       });
-//     });
-//   }
-function updateBoard(players) {
-  const cells = document.querySelectorAll(".cell");
-  console.log("⚙️  cells count:", cells.length);
-  
-  players.forEach(player => {
-    const colorKey = player.color;
-    const map      = pathMapping[colorKey];
-    console.log("🎨 player.color:", JSON.stringify(colorKey), "→ map:", map);
-    
-    if (!map) {
-      console.error("❌ no pathMapping entry for color:", JSON.stringify(colorKey));
-      return;
+      return path.slice(offset).concat(path.slice(0,offset));
     }
-    
-    player.tokens.forEach((pos,i) => {
-      console.log(`  token #${i} pos:`, pos, "→ map[pos]:", map[pos]);
-      // …
-    });
-  });
-}
+    const pathMapping = {
+      yellow: rotatePath(basePath,  0),
+      green:  rotatePath(basePath, 14),
+      blue:   rotatePath(basePath, 28),
+      red:    rotatePath(basePath, 42),
+    };
 
-//   function updateBoard(players) {
-//   // clear all
-//   document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
+    // Home‐base cell indices
+    const homeCells = {
+      red:    [rowColToIndex(1,1), rowColToIndex(1,3), rowColToIndex(3,1),  rowColToIndex(3,3)],
+      blue:   [rowColToIndex(1,11),rowColToIndex(1,13),rowColToIndex(3,11), rowColToIndex(3,13)],
+      yellow: [rowColToIndex(11,1),rowColToIndex(11,3),rowColToIndex(13,1), rowColToIndex(13,3)],
+      green:  [rowColToIndex(11,11),rowColToIndex(11,13),rowColToIndex(13,11),rowColToIndex(13,13)],
+    };
 
-//   players.forEach(player => {
-//     const map = pathMapping[player.color];
-//     player.tokens.forEach(pos => {
-//       if (pos != null) {
-//         const cellIndex = map[pos];
-//         const cell = document.querySelectorAll(".cell")[cellIndex];
-//         const dot  = document.createElement("div");
-//         dot.className = `token ${player.color}`;
-//         cell.appendChild(dot);
-//       }
-//     });
-//   });
-// }
-
-      function generateLudoGrid() {
+    // Generate grid
+    function generateLudoGrid() {
       const board = document.getElementById("ludo-board");
       board.innerHTML = "";
-
-      for (let row = 0; row < gridSize; row++) {
-        for (let col = 0; col < gridSize; col++) {
-          const idx = row * gridSize + col;
+      for (let r=0; r<gridSize; r++) {
+        for (let c=0; c<gridSize; c++) {
+          const idx = rowColToIndex(r,c);
           const cell = document.createElement("div");
           cell.classList.add("cell");
-
-          // colour the home quadrants…
-          if (row < 6 && col < 6)       cell.classList.add("red-home");
-          else if (row < 6 && col > 8)  cell.classList.add("blue-home");
-          else if (row > 8 && col < 6)  cell.classList.add("yellow-home");
-          else if (row > 8 && col > 8)  cell.classList.add("green-home");
-
-          // now highlight safe spots
-          if (safeCells.has(idx))       cell.classList.add("safe");
-
+          if (r<6 && c<6)      cell.classList.add("red-home");
+          else if (r<6 && c>8) cell.classList.add("blue-home");
+          else if (r>8 && c<6) cell.classList.add("yellow-home");
+          else if (r>8 && c>8) cell.classList.add("green-home");
+          if (safeCells.has(idx)) cell.classList.add("safe");
           board.appendChild(cell);
         }
       }
     }
-
-
     generateLudoGrid();
 
+    // Draw pieces (including base tokens)
+    function updateBoard(players) {
+      const cells = Array.from(document.querySelectorAll(".cell"));
+      cells.forEach(c => c.innerHTML = "");
+      players.forEach(player => {
+        const map = pathMapping[player.color];
+        player.tokens.forEach((pos,i) => {
+          const idx = (pos==null)
+            ? homeCells[player.color][i]
+            : map[pos];
+          if (cells[idx]) {
+            const dot = document.createElement("div");
+            dot.className = `token ${player.color}`;
+            cells[idx].appendChild(dot);
+          }
+        });
+      });
+    }
+
+    // Handle incoming WS messages
     function handleSocketMessage(event) {
       const data = JSON.parse(event.data);
       console.log("[WS] Received:", data);
 
-      if (data.type === "your_turn") {
-        console.log(`[WS] ${data.player}'s turn — rolled: ${data.roll}`);
-        showTokenSelection(data.tokens, data.movableIndexes);
+      if (data.type === "roll_dice") {
+        // auto-roll AI turns
+        if (data.player !== observerName) {
+          const roll = Math.floor(Math.random()*6)+1;
+          console.log(`[AUTO] ${data.player} rolled ${roll}`);
+          socket.send(JSON.stringify({
+            type: "roll_dice_result",
+            result: roll
+          }));
+        }
+        document.getElementById("roll-dice-form").style.display = "block";
       }
 
+      if (data.type === "board_update") {
+        updateBoard(data.players);
+      }
+
+      if (data.type === "announcement") {
+        const log = document.getElementById("announcement-log");
+        const ph = document.getElementById("announcement-placeholder");
+        if (ph) ph.remove();
+        const p = document.createElement("p");
+        p.textContent = data.message;
+        log.appendChild(p);
+        setTimeout(()=> log.scrollTop = log.scrollHeight, 50);
+      }
+
+      if (data.type === "game_state") {
+        const st = document.getElementById("game-state-log");
+        st.innerHTML = "";
+        const pre = document.createElement("pre");
+        pre.textContent = data.message;
+        st.appendChild(pre);
+      }
+
+      if (data.type === "your_turn") {
+        showTokenSelection(data.tokens, data.movableIndexes);
+      }
 
       if (data.type === "game_over") {
         alert(data.message);
         document.getElementById("status").textContent = data.message;
-        document.getElementById("play-form").style.display = "none";
-        document.getElementById("challenge-form").style.display = "none";
-        document.getElementById("reflect-form").style.display = "none";
       }
-
-      if (data.type === "announcement") {
-        // Get the announcement log container
-        const logContainer = document.getElementById("announcement-log");
-
-        // Remove placeholder if it exists
-        const placeholder = document.getElementById("announcement-placeholder");
-        if (placeholder) {
-          placeholder.remove();
-        }
-
-        // Append the new announcement
-        const newEntry = document.createElement("p");
-        newEntry.textContent = data.message;
-        logContainer.appendChild(newEntry);
-
-        // Delay scrolling to ensure the new entry is rendered
-        setTimeout(() => {
-          logContainer.scrollTop = logContainer.scrollHeight;
-        }, 50);
-      }
-
-        if (data.type === "game_state") {
-          const stateLog = document.getElementById("game-state-log");
-
-          // Clear previous content
-          stateLog.innerHTML = "";
-
-          // Create new entry
-          const stateEntry = document.createElement("pre"); // Use <pre> to preserve line breaks
-          stateEntry.textContent = data.message; // Use 'message', not 'state_message'
-
-          // Add new state message
-          stateLog.appendChild(stateEntry);
-        }
-        
-
-        if (data.type === "roll_dice") {
-          console.log(`[WS] ${data.player}'s turn to roll dice`);
-          document.getElementById("game-interface").style.display = "block";
-          document.getElementById("roll-dice-form").style.display = "block";
-        }
-        if (data.type === "board_update") {
-          console.log(`[WS] Board updated`);
-          updateBoard(data.players);
-        }
-
-
-
     }
 
-
-
+    // Submit functions
     function submitRollDice() {
-      socket.send(JSON.stringify({
-        type: "roll_dice_result",
-        result: "rolled"  // you can later modify to include actual number if needed
-      }));
-
+      socket.send(JSON.stringify({ type: "roll_dice_result", result: "rolled" }));
       document.getElementById("roll-dice-form").style.display = "none";
     }
-
-    function showTokenSelection(tokens, movableIndexes = []) {
-      const container = document.getElementById("token-options");
-      container.innerHTML = "";
-
-      movableIndexes.forEach(index => {
-        const pos = tokens[index];
+    function showTokenSelection(tokens, movableIndexes=[]) {
+      const cont = document.getElementById("token-options");
+      cont.innerHTML = "";
+      movableIndexes.forEach(i => {
         const label = document.createElement("label");
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = "token";
-        radio.value = index;
-        label.appendChild(radio);
-        label.appendChild(document.createTextNode(` Token ${index + 1} — Position: ${pos === null ? "🏠 Base" : pos}`));
-        container.appendChild(label);
-        container.appendChild(document.createElement("br"));
+        const r = document.createElement("input");
+        r.type="radio"; r.name="token"; r.value=i;
+        label.append(r, ` Token ${i+1} — Pos: ${
+          tokens[i]==null?"Base":tokens[i]
+        }`);
+        cont.append(label, document.createElement("br"));
       });
-
       document.getElementById("token-select-form").style.display = "block";
     }
-
-
-  function submitTokenMove() {
-    const selected = document.querySelector('input[name="token"]:checked');
-    if (!selected) {
-      alert("Please select a token to move.");
-      return;
+    function submitTokenMove() {
+      const sel = document.querySelector('input[name="token"]:checked');
+      if (!sel) return alert("Pick a token.");
+      socket.send(JSON.stringify({
+        type: "token_move",
+        token_index: +sel.value
+      }));
+      document.getElementById("token-select-form").style.display = "none";
     }
 
-    socket.send(JSON.stringify({
-      type: "token_move",
-      token_index: parseInt(selected.value)
-    }));
+    // Dynamic player inputs
+    function updatePlayerInputs() {
+      let total = Math.min(Math.max(+totalInput.value||2,2),4);
+      totalInput.value = total;
+      let humans= Math.min(Math.max(+numInput.value||0,0),total);
+      numInput.value = humans;
+      humanContainer.innerHTML = "<h3>Human Player Names</h3>";
+      aiContainer.innerHTML    = "<h3>AI Players</h3>";
+      for (let i=0;i<humans;i++){
+        const inp=document.createElement("input");
+        inp.type="text"; inp.placeholder=`Human player ${i+1}`;
+        inp.className="human-name";
+        humanContainer.append(inp);
+      }
+      for (let i=0;i<total-humans;i++){
+        const block=document.createElement("div");
+        const n=document.createElement("input");
+        n.type="text"; n.placeholder=`AI player ${i+1}`;
+        n.className="ai-name";
+        const p=document.createElement("input");
+        p.type="text"; p.placeholder=`Personality`;
+        p.className="ai-personality";
+        block.append(n,p);
+        aiContainer.append(block);
+      }
+    }
+    totalInput.addEventListener("change",updatePlayerInputs);
+    numInput.addEventListener("change",updatePlayerInputs);
+    updatePlayerInputs();
 
-    document.getElementById("token-select-form").style.display = "none";
-  }
+    // Start form
+    document.getElementById("start-game-form")
+    .addEventListener("submit", async e=>{
+      e.preventDefault();
+      e.target.querySelector("button").disabled=true;
+      const humanNames = [...document.querySelectorAll(".human-name")]
+                          .map(i=>i.value.trim()).filter(Boolean);
+      const aiPlayers  = [...document.querySelectorAll(".ai-name")]
+                          .map((i,j)=>({
+                            name: i.value.trim(),
+                            personality: document.querySelectorAll(".ai-personality")[j].value.trim()
+                          }));
+      const protocol = location.protocol==="https:"?"wss":"ws";
+      let payload = { type:"start_game", human_names:humanNames, ai_players: aiPlayers, observer_name:null };
 
+      if (humanNames.length>0) {
+        socket = new WebSocket(`${protocol}://${location.host}/ws/${humanNames[0]}`);
+      } else {
+        socket = new WebSocket(`${protocol}://${location.host}/ws/${observerName}`);
+        payload.observer_name = observerName;
+      }
+      socket.onmessage = handleSocketMessage;
+      socket.onopen    = ()=>console.log("WS connected");
+      socket.onerror   = e=>console.error(e);
+      socket.onclose   = ()=>console.warn("WS closed");
+
+      const resp = await fetch("/start_game", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      if (resp.ok) {
+        document.getElementById("setup-form").style.display="none";
+        document.getElementById("game-interface").style.display="block";
+        document.getElementById("status").textContent =
+          humanNames.length>0
+            ? `Connected as ${humanNames[0]}`
+            : `Observing game`;
+        document.getElementById("announcement-placeholder").remove();
+        const p=document.createElement("p");
+        p.textContent="🎮 Game started!";
+        document.getElementById("announcement-log").append(p);
+        // rebuild grid now that it's visible
+        generateLudoGrid();
+      }
+    });
   </script>
 </body>
 </html>
