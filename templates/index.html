@@ -351,23 +351,22 @@ const pathMapping = {
 //       });
 //     });
 //   }
-function updateBoard(players) {
-  const cells = document.querySelectorAll(".cell");
-  console.log("⚙️  cells count:", cells.length);
-  
+  function updateBoard(players) {
+
+  console.log("[WS] Updating board with players:", players);
+  // clear all
+  document.querySelectorAll(".cell").forEach(c => c.innerHTML = "");
+
   players.forEach(player => {
-    const colorKey = player.color;
-    const map      = pathMapping[colorKey];
-    console.log("🎨 player.color:", JSON.stringify(colorKey), "→ map:", map);
-    
-    if (!map) {
-      console.error("❌ no pathMapping entry for color:", JSON.stringify(colorKey));
-      return;
-    }
-    
-    player.tokens.forEach((pos,i) => {
-      console.log(`  token #${i} pos:`, pos, "→ map[pos]:", map[pos]);
-      // …
+    const map = pathMapping[player.color];
+    player.tokens.forEach(pos => {
+      if (pos != null) {
+        const cellIndex = map[pos];
+        const cell = document.querySelectorAll(".cell")[cellIndex];
+        const dot  = document.createElement("div");
+        dot.className = `token ${player.color}`;
+        cell.appendChild(dot);
+      }
     });
   });
 }
