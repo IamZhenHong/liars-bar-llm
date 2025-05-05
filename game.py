@@ -9,6 +9,13 @@ from human_player_names import human_player_names
 
 class Game:
     def __init__(self, player_configs: List[Dict[str, str]], game_id: str):
+        """
+        Initialize a new game instance.
+        
+        Args:
+            player_configs (List[Dict[str, str]]): List of player configurations
+            game_id (str): Unique identifier for the game
+        """
         self.game_id = game_id
         self.players = [
             Player(config["name"], config["model"], config.get("is_human", False), config.get("personality", ""), game_id)
@@ -29,6 +36,12 @@ class Game:
         self.round_count = 0
 
     async def send_announcement(self, message: str):
+        """
+        Send an announcement to all human players.
+        
+        Args:
+            message (str): The announcement message to send
+        """
         from websocket_manager import websocket_manager
         for name in human_player_names:
             
@@ -39,9 +52,18 @@ class Game:
         await asyncio.sleep(1)
 
     def _create_deck(self) -> List[str]:
+        """
+        Create a new deck of cards.
+        
+        Returns:
+            List[str]: A shuffled deck of cards
+        """
         return ['Q'] * 6 + ['K'] * 6 + ['A'] * 6 + ['Joker'] * 2
 
     def deal_cards(self) -> None:
+        """
+        Deal cards to all alive players.
+        """
         self.deck = self._create_deck()
         random.shuffle(self.deck)
         for player in self.players:
@@ -53,9 +75,15 @@ class Game:
                     player.hand.append(self.deck.pop())
 
     def choose_target_card(self) -> None:
+        """
+        Randomly select a target card for the round.
+        """
         self.target_card = random.choice(['Q', 'K', 'A'])
 
     def start_round_record(self) -> None:
+        """
+        Start recording a new round in the game record.
+        """
         self.round_count += 1
         starting_player = self.players[self.current_player_idx].name
         player_initial_states = [
@@ -82,9 +110,27 @@ class Game:
         )
 
     def is_valid_play(self, cards: List[str]) -> bool:
+        """
+        Check if a play is valid.
+        
+        Args:
+            cards (List[str]): Cards being played
+            
+        Returns:
+            bool: Whether the play is valid
+        """
         return all(card == self.target_card or card == 'Joker' for card in cards)
 
     def find_next_player_with_cards(self, start_idx: int) -> int:
+        """
+        Find the next player who has cards to play.
+        
+        Args:
+            start_idx (int): Index to start searching from
+            
+        Returns:
+            int: Index of the next player with cards
+        """
         idx = start_idx
         for _ in range(len(self.players)):
             idx = (idx + 1) % len(self.players)
@@ -93,6 +139,12 @@ class Game:
         return start_idx
 
     async def perform_penalty(self, player: Player) -> None:
+        """
+        Perform the penalty phase for a player.
+        
+        Args:
+            player (Player): Player to perform penalty on
+        """
         print(player.name, "fires the gun!")
         await self.send_announcement(f"[PENALTY] {player.name} is being penalized!")
         still_alive = await player.process_penalty()
@@ -107,6 +159,12 @@ class Game:
         await asyncio.sleep(1)
 
     async def reset_round(self, record_shooter: bool) -> None:
+        """
+        Reset the game state for a new round.
+        
+        Args:
+            record_shooter (bool): Whether to record the last shooter
+        """
         print("Resetting round")
         await self.send_announcement("Resetting round")
         await asyncio.sleep(1)
@@ -129,6 +187,12 @@ class Game:
         await asyncio.sleep(1)
 
     async def check_victory(self) -> bool:
+        """
+        Check if the game has been won.
+        
+        Returns:
+            bool: Whether the game has been won
+        """
         from websocket_manager import websocket_manager
         alive_players = [p for p in self.players if p.alive]
         if len(alive_players) == 1:
@@ -147,10 +211,29 @@ class Game:
         return False
 
     def check_other_players_no_cards(self, current_player: Player) -> bool:
+        """
+        Check if other players have no cards.
+        
+        Args:
+            current_player (Player): Current player to exclude from check
+            
+        Returns:
+            bool: Whether other players have no cards
+        """
         others = [p for p in self.players if p != current_player and p.alive]
         return all(not p.hand for p in others)
 
     async def handle_play_cards(self, current_player: Player, next_player: Player) -> List[str]:
+        """
+        Handle a player playing cards.
+        
+        Args:
+            current_player (Player): Player making the play
+            next_player (Player): Next player in turn
+            
+        Returns:
+            List[str]: Cards that were played
+        """
         round_base_info = self.game_record.get_latest_round_info()
         round_action_info = self.game_record.get_latest_round_actions(current_player.name, include_latest=True)
         play_decision_info = self.game_record.get_play_decision_info(current_player.name, next_player.name)
@@ -168,6 +251,17 @@ class Game:
         return play_result["played_cards"]
 
     async def handle_challenge(self, current_player: Player, next_player: Player, played_cards: List[str]) -> Player:
+        """
+        Handle a challenge to a player's play.
+        
+        Args:
+            current_player (Player): Player who made the play
+            next_player (Player): Player making the challenge
+            played_cards (List[str]): Cards that were played
+            
+        Returns:
+            Player: Player who should be penalized, or None if no penalty
+        """
         round_base_info = self.game_record.get_latest_round_info()
         round_action_info = self.game_record.get_latest_round_actions(next_player.name, include_latest=False)
         challenge_decision_info = self.game_record.get_challenge_decision_info(next_player.name, current_player.name)
@@ -204,6 +298,12 @@ class Game:
             return None
 
     async def handle_system_challenge(self, current_player: Player) -> None:
+        """
+        Handle a system-initiated challenge.
+        
+        Args:
+            current_player (Player): Player being challenged
+        """
         print(f"System challenges {current_player.name}'s hand")
         await self.send_announcement(f"System challenges {current_player.name}'s hand")
         await asyncio.sleep(1)
@@ -242,6 +342,12 @@ class Game:
             await self.perform_penalty(current_player)
 
     async def handle_reflection(self) -> None:
+        """
+        Handle the reflection phase where players update their opinions.
+        
+        Returns:
+            List[Player]: List of alive players
+        """
         alive_players = [p for p in self.players if p.alive]
         alive_player_names = [p.name for p in alive_players]
         round_base_info = self.game_record.get_latest_round_info()
@@ -257,26 +363,36 @@ class Game:
         return alive_players
 
     def print_all_player_states(self):
+        """
+        Print the current state of all players.
+        
+        Returns:
+            str: Formatted string of player states
+        """
         state_lines = [f"{player.name} ({'Alive' if player.alive else 'Dead'}): {', '.join(player.hand)}" for player in self.players]
         return "\n".join(state_lines)
     
     def all_human_players_eliminated(self) -> bool:
+        """
+        Check if all human players have been eliminated.
+        
+        Returns:
+            bool: Whether all human players are eliminated
+        """
         return not any(player.is_human and player.alive for player in self.players)
 
-
     async def play_round(self) -> None:
-
+        """
+        Play a single round of the game.
+        """
         print("Sending game state to all players")
         await self.announce_current_game_state()
         print("Sent game state to all players")
             
-
-        
         current_player = self.players[self.current_player_idx]
         if not current_player.alive or not current_player.hand:
             self.current_player_idx = self.find_next_player_with_cards(self.current_player_idx)
             return
-
 
         if self.check_other_players_no_cards(current_player):
             await self.handle_system_challenge(current_player)
@@ -296,7 +412,6 @@ class Game:
                 await self.send_announcement("Last player with cards has no cards left!")
                 self.game_over = True
                 await self.send_announcement(f"{current_player.name} wins!")
-
 
             return
 
@@ -326,30 +441,13 @@ class Game:
                 )
                 await asyncio.sleep(1)
 
-                
-        # if not current_player.hand:
-        #     human_player = next((p for p in self.players if p.is_human), None)
-        #     if human_player:
-        #         await websocket_manager.send(human_player.name, {
-        #             "type": "game_over",
-        #             "message": f"{current_player.name} has no cards left! {current_player.name} wins!"
-        #         })
-        #     self.game_over = True
-        #     return
-
-        # if self.all_human_players_eliminated():
-        #     print("All human players eliminated!")
-        #     await self.send_announcement("All human players eliminated!")
-        #     self.game_over = True
-        #     return
-
         self.current_player_idx = next_idx
-        # await self.handle_reflection()
-
-
         await asyncio.sleep(2)
 
     async def announce_current_game_state(self) -> None:
+        """
+        Announce the current game state to all players.
+        """
         from websocket_manager import websocket_manager
         for name in human_player_names:
             await websocket_manager.send(self.game_id,name, {
@@ -359,6 +457,9 @@ class Game:
         await asyncio.sleep(1)
 
     async def start_game(self) -> None:
+        """
+        Start the game and run the main game loop.
+        """
         from websocket_manager import websocket_manager
         print("Active connections:", websocket_manager.active_connections)
         print("Connected to game server", self.game_id) 

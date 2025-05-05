@@ -28,14 +28,37 @@ current_game: Game = None
 
 @app.get("/", response_class=HTMLResponse)
 async def get_index(request: Request):
+    """
+    Serve the main game interface.
+    
+    Args:
+        request (Request): The incoming HTTP request.
+        
+    Returns:
+        TemplateResponse: The rendered index.html template.
+    """
     return templates.TemplateResponse("index.html", {"request": request})
 
 from uuid import uuid4
 import asyncio
 
-
 @app.post("/start_game")
 async def start_game(data: dict = Body(...)):
+    """
+    Initialize a new game with the specified players.
+    
+    Args:
+        data (dict): Game configuration containing:
+            - game_id (str, optional): Existing game ID to resume
+            - human_names (list): List of human player names
+            - ai_players (list): List of AI player configurations
+            
+    Returns:
+        dict: Game initialization response containing:
+            - status (str): "created" if successful
+            - game_id (str): Unique identifier for the game
+            - players (list): Names of all players in the game
+    """
     # 1) get or create a unique game_id
     game_id = data.get("game_id") or str(uuid4())
 
@@ -81,6 +104,9 @@ async def start_game(data: dict = Body(...)):
 
 @app.on_event("startup")
 async def startup_event():
+    """
+    Initialize the server and print startup message.
+    """
     print("✅ Server ready at http://localhost:8000")
 
     # Example: game_server.py

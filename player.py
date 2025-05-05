@@ -12,6 +12,16 @@ REFLECT_PROMPT_TEMPLATE_PATH = "prompt/reflect_prompt_template.txt"
 
 class Player:
     def __init__(self, name: str, model_name: str, is_human: bool = False, personality: str = "", game_id: str = ""):
+        """
+        Initialize a new player.
+        
+        Args:
+            name (str): Player's name
+            model_name (str): Name of the AI model (if AI player)
+            is_human (bool): Whether the player is human
+            personality (str): Personality description for AI players
+            game_id (str): ID of the game this player belongs to
+        """
         self.game_id = game_id
         self.name = name
         self.personality = personality
@@ -25,6 +35,18 @@ class Player:
         self.model_name = model_name
 
     async def _read_file(self, filepath: str) -> str:
+        """
+        Read the contents of a file.
+        
+        Args:
+            filepath (str): Path to the file to read
+            
+        Returns:
+            str: Contents of the file
+            
+        Raises:
+            Exception: If file cannot be read
+        """
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 return f.read().strip()
@@ -33,6 +55,12 @@ class Player:
             await self.send_announcement(f"[ERROR] Failed to read file {filepath}: {str(e)}")
             return ""
     async def send_announcement(self, message: str) -> None:
+        """
+        Send an announcement to all human players.
+        
+        Args:
+            message (str): The announcement message to send
+        """
         from websocket_manager import websocket_manager
         print("Human player names: ", human_player_names)
 
@@ -53,10 +81,19 @@ class Player:
     #             "current_bullet_position": self.current_bullet_position
     #         })
     async def print_status(self) -> None:
+        """
+        Print and broadcast the current status of the player.
+        """
         print(f"[STATUS] {self.name} - 手牌: {', '.join(self.hand)} - 子弹位置: {self.bullet_position} - 当前弹舱位置: {self.current_bullet_position}")
         await self.send_announcement(f"[STATUS] {self.name} - 手牌: {', '.join(self.hand)} - 子弹位置: {self.bullet_position} - 当前弹舱位置: {self.current_bullet_position}")
 
     def init_opinions(self, other_players: List["Player"]) -> None:
+        """
+        Initialize opinions about other players.
+        
+        Args:
+            other_players (List[Player]): List of other players in the game
+        """
         self.opinions = {
             player.name: "还不了解这个玩家"
             for player in other_players
@@ -67,6 +104,23 @@ class Player:
                                    round_base_info: str,
                                    round_action_info: str,
                                    play_decision_info: str) -> Dict:
+        """
+        Choose which cards to play during a turn.
+        
+        Args:
+            round_base_info (str): Basic information about the current round
+            round_action_info (str): Information about actions taken in the round
+            play_decision_info (str): Information to help with play decision
+            
+        Returns:
+            Dict: Play result containing:
+                - played_cards (List[str]): Cards to play
+                - play_reason (str): Reason for playing these cards
+                - behavior (str): Player's behavior during play
+                
+        Raises:
+            RuntimeError: If player fails to choose valid cards after multiple attempts
+        """
         print(f"[INFO] {self.name} is choosing cards to play")
         await self.send_announcement(f"[TURN] {self.name} is choosing cards to play")
         from websocket_manager import websocket_manager
@@ -141,6 +195,22 @@ class Player:
                                challenge_decision_info: str,
                                challenging_player_performance: str,
                                extra_hint: str) -> bool:
+        """
+        Decide whether to challenge another player's play.
+        
+        Args:
+            round_base_info (str): Basic information about the current round
+            round_action_info (str): Information about actions taken in the round
+            challenge_decision_info (str): Information to help with challenge decision
+            challenging_player_performance (str): Description of the challenging player's behavior
+            extra_hint (str): Additional information to consider
+            
+        Returns:
+            bool: Whether to challenge the play
+            
+        Raises:
+            RuntimeError: If player fails to make a valid challenge decision
+        """
         print(f"[INFO] {self.name} is deciding whether to challenge")
         from websocket_manager import websocket_manager
         await self.send_announcement(f"[CHALLENGE] {self.name} is deciding whether to challenge")
@@ -204,6 +274,15 @@ class Player:
         raise RuntimeError(f"[FAIL] {self.name} failed to decide challenge")
 
     async def reflect(self, alive_players: List[str], round_base_info: str, round_action_info: str, round_result: str) -> None:
+        """
+        Reflect on the game and update opinions of other players.
+        
+        Args:
+            alive_players (List[str]): Names of players still in the game
+            round_base_info (str): Basic information about the current round
+            round_action_info (str): Information about actions taken in the round
+            round_result (str): Result of the round
+        """
         from websocket_manager import websocket_manager
         print(f"[INFO] {self.name} is reflecting on the game")
         await self.send_announcement(f"[REFLECT] {self.name} is reflecting")
@@ -263,6 +342,12 @@ class Player:
                 
 
     async def process_penalty(self) -> bool:
+        """
+        Process the penalty phase where the player must fire the gun.
+        
+        Returns:
+            bool: Whether the player survived the penalty
+        """
         print(f"{self.name} fires a shot")
         await self.send_announcement(f"{self.name} fires a shot")
         await asyncio.sleep(1)
